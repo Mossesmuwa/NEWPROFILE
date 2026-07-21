@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lime">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Ivan.K — IT Systems & Cybersecurity</title>
+  <meta name="description" content="Ivan Kaweesa — IT Systems professional and Cybersecurity student. Hands-on labs, real skills, open to opportunities worldwide."/>
+  <meta property="og:title" content="Ivan.K — IT Systems & Cybersecurity"/>
+  <meta property="og:description" content="Building real skills through real practice. Open to opportunities worldwide."/>
+  <meta property="og:image" content="https://mossesmuwa.github.io/og-image.jpg"/>
+  <meta property="og:url" content="https://mossesmuwa.github.io/"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Ivan Kaweesa","jobTitle":"IT Systems & Cybersecurity Student","url":"https://mossesmuwa.github.io","sameAs":["https://github.com/Mossesmuwa","https://tryhackme.com/p/MM"]}</script>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="design-tokens.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <!--
+  ╔══════════════════════════════════════════════════════╗
+  ║  You read source code. That says a lot about you.   ║
+  ║  FLAG_05/05 {s0urc3_c0d3_0p3r4t0r}                  ║
+  ║  All 5? → /#debrief                                 ║
+  ╚══════════════════════════════════════════════════════╝
+  -->
+  <style>
+    /* ── HOME-SPECIFIC ── */
+    .hero-section {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 4rem;
+      padding: 6rem 2.5rem 3rem;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    @media(max-width:900px){.hero-section{grid-template-columns:1fr;padding-top:5rem}}
+    @media(max-width:768px){.hero-section{padding:4rem 1.25rem 2rem;gap:2rem}}
+
+    .greeting-wrap {
+      font-family: var(--font-display);
+      font-size: clamp(1rem,2.5vw,1.4rem);
+      font-weight: 300;
+      color: var(--text-2);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      min-height: 2rem;
+    }
+    #greeting-de {
+      display: none;
+      font-size: 0.85em;
+      color: var(--accent);
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem,9vw,7rem);
+      font-weight: 700;
+      color: var(--text-1);
+      letter-spacing: -3px;
+      line-height: 0.9;
+      margin-bottom: 0.75rem;
+      cursor: default;
+      display: inline-block;
+    }
+    .hero-role {
+      font-family: var(--font-mono);
+      font-size: clamp(0.8rem,1.5vw,1rem);
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.5px;
+      min-height: 1.5rem;
+    }
+    .role-bracket { color: var(--text-3); }
+    .role-cursor {
+      display: inline-block;
+      color: var(--accent);
+      animation: blink 0.8s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .hero-desc {
+      font-size: clamp(0.9rem,1.5vw,1.05rem);
+      color: var(--text-2);
+      max-width: 420px;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .hero-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1.75rem; }
+    .hero-chips { display: flex; gap: 7px; flex-wrap: wrap; }
+
+    /* Photo frame */
+    .photo-wrap { position: relative; width: 220px; flex-shrink: 0; }
+    @media(max-width:900px){.photo-wrap{width:160px;margin:0 auto}}
+    @media(max-width:768px){.photo-wrap{width:140px}}
+    .photo-frame {
+      width: 100%; aspect-ratio: 3/4;
+      background: var(--bg-3);
+      border: 0.5px solid var(--border-card);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      transform: rotate(2deg);
+      transition: transform var(--t-slow);
+      position: relative;
+    }
+    .photo-frame img {
+      width:100%;height:100%;object-fit:cover;
+      filter: saturate(0);
+      transition: filter var(--t-slow);
+    }
+    .photo-frame .photo-placeholder {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--bg-4); font-size: 4rem;
+    }
+    .photo-corner { position: absolute; width: 22px; height: 22px; }
+    .photo-corner-tr { top:-7px; right:-7px; border-top:2px solid var(--accent); border-right:2px solid var(--accent); border-radius:0 4px 0 0; }
+    .photo-corner-bl { bottom:-7px; left:-7px; border-bottom:2px solid var(--accent); border-left:2px solid var(--accent); border-radius:0 0 0 4px; }
+    .photo-badge {
+      position: absolute; bottom: -8px; right: 10px;
+      background: var(--accent); color: #080c14;
+      font-size: 0.65rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 100px;
+      font-family: var(--font-mono); white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+    .stat-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 14px; }
+    .stat-mini {
+      background: var(--bg-2); border: 0.5px solid var(--border-card);
+      border-radius: var(--r-sm); padding: 10px;
+      text-align: center;
+      transition: border-color var(--t-fast);
+    }
+    .stat-mini:hover { border-color: var(--border-hi); }
+    .stat-mini-num { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 500; color: var(--accent); line-height: 1; }
+    .stat-mini-label { font-size: 0.62rem; color: var(--text-2); margin-top: 3px; font-family: var(--font-mono); }
+
+    /* Stats dashboard */
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+    @media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.stats-grid{grid-template-columns:1fr 1fr}}
+    .stat-block {
+      background: var(--bg-2); border: 0.5px solid var(--border-card);
+      border-radius: var(--r-lg); padding: 1.75rem 1.5rem;
+      text-align: center; position: relative; overflow: hidden;
+      transition: all var(--t-base);
+    }
+    .stat-block::after {
+      content:''; position:absolute; bottom:0;left:0;right:0;height:2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--t-base);
+    }
+    .stat-block:hover { border-color: var(--border-hi); transform: translateY(-4px); }
+    .stat-block:hover::after { transform: scaleX(1); }
+    .stat-block-num { font-family: var(--font-mono); font-size: clamp(2rem,4vw,3rem); font-weight: 500; color: var(--accent); display: block; line-height: 1; margin-bottom: 0.6rem; }
+    .stat-block-label { font-size: 0.82rem; color: var(--text-2); line-height: 1.5; }
+
+    /* Activity feed */
+    .activity-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 0; border-bottom: 0.5px solid var(--border);
+      transition: all var(--t-fast);
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-item:hover { transform: translateX(4px); }
+    .act-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    .act-text { font-size: 0.9rem; color: var(--text-1); line-height: 1.5; }
+    .act-time { font-size: 0.72rem; color: var(--text-2); font-family: var(--font-mono); margin-top: 3px; }
+
+    /* News feed */
+    .news-item { border-bottom: 0.5px solid var(--border); }
+    .news-item:last-child { border-bottom: none; }
+    .news-link {
+      display: block; padding: 14px 0;
+      transition: all var(--t-fast); position: relative;
+    }
+    .news-link:hover { padding-left: 8px; }
+    .news-link:hover .news-arrow { opacity:1; transform:translate(2px,-2px); }
+    .news-source { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-2); letter-spacing: 1px; margin-bottom: 5px; }
+    .news-title { font-size: 0.88rem; color: var(--text-1); line-height: 1.5; font-weight: 500; padding-right: 24px; }
+    .news-arrow { position: absolute; right: 0; top: 14px; color: var(--accent); opacity: 0; transition: all var(--t-fast); font-size: 0.9rem; }
+
+    /* Bento grid */
+    .bento-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 1rem; }
+    @media(max-width:900px){.bento-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){.bento-grid{grid-template-columns:1fr}}
+    .bento-block {
+      background: var(--bg-2); border: 0.5px solid var(--border-card);
+      border-radius: var(--r-lg); padding: 1.5rem;
+      position: relative; overflow: hidden;
+      transition: all var(--t-base);
+    }
+    .bento-block::before { content:''; position:absolute;top:0;left:0;right:0;height:0.5px;background:var(--glass-shine); }
+    .bento-block:hover { border-color: rgba(226,255,93,0.2); transform: translateY(-3px); }
+    .bento-block.hi { border-color: rgba(226,255,93,0.15); }
+    .bento-block.hi::before { background: rgba(226,255,93,0.2); }
+    .bento-label { font-family:var(--font-mono);font-size:0.65rem;color:var(--accent);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px; }
+    .bento-label::after { content:'';flex:1;height:0.5px;background:var(--bg-4); }
+    .bento-title { font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text-1);margin-bottom:6px; }
+    .bento-desc { font-size:0.82rem;color:var(--text-2);line-height:1.6; }
+    .bento-link { font-size:0.78rem;color:var(--accent);font-family:var(--font-mono);margin-top:12px;display:inline-flex;align-items:center;gap:4px;transition:gap var(--t-fast); }
+    .bento-link:hover { gap:8px; }
+
+    /* DE word + CVE cards */
+    .daily-card {
+      background:var(--bg-2);border:0.5px solid var(--border-card);
+      border-radius:var(--r-lg);padding:1.5rem;
+    }
+    .daily-card-label { font-family:var(--font-mono);font-size:0.65rem;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem; }
+    .de-word-main { font-family:var(--font-display);font-size:1.6rem;font-weight:600;color:var(--text-1);margin-bottom:4px; }
+    .de-word-translation { font-size:0.85rem;color:var(--text-2);margin-bottom:8px; }
+    .de-word-example { font-family:var(--font-mono);font-size:0.78rem;color:var(--accent);font-style:italic;padding:6px 10px;background:var(--accent-10);border-left:2px solid var(--accent);border-radius:0 var(--r-sm) var(--r-sm) 0; }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<canvas id="cursor-canvas"></canvas>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="scroll-progress"></div>
+<div id="theme-ripple"></div>
+<div class="page-transition"></div>
+
+<!-- LOADER (session-once) -->
+<div id="loader">
+  <div class="loader-logo-wrap">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon class="logo-hex" points="40,8 68,24 68,56 40,72 12,56 12,24"/>
+      <circle class="logo-dot" cx="40" cy="40" r="2.5" fill="var(--accent)"/>
+      <circle class="logo-ring" cx="40" cy="40" r="4" fill="none" stroke="var(--accent)" stroke-width="0.8"/>
+    </svg>
+  </div>
+  <div class="loader-greeting" id="loader-greeting">
+    <span class="glitch-char">I</span><span class="glitch-char">V</span><span class="glitch-char">A</span><span class="glitch-char">N</span><span class="glitch-char">.</span><span class="glitch-char">S</span><span class="glitch-char">Y</span><span class="glitch-char">S</span>
+  </div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<!-- BREACH -->
+<div class="breach-overlay" id="breach-overlay">
+  <div class="breach-scanlines"></div>
+  <div class="breach-term" id="breach-term"></div>
+</div>
+
+<!-- DEBRIEF -->
+<div id="debrief" style="display:none;position:fixed;inset:0;z-index:9800;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;padding:2rem;text-align:center;">
+  <div style="font-family:var(--font-mono);color:var(--accent);font-size:0.78rem;letter-spacing:3px;">MISSION COMPLETE</div>
+  <h2 style="font-family:var(--font-display);font-size:clamp(1.5rem,4vw,2.5rem);color:var(--text-1);">All 5 intelligence assets recovered.</h2>
+  <p style="color:var(--text-2);max-width:440px;">You think like a security researcher. Ivan wants to meet people who find all five flags.</p>
+  <a href="pages/contact.html" class="btn btn-primary">Get in touch →</a>
+  <button onclick="document.getElementById('debrief').style.display='none'" style="color:var(--text-2);font-size:0.85rem;">Close</button>
+</div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <a href="index.html" class="logo-btn sb-logo-btn" title="Ivan.K">
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+      <polygon class="logo-hex" points="18,3 31,10.5 31,25.5 18,33 5,25.5 5,10.5"/>
+      <circle class="logo-dot" cx="18" cy="18" r="2.5" fill="var(--accent)"/>
+      <circle class="logo-ring" cx="18" cy="18" r="4" fill="none" stroke="var(--accent)" stroke-width="0.8"/>
+    </svg>
+  </a>
+  <div class="sb-mid">
+    <a href="index.html" class="sb-nav-item active" title="Home">
+      <i class="ti ti-layout-grid"></i>
+      <span class="sb-tooltip">Home</span>
+    </a>
+    <a href="pages/about.html" class="sb-nav-item">
+      <i class="ti ti-user"></i>
+      <span class="sb-tooltip">About</span>
+    </a>
+    <a href="pages/arsenal.html" class="sb-nav-item">
+      <i class="ti ti-radar"></i>
+      <span class="sb-tooltip">Arsenal</span>
+    </a>
+    <a href="pages/operations.html" class="sb-nav-item">
+      <i class="ti ti-activity"></i>
+      <span class="sb-tooltip">Operations</span>
+    </a>
+    <a href="pages/intel.html" class="sb-nav-item">
+      <i class="ti ti-chart-bar"></i>
+      <span class="sb-tooltip">Intel</span>
+    </a>
+    <a href="pages/contact.html" class="sb-nav-item">
+      <i class="ti ti-mail"></i>
+      <span class="sb-tooltip">Contact</span>
+    </a>
+    <div class="sb-prog-track"><div class="sb-prog-fill"></div></div>
+  </div>
+  <div class="sb-bottom">
+    <button class="sb-theme-btn" title="Switch theme">
+      <span class="theme-icon">◐</span>
+    </button>
+    <button class="sb-term-btn open-terminal" title="Terminal">
+      <i class="ti ti-terminal-2"></i>
+    </button>
+  </div>
+</aside>
+
+<!-- MOBILE TOP BAR -->
+<div class="mobile-topbar">
+  <div class="mobile-brand">
+    <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+      <polygon points="12,2 21,7 21,17 12,22 3,17 3,7" stroke="var(--accent)" stroke-width="1.2" fill="none"/>
+      <circle cx="12" cy="12" r="2" fill="var(--accent)"/>
+    </svg>
+    <span style="font-family:var(--font-display);font-weight:600;">Ivan.K</span>
+  </div>
+  <div class="mobile-actions">
+    <button class="mob-btn mob-theme-btn"><span class="theme-icon">◐</span></button>
+    <button class="mob-btn open-terminal"><i class="ti ti-terminal-2"></i></button>
+    <button class="mob-btn hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</div>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobile-drawer">
+  <button class="drawer-close" id="drawer-close">✕</button>
+  <a href="index.html"            class="drawer-link" onclick="closeDrawer()">Home</a>
+  <a href="pages/about.html"      class="drawer-link" onclick="closeDrawer()">About</a>
+  <a href="pages/arsenal.html"    class="drawer-link" onclick="closeDrawer()">Arsenal</a>
+  <a href="pages/operations.html" class="drawer-link" onclick="closeDrawer()">Operations</a>
+  <a href="pages/intel.html"      class="drawer-link" onclick="closeDrawer()">Intel</a>
+  <a href="pages/contact.html"    class="drawer-link" onclick="closeDrawer()">Contact</a>
+</div>
+
+<!-- MOBILE PILL NAV -->
+<div class="pill-nav-wrap">
+  <div class="pill-nav">
+    <a href="index.html"            class="pn-item active" title="Home"><i class="ti ti-layout-grid"></i></a>
+    <a href="pages/about.html"      class="pn-item" title="About"><i class="ti ti-user"></i></a>
+    <a href="pages/arsenal.html"    class="pn-item" title="Arsenal"><i class="ti ti-radar"></i></a>
+    <a href="pages/operations.html" class="pn-item" title="Operations"><i class="ti ti-activity"></i></a>
+    <a href="pages/contact.html"    class="pn-item" title="Contact"><i class="ti ti-mail"></i></a>
+    <button class="pn-term open-terminal" title="Terminal"><i class="ti ti-terminal-2"></i></button>
+  </div>
+  <div class="home-ind"></div>
+</div>
+
+<!-- TERMINAL -->
+<div class="term-overlay" id="term-overlay">
+  <div class="term-window" id="term-window">
+    <div class="term-titlebar">
+      <div class="term-dots">
+        <div class="term-dot td-r" title="Close"></div>
+        <div class="term-dot td-y" title="Minimise"></div>
+        <div class="term-dot td-g" title="Maximise"></div>
+      </div>
+      <div class="term-title">ivan@kali: ~</div>
+    </div>
+    <div class="drag-handle"></div>
+    <div class="term-body" id="term-body">
+      <span class="t-line"><span class="t-dim">┌──(</span><span class="t-red">ivan㉿kali</span><span class="t-dim">)-[~]</span></span>
+      <span class="t-line"><span class="t-lime">└─$</span> <span class="t-white">Type </span><span class="t-lime">help</span><span class="t-white"> for commands</span></span>
+      <span class="t-line">&nbsp;</span>
+    </div>
+    <div class="term-input-row">
+      <span class="term-prompt"><span class="t-dim">┌──(</span><span class="p-name">ivan㉿kali</span><span class="t-dim">)-[~]<br>└─$</span>&nbsp;</span>
+      <input class="term-input" id="term-input" type="text" autocomplete="off" spellcheck="false" placeholder="type a command..."/>
+    </div>
+  </div>
+</div>
+
+<!-- COMMAND PALETTE -->
+<div class="cmd-overlay" id="cmd-overlay">
+  <div class="cmd-box">
+    <div class="cmd-search">
+      <i class="ti ti-search cmd-search-ico"></i>
+      <input class="cmd-input" id="cmd-input" placeholder="Search pages, commands..." autocomplete="off"/>
+    </div>
+    <div class="cmd-results" id="cmd-results"></div>
+    <div class="cmd-footer">
+      <span class="cmd-hint"><span class="cmd-key">↑↓</span> navigate</span>
+      <span class="cmd-hint"><span class="cmd-key">↵</span> select</span>
+      <span class="cmd-hint"><span class="cmd-key">esc</span> close</span>
+    </div>
+  </div>
+</div>
+
+<div id="scroll-top"><i class="ti ti-arrow-up"></i></div>
+
+<!-- ══ PAGE CONTENT ══ -->
+<div class="wrapper">
+  <main>
+
+    <!-- HERO -->
+    <section class="hero-section">
+      <div>
+        <div class="greeting-wrap">
+          <span id="greeting-text"></span>
+          <div id="greeting-de">Willkommen.</div>
+        </div>
+        <h1 class="hero-name reveal" id="hero-name">Ivan.K</h1>
+        <div class="hero-role reveal">
+          <span class="role-bracket">[</span>
+          <span id="typing-role"></span><span class="role-cursor">|</span>
+          <span class="role-bracket">]</span>
+        </div>
+        <p class="hero-desc reveal">
+          Building real IT systems and cybersecurity skills through hands-on labs —
+          not theory alone. Every vulnerability found, every system configured,
+          every script written gets me closer to professional.
+        </p>
+        <div class="hero-btns reveal">
+          <a href="pages/operations.html" class="btn btn-primary">
+            <i class="ti ti-activity"></i> View operations
+          </a>
+          <a href="pages/contact.html" class="btn btn-outline">
+            <i class="ti ti-mail"></i> Get in touch
+          </a>
+          <button class="btn btn-ghost open-terminal">
+            <i class="ti ti-terminal-2"></i> Terminal
+          </button>
+        </div>
+        <div class="hero-chips reveal">
+          <span class="chip chip-green"><span class="pulse-dot"></span> Available</span>
+          <span class="chip chip-red"><i class="ti ti-bug" style="font-size:10px"></i> Red Team</span>
+          <span class="chip chip-slate"><i class="ti ti-world" style="font-size:10px"></i> Worldwide</span>
+          <span class="chip chip-amber"><i class="ti ti-language" style="font-size:10px"></i> Deutsch A1→B2</span>
+          <span class="chip chip-lime" style="font-size:0.68rem;cursor:pointer;" onclick="openTerminal()" title="Hunt flags">
+            <i class="ti ti-flag" style="font-size:10px"></i>
+            Intel: <span class="flag-count">0</span>/5 assets
+          </span>
+        </div>
+      </div>
+
+      <!-- Photo + stats -->
+      <div class="reveal-r">
+        <div class="photo-wrap">
+          <div class="photo-frame" id="hero-frame">
+            <img src="me.jpg" alt="Ivan" id="hero-photo" onerror="this.style.display='none'"/>
+            <div class="photo-placeholder"><i class="ti ti-user"></i></div>
+          </div>
+          <div class="photo-corner photo-corner-tr"></div>
+          <div class="photo-corner photo-corner-bl"></div>
+          <div class="photo-badge">IT & CyberSec</div>
+        </div>
+        <div class="stat-mini-grid">
+          <div class="stat-mini">
+            <div class="stat-mini-num js-cyber-days">365</div>
+            <div class="stat-mini-label">days in cyber</div>
+          </div>
+          <div class="stat-mini">
+            <div class="stat-mini-num" style="color:var(--green)">4</div>
+            <div class="stat-mini-label">labs done</div>
+          </div>
+          <div class="stat-mini" style="grid-column:span 2">
+            <div class="stat-mini-num" style="color:var(--amber);font-size:1rem;">
+              <i class="ti ti-language" style="font-size:0.9rem"></i>
+              <span class="js-de-days">0</span> days
+            </div>
+            <div class="stat-mini-label">learning German</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TICKER -->
+    <div class="ticker-wrap">
+      <div class="ticker-inner">
+        <div class="ticker-item"><i class="ti ti-shield-check" style="color:var(--accent)"></i>&nbsp;<strong>Penetration Testing</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-network" style="color:var(--accent)"></i>&nbsp;<strong>Network Security</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-language" style="color:var(--amber)"></i>&nbsp;<strong>Deutsch lernen</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-bug" style="color:var(--red)"></i>&nbsp;<strong>Kali Linux</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-server" style="color:var(--accent)"></i>&nbsp;<strong>IT Infrastructure</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-fish" style="color:var(--cyan)"></i>&nbsp;<strong>Wireshark</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-building" style="color:var(--accent)"></i>&nbsp;<strong>Active Directory</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-puzzle" style="color:var(--accent)"></i>&nbsp;<strong>System Integration</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-brand-python" style="color:var(--green)"></i>&nbsp;<strong>Python Scripting</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-certificate" style="color:var(--amber)"></i>&nbsp;<strong>CompTIA Security+</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-topology-star" style="color:var(--accent)"></i>&nbsp;<strong>Nmap</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-target" style="color:var(--red)"></i>&nbsp;<strong>eJPT</strong><span class="ticker-sep">//</span></div>
+        <!-- duplicate for seamless loop -->
+        <div class="ticker-item"><i class="ti ti-shield-check" style="color:var(--accent)"></i>&nbsp;<strong>Penetration Testing</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-network" style="color:var(--accent)"></i>&nbsp;<strong>Network Security</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-language" style="color:var(--amber)"></i>&nbsp;<strong>Deutsch lernen</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-bug" style="color:var(--red)"></i>&nbsp;<strong>Kali Linux</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-server" style="color:var(--accent)"></i>&nbsp;<strong>IT Infrastructure</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-fish" style="color:var(--cyan)"></i>&nbsp;<strong>Wireshark</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-building" style="color:var(--accent)"></i>&nbsp;<strong>Active Directory</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-puzzle" style="color:var(--accent)"></i>&nbsp;<strong>System Integration</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-brand-python" style="color:var(--green)"></i>&nbsp;<strong>Python Scripting</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-certificate" style="color:var(--amber)"></i>&nbsp;<strong>CompTIA Security+</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-topology-star" style="color:var(--accent)"></i>&nbsp;<strong>Nmap</strong><span class="ticker-sep">//</span></div>
+        <div class="ticker-item"><i class="ti ti-target" style="color:var(--red)"></i>&nbsp;<strong>eJPT</strong><span class="ticker-sep">//</span></div>
+      </div>
+    </div>
+
+    <!-- LIVE STATS DASHBOARD -->
+    <div class="section-alt">
+      <div class="section" style="padding-top:0;padding-bottom:0;">
+        <div class="stats-grid">
+          <div class="stat-block reveal" onmouseenter="tilt3d(this,event)" onmousemove="tilt3d(this,event)" onmouseleave="resetTilt(this)">
+            <span class="stat-block-num js-cyber-days">365</span>
+            <div class="stat-block-label">Days in cybersecurity<br><span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-3)">since Jan 2025</span></div>
+          </div>
+          <div class="stat-block reveal" onmouseenter="tilt3d(this,event)" onmousemove="tilt3d(this,event)" onmouseleave="resetTilt(this)">
+            <span class="stat-block-num" style="color:var(--amber)"><span class="js-de-days">0</span></span>
+            <div class="stat-block-label">Days learning German<br><span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-3)">started July 2026</span></div>
+          </div>
+          <div class="stat-block reveal" onmouseenter="tilt3d(this,event)" onmousemove="tilt3d(this,event)" onmouseleave="resetTilt(this)">
+            <span class="stat-block-num" style="color:var(--green)">4</span>
+            <div class="stat-block-label">Labs completed<br><span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-3)">more in progress</span></div>
+          </div>
+          <div class="stat-block reveal" onmouseenter="tilt3d(this,event)" onmousemove="tilt3d(this,event)" onmouseleave="resetTilt(this)">
+            <span class="stat-block-num" style="color:var(--cyan)">2</span>
+            <div class="stat-block-label">Certs in progress<br><span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-3)">Security+ · eJPT</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY + NEWS -->
+    <div class="section">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;">
+
+        <!-- Recent activity -->
+        <div class="reveal-l">
+          <div class="eyebrow">Recent Activity</div>
+          <h2 class="section-title" style="font-size:1.6rem;">What I've been <em>doing</em></h2>
+          <div>
+            <div class="activity-item">
+              <div class="act-dot" style="background:var(--green)"></div>
+              <div>
+                <div class="act-text">Completed Telnet Exploitation Lab — captured plaintext credentials via Wireshark TCP stream analysis</div>
+                <div class="act-time">Feb 2026</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="act-dot" style="background:var(--green)"></div>
+              <div>
+                <div class="act-text">Kali Linux penetration test — Nmap recon, vsftpd backdoor exploitation, root shell gained</div>
+                <div class="act-time">Feb 2026</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="act-dot" style="background:var(--amber)"></div>
+              <div>
+                <div class="act-text">Started learning Deutsch — targeting B2 level for professional opportunities</div>
+                <div class="act-time">Jul 2026</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="act-dot" style="background:var(--cyan)"></div>
+              <div>
+                <div class="act-text">Studying CompTIA Security+ — working through exam objectives and practice labs</div>
+                <div class="act-time">Ongoing</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="act-dot" style="background:var(--accent)"></div>
+              <div>
+                <div class="act-text">Network Infrastructure Lab started — VLANs, routing, switch configuration</div>
+                <div class="act-time">In progress</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live security news -->
+        <div class="reveal-r">
+          <div class="eyebrow">Live Intel</div>
+          <h2 class="section-title" style="font-size:1.6rem;">Security <em>news</em></h2>
+          <div id="home-news">
+            <!-- Loading state -->
+            <div style="padding:14px 0;border-bottom:0.5px solid var(--border);">
+              <div class="skeleton" style="height:10px;width:120px;border-radius:4px;margin-bottom:8px"></div>
+              <div class="skeleton" style="height:14px;width:90%;border-radius:4px"></div>
+            </div>
+            <div style="padding:14px 0;border-bottom:0.5px solid var(--border);">
+              <div class="skeleton" style="height:10px;width:100px;border-radius:4px;margin-bottom:8px"></div>
+              <div class="skeleton" style="height:14px;width:85%;border-radius:4px"></div>
+            </div>
+            <div style="padding:14px 0;border-bottom:0.5px solid var(--border);">
+              <div class="skeleton" style="height:10px;width:130px;border-radius:4px;margin-bottom:8px"></div>
+              <div class="skeleton" style="height:14px;width:92%;border-radius:4px"></div>
+            </div>
+            <div style="padding:14px 0;">
+              <div class="skeleton" style="height:10px;width:110px;border-radius:4px;margin-bottom:8px"></div>
+              <div class="skeleton" style="height:14px;width:88%;border-radius:4px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BENTO + DAILY CARDS -->
+    <div class="section" style="padding-top:0;">
+      <div class="bento-grid">
+        <!-- Latest op -->
+        <a href="pages/operations.html" class="bento-block hi reveal" onmouseenter="tilt3d(this,event)" onmousemove="tilt3d(this,event)" onmouseleave="resetTilt(this)">
+          <div class="bento-label">Latest operation</div>
+          <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-2);margin-bottom:8px;">OP-004 · Feb 2026</div>
+          <div class="bento-title">Telnet Exploitation Lab</div>
+          <div class="bento-desc">Plaintext credential capture via Wireshark TCP stream analysis on Metasploitable 2.</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px;">
+            <span class="chip chip-red" style="font-size:0.66rem;">Telnet</span>
+            <span class="chip chip-slate" style="font-size:0.66rem;">Wireshark</span>
+            <span class="chip chip-red" style="font-size:0.66rem;">Red Team</span>
+          </div>
+          <div class="bento-link">Read writeup <i class="ti ti-arrow-right" style="font-size:0.8rem"></i></div>
+        </a>
+
+        <!-- German word of day -->
+        <div class="daily-card reveal" onmouseenter="tilt3d(this,event)" onmousemove="tilt3d(this,event)" onmouseleave="resetTilt(this)">
+          <div class="daily-card-label"><i class="ti ti-language" style="margin-right:4px"></i>German word of the day</div>
+          <div class="de-word-main de-word-de"></div>
+          <div class="de-word-translation de-word-en"></div>
+          <div class="de-word-example de-word-ex"></div>
+          <a href="https://www.duolingo.com/course/de/en/Learn-German" target="_blank" rel="noopener"
+            style="display:inline-flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--accent);font-family:var(--font-mono);margin-top:12px;">
+            <i class="ti ti-external-link" style="font-size:0.8rem"></i> Learn German
+          </a>
+        </div>
+
+        <!-- System status + CVE -->
+        <div class="bento-block reveal" style="display:flex;flex-direction:column;gap:14px;" onmouseenter="tilt3d(this,event)" onmousemove="tilt3d(this,event)" onmouseleave="resetTilt(this)">
+          <div>
+            <div class="bento-label">System status</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span class="pulse-dot avail-dot"></span>
+              <span style="font-size:0.9rem;font-weight:500;color:var(--green);">Online — available</span>
+            </div>
+            <div style="font-size:0.78rem;color:var(--text-2);">Open to opportunities worldwide</div>
+          </div>
+          <div style="border-top:0.5px solid var(--border);padding-top:14px;">
+            <div class="bento-label">CVE of the day</div>
+            <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent);margin-bottom:4px;" class="cve-id"></div>
+            <div style="font-size:0.78rem;color:var(--text-2);margin-bottom:6px;" class="cve-product"></div>
+            <span class="cve-severity chip chip-red" style="font-size:0.65rem;"></span>
+            <a href="https://nvd.nist.gov/vuln/search" target="_blank" rel="noopener"
+              style="display:inline-flex;align-items:center;gap:4px;font-size:0.7rem;color:var(--accent);font-family:var(--font-mono);margin-left:8px;">
+              <i class="ti ti-external-link" style="font-size:0.8rem"></i> NVD
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-name" id="footer-name">Ivan.</div>
+          <p class="footer-tagline">IT Systems & Cybersecurity.<br>Building real skills. Open to the world.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Navigate</div>
+          <a href="pages/about.html"      class="footer-link">About</a>
+          <a href="pages/arsenal.html"    class="footer-link">Arsenal</a>
+          <a href="pages/operations.html" class="footer-link">Operations</a>
+          <a href="pages/intel.html"      class="footer-link">Intel</a>
+          <a href="pages/contact.html"    class="footer-link">Contact</a>
+        </div>
+        <div>
+          <div class="footer-col-title">Connect</div>
+          <a href="https://github.com/Mossesmuwa"   target="_blank" class="footer-link">GitHub</a>
+          <a href="YOUR_LINKEDIN_URL"               target="_blank" class="footer-link">LinkedIn</a>
+          <a href="https://www.instagram.com/mosses.muwa/" target="_blank" class="footer-link">Instagram</a>
+          <a href="https://tryhackme.com/p/MM"      target="_blank" class="footer-link">TryHackMe</a>
+          <a href="https://app.hackthebox.com/profile/mossesmuwa" target="_blank" class="footer-link">HackTheBox</a>
+        </div>
+        <div>
+          <div class="footer-col-title">Terminal</div>
+          <button onclick="openTerminal()" class="footer-link" style="background:none;border:none;padding:0;cursor:pointer;display:block;margin-bottom:0.65rem;font-size:0.86rem;font-family:var(--font-body);">
+            <i class="ti ti-terminal-2" style="color:var(--accent)"></i> Open terminal
+          </button>
+          <button onclick="openCMD()" class="footer-link" style="background:none;border:none;padding:0;cursor:pointer;display:block;margin-bottom:0.65rem;font-size:0.86rem;font-family:var(--font-body);">
+            <i class="ti ti-search" style="color:var(--accent)"></i> Search (Ctrl+K)
+          </button>
+          <a href="humans.txt" target="_blank" class="footer-link">humans.txt</a>
+        </div>
+      </div>
+      <div class="footer-morse"><div class="morse-pulse"></div></div>
+      <div class="footer-bottom">
+        <span>&copy; <span class="js-year"></span> Ivan Kaweesa. All rights reserved.</span>
+        <span style="display:flex;align-items:center;gap:6px;"><span class="pulse-dot" style="width:5px;height:5px"></span> All systems operational</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="script.js"></script>
+<script>
+  // Load news after page ready
+  document.addEventListener('DOMContentLoaded', () => {
+    loadSecNews('home-news');
+  });
+</script>
+</body>
+</html>

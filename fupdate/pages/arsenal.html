@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lime">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Arsenal — Ivan.K</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="../design-tokens.css"/>
+  <link rel="stylesheet" href="../style.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    #constellation-wrap{position:relative;width:100%;height:500px;border-radius:var(--r-lg);overflow:hidden;background:var(--bg-2);border:0.5px solid var(--border-card);cursor:grab}
+    #constellation-wrap:active{cursor:grabbing}
+    #constellation-canvas{width:100%;height:100%;display:block}
+    .const-tooltip{position:absolute;background:var(--glass-bg);backdrop-filter:blur(20px);border:0.5px solid var(--border-hi);border-top:0.5px solid var(--glass-shine);border-radius:var(--r-md);padding:12px 16px;pointer-events:none;opacity:0;transition:opacity var(--t-fast);z-index:10;min-width:180px;max-width:220px}
+    .const-tooltip.show{opacity:1}
+    .ct-name{font-family:var(--font-display);font-size:0.95rem;font-weight:600;color:var(--text-1);margin-bottom:4px}
+    .ct-prof{font-family:var(--font-mono);font-size:0.7rem;color:var(--accent);letter-spacing:1px;margin-bottom:6px}
+    .ct-desc{font-size:0.78rem;color:var(--text-2);line-height:1.5;margin-bottom:8px}
+    .ct-link{font-size:0.72rem;color:var(--accent);font-family:var(--font-mono);display:inline-flex;align-items:center;gap:4px}
+    .const-legend{position:absolute;top:16px;left:16px;display:flex;flex-direction:column;gap:6px}
+    .const-legend-item{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:0.65rem;color:var(--text-2)}
+    .const-legend-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+    .const-hint{position:absolute;bottom:14px;right:14px;font-family:var(--font-mono);font-size:0.65px;color:var(--text-3);font-size:0.65rem}
+
+    .skill-bars{display:flex;flex-direction:column;gap:0}
+    .skill-bar-row{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:0.5px solid var(--border)}
+    .skill-bar-row:last-child{border-bottom:none}
+    .skill-bar-name{font-size:0.9rem;font-weight:500;color:var(--text-1);width:180px;flex-shrink:0}
+    .skill-bar-plain{font-size:0.78rem;color:var(--text-2);flex:1;line-height:1.5}
+    .skill-bar-track{width:140px;height:4px;background:var(--bg-4);border-radius:2px;flex-shrink:0;overflow:hidden}
+    .skill-bar-fill{height:100%;border-radius:2px;width:0;transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
+    .skill-bar-pct{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-2);width:32px;text-align:right;flex-shrink:0}
+    @media(max-width:768px){.skill-bar-row{flex-wrap:wrap;gap:8px}.skill-bar-name{width:100%}.skill-bar-track{width:100%;order:3}.skill-bar-plain{width:100%;order:4}}
+
+    .tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+    .tool-chip{background:var(--bg-2);border:0.5px solid var(--border-card);border-radius:var(--r-md);padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;cursor:pointer;position:relative;transition:all var(--t-fast);overflow:hidden}
+    .tool-chip::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:2px 0 0 2px;transition:background var(--t-fast)}
+    .tool-chip.offensive::before{background:rgba(255,59,92,0.5)}
+    .tool-chip.defensive::before{background:rgba(0,212,255,0.5)}
+    .tool-chip.systems::before{background:rgba(100,116,128,0.5)}
+    .tool-chip.scripting::before{background:rgba(226,255,93,0.5)}
+    .tool-chip:hover{transform:translateY(-4px) rotate(0.5deg);box-shadow:0 12px 28px rgba(0,0,0,0.3);border-color:var(--border-hi)}
+    .tool-chip:hover .tool-tip{opacity:1;transform:translateX(-50%) scale(1)}
+    .tool-icon{font-size:2rem}
+    .tool-name{font-size:0.82rem;font-weight:500;color:var(--text-1)}
+    .tool-cat{font-size:0.65rem;color:var(--text-2);font-family:var(--font-mono)}
+    .tool-tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) scale(0.9);transform-origin:bottom center;background:var(--bg-3);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:7px 10px;font-size:0.72rem;color:var(--text-1);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity var(--t-fast),transform var(--t-fast);z-index:10;max-width:200px;white-space:normal;text-align:center;min-width:160px}
+
+    .filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+    .filter-btn{padding:5px 14px;border-radius:100px;font-size:0.76rem;font-family:var(--font-mono);border:0.5px solid var(--border);color:var(--text-2);background:transparent;cursor:pointer;transition:all var(--t-fast)}
+    .filter-btn.on{background:var(--accent-15);border-color:var(--border-hi);color:var(--accent)}
+
+    .cert-row{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:0.5px solid var(--border-card);border-radius:var(--r-md);background:var(--bg-2);transition:all var(--t-fast);cursor:default}
+    .cert-row:hover{border-color:var(--border-hi);transform:translateX(4px)}
+    .cert-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px}
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<canvas id="cursor-canvas"></canvas>
+<div id="cursor-dot"></div><div id="cursor-ring"></div>
+<div id="scroll-progress"></div><div id="theme-ripple"></div>
+<div class="page-transition"></div>
+<div class="breach-overlay" id="breach-overlay"><div class="breach-scanlines"></div><div class="breach-term" id="breach-term"></div></div>
+
+<aside id="sidebar">
+  <a href="../index.html" class="logo-btn sb-logo-btn">
+    <svg viewBox="0 0 36 36" fill="none" width="36" height="36">
+      <polygon class="logo-hex" points="18,3 31,10.5 31,25.5 18,33 5,25.5 5,10.5"/>
+      <circle class="logo-dot" cx="18" cy="18" r="2.5" fill="var(--accent)"/>
+      <circle class="logo-ring" cx="18" cy="18" r="4" fill="none" stroke="var(--accent)" stroke-width="0.8"/>
+    </svg>
+  </a>
+  <div class="sb-mid">
+    <a href="../index.html" class="sb-nav-item"><i class="ti ti-layout-grid"></i><span class="sb-tooltip">Home</span></a>
+    <a href="about.html"    class="sb-nav-item"><i class="ti ti-user"></i><span class="sb-tooltip">About</span></a>
+    <a href="arsenal.html"  class="sb-nav-item active"><i class="ti ti-radar"></i><span class="sb-tooltip">Arsenal</span></a>
+    <a href="operations.html" class="sb-nav-item"><i class="ti ti-activity"></i><span class="sb-tooltip">Operations</span></a>
+    <a href="intel.html"    class="sb-nav-item"><i class="ti ti-chart-bar"></i><span class="sb-tooltip">Intel</span></a>
+    <a href="contact.html"  class="sb-nav-item"><i class="ti ti-mail"></i><span class="sb-tooltip">Contact</span></a>
+    <div class="sb-prog-track"><div class="sb-prog-fill"></div></div>
+  </div>
+  <div class="sb-bottom">
+    <button class="sb-theme-btn"><span class="theme-icon">◐</span></button>
+    <button class="sb-term-btn open-terminal"><i class="ti ti-terminal-2"></i></button>
+  </div>
+</aside>
+
+<div class="mobile-topbar">
+  <div class="mobile-brand"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><polygon points="12,2 21,7 21,17 12,22 3,17 3,7" stroke="var(--accent)" stroke-width="1.2" fill="none"/><circle cx="12" cy="12" r="2" fill="var(--accent)"/></svg><span style="font-family:var(--font-display);font-weight:600;">Ivan.K</span></div>
+  <div class="mobile-actions">
+    <button class="mob-btn mob-theme-btn"><span class="theme-icon">◐</span></button>
+    <button class="mob-btn open-terminal"><i class="ti ti-terminal-2"></i></button>
+    <button class="mob-btn hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <button class="drawer-close" id="drawer-close">✕</button>
+  <a href="../index.html"   class="drawer-link" onclick="closeDrawer()">Home</a>
+  <a href="about.html"      class="drawer-link" onclick="closeDrawer()">About</a>
+  <a href="arsenal.html"    class="drawer-link" onclick="closeDrawer()">Arsenal</a>
+  <a href="operations.html" class="drawer-link" onclick="closeDrawer()">Operations</a>
+  <a href="intel.html"      class="drawer-link" onclick="closeDrawer()">Intel</a>
+  <a href="contact.html"    class="drawer-link" onclick="closeDrawer()">Contact</a>
+</div>
+<div class="pill-nav-wrap">
+  <div class="pill-nav">
+    <a href="../index.html"   class="pn-item"><i class="ti ti-layout-grid"></i></a>
+    <a href="about.html"      class="pn-item"><i class="ti ti-user"></i></a>
+    <a href="arsenal.html"    class="pn-item active"><i class="ti ti-radar"></i></a>
+    <a href="operations.html" class="pn-item"><i class="ti ti-activity"></i></a>
+    <a href="contact.html"    class="pn-item"><i class="ti ti-mail"></i></a>
+    <button class="pn-term open-terminal"><i class="ti ti-terminal-2"></i></button>
+  </div>
+  <div class="home-ind"></div>
+</div>
+
+<div class="term-overlay" id="term-overlay"><div class="term-window" id="term-window"><div class="term-titlebar"><div class="term-dots"><div class="term-dot td-r"></div><div class="term-dot td-y"></div><div class="term-dot td-g"></div></div><div class="term-title">ivan@kali: ~</div></div><div class="drag-handle"></div><div class="term-body" id="term-body"><span class="t-line"><span class="t-dim">┌──(</span><span class="t-red">ivan㉿kali</span><span class="t-dim">)-[~]</span></span><span class="t-line"><span class="t-lime">└─$</span> Type <span class="t-lime">help</span></span></div><div class="term-input-row"><span class="term-prompt"><span class="t-dim">┌──(</span><span class="p-name">ivan㉿kali</span><span class="t-dim">)-[~]<br>└─$</span>&nbsp;</span><input class="term-input" id="term-input" type="text" autocomplete="off" spellcheck="false"/></div></div></div>
+<div class="cmd-overlay" id="cmd-overlay"><div class="cmd-box"><div class="cmd-search"><i class="ti ti-search cmd-search-ico"></i><input class="cmd-input" id="cmd-input" placeholder="Search..."/></div><div class="cmd-results" id="cmd-results"></div><div class="cmd-footer"><span class="cmd-hint"><span class="cmd-key">↵</span> select</span><span class="cmd-hint"><span class="cmd-key">esc</span> close</span></div></div></div>
+<div id="scroll-top"><i class="ti ti-arrow-up"></i></div>
+
+<div class="wrapper">
+<main>
+<div class="section" style="padding-top:5rem;">
+
+  <div class="eyebrow reveal">Capabilities</div>
+  <h1 class="section-title reveal">The <em>Arsenal</em></h1>
+  <p class="section-sub reveal">Every skill earned through practice. Every tool used on real (intentionally vulnerable) systems — not just read about.</p>
+
+  <!-- CONSTELLATION -->
+  <div class="reveal" style="margin-bottom:4rem;">
+    <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent);letter-spacing:2px;margin-bottom:1rem;">// skill constellation — drag to rotate · hover stars to inspect</div>
+    <div id="constellation-wrap">
+      <canvas id="constellation-canvas"></canvas>
+      <div class="const-tooltip" id="const-tooltip">
+        <div class="ct-name" id="ct-name"></div>
+        <div class="ct-prof" id="ct-prof"></div>
+        <div class="ct-desc" id="ct-desc"></div>
+        <a class="ct-link" id="ct-link" target="_blank" rel="noopener"><i class="ti ti-external-link" style="font-size:0.8rem"></i> Learn more</a>
+      </div>
+      <div class="const-legend">
+        <div class="const-legend-item"><div class="const-legend-dot" style="background:#ff3b5c"></div> Offensive</div>
+        <div class="const-legend-item"><div class="const-legend-dot" style="background:#00d4ff"></div> Defensive</div>
+        <div class="const-legend-item"><div class="const-legend-dot" style="background:#64748b"></div> IT Systems</div>
+        <div class="const-legend-item"><div class="const-legend-dot" style="background:#e2ff5d"></div> Scripting</div>
+      </div>
+      <div class="const-hint">drag to rotate · scroll to zoom</div>
+    </div>
+  </div>
+
+  <!-- SKILL BARS -->
+  <div style="padding-top:4rem;border-top:0.5px solid var(--border);margin-bottom:4rem;">
+    <div class="eyebrow reveal">Proficiency</div>
+    <h2 class="section-title reveal" style="font-size:1.6rem;">Skill <em>breakdown</em></h2>
+    <div class="skill-bars reveal" id="skill-bars-wrap">
+      <div class="skill-bar-row">
+        <div class="skill-bar-name">Penetration Testing</div>
+        <div class="skill-bar-plain">Legally attacking systems to find weaknesses — Nmap, Metasploit, manual exploitation</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="72" style="background:var(--red)"></div></div>
+        <div class="skill-bar-pct">72%</div>
+      </div>
+      <div class="skill-bar-row">
+        <div class="skill-bar-name">Active Directory</div>
+        <div class="skill-bar-plain">Windows domain environments — setup, GPO, AS-REP roasting, privilege escalation</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="68" style="background:var(--red)"></div></div>
+        <div class="skill-bar-pct">68%</div>
+      </div>
+      <div class="skill-bar-row">
+        <div class="skill-bar-name">Network Administration</div>
+        <div class="skill-bar-plain">Routing, switching, VLANs, DHCP/DNS — system integration foundations</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="70" style="background:var(--cyan)"></div></div>
+        <div class="skill-bar-pct">70%</div>
+      </div>
+      <div class="skill-bar-row">
+        <div class="skill-bar-name">Python Scripting</div>
+        <div class="skill-bar-plain">Automating security tasks, parsing data, writing tools and scanners</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="78" style="background:var(--accent)"></div></div>
+        <div class="skill-bar-pct">78%</div>
+      </div>
+      <div class="skill-bar-row">
+        <div class="skill-bar-name">Web App Security</div>
+        <div class="skill-bar-plain">OWASP Top 10 — XSS, SQLi, CSRF in DVWA lab environment</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="65" style="background:var(--amber)"></div></div>
+        <div class="skill-bar-pct">65%</div>
+      </div>
+      <div class="skill-bar-row">
+        <div class="skill-bar-name">Linux Administration</div>
+        <div class="skill-bar-plain">Kali Linux, file permissions, services, networking — daily driver</div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="80" style="background:var(--green)"></div></div>
+        <div class="skill-bar-pct">80%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOOL GRID -->
+  <div style="padding-top:4rem;border-top:0.5px solid var(--border);margin-bottom:4rem;">
+    <div class="eyebrow reveal">Toolbox</div>
+    <h2 class="section-title reveal" style="font-size:1.6rem;">Tools &amp; <em>Technologies</em></h2>
+    <div class="filter-row reveal" id="filter-row">
+      <button class="filter-btn on" data-f="all">All</button>
+      <button class="filter-btn" data-f="offensive">Offensive</button>
+      <button class="filter-btn" data-f="defensive">Defensive</button>
+      <button class="filter-btn" data-f="systems">IT Systems</button>
+      <button class="filter-btn" data-f="scripting">Scripting</button>
+    </div>
+    <div class="tool-grid reveal" id="tool-grid">
+      <!-- Offensive -->
+      <div class="tool-chip offensive" data-cat="offensive" onclick="window.open('https://www.kali.org','_blank')" title="Visit official site">
+        <i class="ti ti-bug tool-icon" style="color:var(--red)"></i>
+        <div class="tool-name">Kali Linux</div><div class="tool-cat">offensive OS</div>
+        <div class="tool-tip">The OS built for penetration testing. Pre-loaded with 600+ security tools. Daily driver.</div>
+      </div>
+      <div class="tool-chip offensive" data-cat="offensive" onclick="window.open('https://nmap.org','_blank')">
+        <i class="ti ti-topology-star tool-icon" style="color:var(--red)"></i>
+        <div class="tool-name">Nmap</div><div class="tool-cat">recon</div>
+        <div class="tool-tip">Network scanner — discovers open ports, services, OS versions. First step in every engagement.</div>
+      </div>
+      <div class="tool-chip offensive" data-cat="offensive" onclick="window.open('https://www.metasploit.com','_blank')">
+        <i class="ti ti-flame tool-icon" style="color:var(--red)"></i>
+        <div class="tool-name">Metasploit</div><div class="tool-cat">exploitation</div>
+        <div class="tool-tip">Framework for exploiting known CVEs. Used in Kali lab — vsftpd backdoor exploitation.</div>
+      </div>
+      <div class="tool-chip offensive" data-cat="offensive" onclick="window.open('https://portswigger.net/burp','_blank')">
+        <i class="ti ti-world-search tool-icon" style="color:var(--red)"></i>
+        <div class="tool-name">Burp Suite</div><div class="tool-cat">web security</div>
+        <div class="tool-tip">Intercepts and modifies web traffic. Used to test for XSS, SQLi and other OWASP Top 10 vulns.</div>
+      </div>
+      <div class="tool-chip offensive" data-cat="offensive" onclick="window.open('https://github.com/vanhauser-thc/thc-hydra','_blank')">
+        <i class="ti ti-key tool-icon" style="color:var(--red)"></i>
+        <div class="tool-name">Hydra</div><div class="tool-cat">password audit</div>
+        <div class="tool-tip">Network login cracker — tests credential strength against SSH, FTP, HTTP and more.</div>
+      </div>
+      <!-- Defensive -->
+      <div class="tool-chip defensive" data-cat="defensive" onclick="window.open('https://www.wireshark.org','_blank')">
+        <i class="ti ti-activity tool-icon" style="color:var(--cyan)"></i>
+        <div class="tool-name">Wireshark</div><div class="tool-cat">packet analysis</div>
+        <div class="tool-tip">Captures and analyses network packets. Captured plaintext Telnet credentials in OP-004.</div>
+      </div>
+      <div class="tool-chip defensive" data-cat="defensive" onclick="window.open('https://www.splunk.com','_blank')">
+        <i class="ti ti-chart-dots tool-icon" style="color:var(--cyan)"></i>
+        <div class="tool-name">Splunk</div><div class="tool-cat">SIEM</div>
+        <div class="tool-tip">Security Information and Event Management — collects and analyses logs to detect attacks.</div>
+      </div>
+      <!-- IT Systems -->
+      <div class="tool-chip systems" data-cat="systems" onclick="window.open('https://www.microsoft.com/en-us/windows-server','_blank')">
+        <i class="ti ti-building tool-icon" style="color:var(--text-2)"></i>
+        <div class="tool-name">Windows Server</div><div class="tool-cat">enterprise OS</div>
+        <div class="tool-tip">Built a full AD domain in OP-001 — OUs, GPOs, user management, security hardening.</div>
+      </div>
+      <div class="tool-chip systems" data-cat="systems" onclick="window.open('https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview','_blank')">
+        <i class="ti ti-users tool-icon" style="color:var(--text-2)"></i>
+        <div class="tool-name">Active Directory</div><div class="tool-cat">identity & access</div>
+        <div class="tool-tip">Company identity management — the backbone of enterprise networks and a top attack target.</div>
+      </div>
+      <div class="tool-chip systems" data-cat="systems" onclick="window.open('https://www.virtualbox.org','_blank')">
+        <i class="ti ti-box tool-icon" style="color:var(--text-2)"></i>
+        <div class="tool-name">VirtualBox</div><div class="tool-cat">virtualisation</div>
+        <div class="tool-tip">Runs isolated VMs — how every lab is built safely without touching real systems.</div>
+      </div>
+      <div class="tool-chip systems" data-cat="systems" onclick="window.open('https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/entry/ccna.html','_blank')">
+        <i class="ti ti-network tool-icon" style="color:var(--text-2)"></i>
+        <div class="tool-name">Networking</div><div class="tool-cat">TCP/IP · VLANs</div>
+        <div class="tool-tip">Routing, switching, subnetting, VLANs — the infrastructure layer that everything runs on.</div>
+      </div>
+      <!-- Scripting -->
+      <div class="tool-chip scripting" data-cat="scripting" onclick="window.open('https://www.python.org','_blank')">
+        <i class="ti ti-brand-python tool-icon" style="color:var(--accent)"></i>
+        <div class="tool-name">Python</div><div class="tool-cat">scripting</div>
+        <div class="tool-tip">Automates security tasks, parses data, builds tools. Primary scripting language.</div>
+      </div>
+      <div class="tool-chip scripting" data-cat="scripting" onclick="window.open('https://www.gnu.org/software/bash/','_blank')">
+        <i class="ti ti-terminal tool-icon" style="color:var(--accent)"></i>
+        <div class="tool-name">Bash</div><div class="tool-cat">shell scripting</div>
+        <div class="tool-tip">Shell scripting for automation, file management and system administration tasks.</div>
+      </div>
+      <div class="tool-chip scripting" data-cat="scripting" onclick="window.open('https://git-scm.com','_blank')">
+        <i class="ti ti-brand-git tool-icon" style="color:var(--accent)"></i>
+        <div class="tool-name">Git</div><div class="tool-cat">version control</div>
+        <div class="tool-tip">All labs and projects version-controlled. Essential for any technical role.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <div style="padding-top:4rem;border-top:0.5px solid var(--border);">
+    <div class="eyebrow reveal">Credentials</div>
+    <h2 class="section-title reveal" style="font-size:1.6rem;">Certifications &amp; <em>Training</em></h2>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:700px;margin-top:2rem;" class="reveal">
+
+      <div class="cert-row">
+        <div class="cert-dot" style="background:var(--amber);box-shadow:0 0 6px var(--amber)"></div>
+        <div style="flex:1">
+          <div style="font-weight:600;color:var(--text-1);margin-bottom:3px;">CompTIA Security+</div>
+          <div style="font-size:0.8rem;color:var(--text-2);">Industry standard entry security cert — covering threats, cryptography, network security, compliance</div>
+          <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--accent);font-family:var(--font-mono);display:inline-flex;align-items:center;gap:4px;margin-top:6px;"><i class="ti ti-external-link" style="font-size:0.8rem"></i> comptia.org</a>
+        </div>
+        <span class="chip chip-amber" style="font-size:0.68rem;flex-shrink:0;">In Progress</span>
+      </div>
+
+      <div class="cert-row">
+        <div class="cert-dot" style="background:var(--amber);box-shadow:0 0 6px var(--amber)"></div>
+        <div style="flex:1">
+          <div style="font-weight:600;color:var(--text-1);margin-bottom:3px;">eJPT — eLearnSecurity Junior Penetration Tester</div>
+          <div style="font-size:0.8rem;color:var(--text-2);">Practical penetration testing examination — real network hacking in a controlled environment</div>
+          <a href="https://security.ine.com/certifications/ejpt-certification/" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--accent);font-family:var(--font-mono);display:inline-flex;align-items:center;gap:4px;margin-top:6px;"><i class="ti ti-external-link" style="font-size:0.8rem"></i> ine.com</a>
+        </div>
+        <span class="chip chip-amber" style="font-size:0.68rem;flex-shrink:0;">In Progress</span>
+      </div>
+
+      <div class="cert-row">
+        <div class="cert-dot" style="background:var(--green);box-shadow:0 0 6px var(--green)"></div>
+        <div style="flex:1">
+          <div style="font-weight:600;color:var(--text-1);margin-bottom:3px;">TryHackMe</div>
+          <div style="font-size:0.8rem;color:var(--text-2);">Active — hands-on hacking rooms and learning paths. Handle: MM</div>
+          <a href="https://tryhackme.com/p/MM" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--accent);font-family:var(--font-mono);display:inline-flex;align-items:center;gap:4px;margin-top:6px;"><i class="ti ti-external-link" style="font-size:0.8rem"></i> View profile</a>
+        </div>
+        <span class="chip chip-green" style="font-size:0.68rem;flex-shrink:0;">Active</span>
+      </div>
+
+      <div class="cert-row">
+        <div class="cert-dot" style="background:var(--green);box-shadow:0 0 6px var(--green)"></div>
+        <div style="flex:1">
+          <div style="font-weight:600;color:var(--text-1);margin-bottom:3px;">HackTheBox</div>
+          <div style="font-size:0.8rem;color:var(--text-2);">Active — real-world offensive security challenges. Handle: mossesmuwa</div>
+          <a href="https://app.hackthebox.com/profile/mossesmuwa" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--accent);font-family:var(--font-mono);display:inline-flex;align-items:center;gap:4px;margin-top:6px;"><i class="ti ti-external-link" style="font-size:0.8rem"></i> View profile</a>
+        </div>
+        <span class="chip chip-green" style="font-size:0.68rem;flex-shrink:0;">Active</span>
+      </div>
+
+      <div class="cert-row">
+        <div class="cert-dot" style="background:var(--accent);box-shadow:0 0 6px var(--accent)"></div>
+        <div style="flex:1">
+          <div style="font-weight:600;color:var(--text-1);margin-bottom:3px;">Kali Linux Fundamentals</div>
+          <div style="font-size:0.8rem;color:var(--text-2);">Complete — the security professional's operating system, daily driver</div>
+        </div>
+        <span class="chip chip-lime" style="font-size:0.68rem;flex-shrink:0;">Done</span>
+      </div>
+
+      <div class="cert-row">
+        <div class="cert-dot" style="background:var(--accent);box-shadow:0 0 6px var(--accent)"></div>
+        <div style="flex:1">
+          <div style="font-weight:600;color:var(--text-1);margin-bottom:3px;">Windows Server &amp; Active Directory</div>
+          <div style="font-size:0.8rem;color:var(--text-2);">Complete — enterprise domain setup, GPO hardening, attack and defence</div>
+        </div>
+        <span class="chip chip-lime" style="font-size:0.68rem;flex-shrink:0;">Done</span>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><div class="footer-name" id="footer-name">Ivan.</div><p class="footer-tagline">IT Systems & Cybersecurity.<br>Building real skills. Open to the world.</p></div>
+      <div><div class="footer-col-title">Navigate</div><a href="../index.html" class="footer-link">Home</a><a href="about.html" class="footer-link">About</a><a href="operations.html" class="footer-link">Operations</a><a href="contact.html" class="footer-link">Contact</a></div>
+      <div><div class="footer-col-title">Connect</div><a href="https://github.com/Mossesmuwa" target="_blank" class="footer-link">GitHub</a><a href="YOUR_LINKEDIN_URL" target="_blank" class="footer-link">LinkedIn</a><a href="https://tryhackme.com/p/MM" target="_blank" class="footer-link">TryHackMe</a><a href="https://app.hackthebox.com/profile/mossesmuwa" target="_blank" class="footer-link">HackTheBox</a></div>
+      <div><div class="footer-col-title">Quick</div><button onclick="openTerminal()" class="footer-link" style="background:none;border:none;padding:0;cursor:pointer;display:block;margin-bottom:0.65rem;font-size:0.86rem;font-family:var(--font-body);"><i class="ti ti-terminal-2" style="color:var(--accent)"></i> Terminal</button><a href="contact.html" class="footer-link">Contact Ivan</a></div>
+    </div>
+    <div class="footer-morse"><div class="morse-pulse"></div></div>
+    <div class="footer-bottom"><span>&copy; <span class="js-year"></span> Ivan Kaweesa</span><span style="display:flex;align-items:center;gap:6px;"><span class="pulse-dot" style="width:5px;height:5px"></span> All systems operational</span></div>
+  </div>
+</footer>
+</div>
+
+<script>
+/* ── 3D SKILL CONSTELLATION (Three.js) ── */
+(function() {
+  const wrap   = document.getElementById('constellation-wrap');
+  const canvas = document.getElementById('constellation-canvas');
+  if (!wrap || !canvas || typeof THREE === 'undefined') return;
+
+  const W = wrap.clientWidth, H = wrap.clientHeight;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, W/H, 0.1, 1000);
+  camera.position.z = 5;
+
+  // Stars (background)
+  const starGeo = new THREE.BufferGeometry();
+  const starVerts = [];
+  for (let i = 0; i < 600; i++) {
+    starVerts.push((Math.random()-0.5)*40, (Math.random()-0.5)*40, (Math.random()-0.5)*40);
+  }
+  starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starVerts, 3));
+  const starMat = new THREE.PointsMaterial({ color: 0x334466, size: 0.04, transparent: true, opacity: 0.6 });
+  scene.add(new THREE.Points(starGeo, starMat));
+
+  const SKILLS = [
+    // Offensive (red)
+    { name:'Penetration Testing', prof:'Intermediate (72%)', desc:'Legally attacking systems — Nmap, Metasploit, manual exploitation', link:'https://www.offensive-security.com', group:'offensive', x:2.2, y:1.0, z:0.5 },
+    { name:'Nmap', prof:'Comfortable (80%)', desc:'Network scanner — open ports, services, OS detection', link:'https://nmap.org', group:'offensive', x:1.5, y:1.8, z:-0.3 },
+    { name:'Metasploit', prof:'Learning (60%)', desc:'Exploitation framework — CVE testing in lab environments', link:'https://www.metasploit.com', group:'offensive', x:2.8, y:0.2, z:0.8 },
+    { name:'Burp Suite', prof:'Learning (58%)', desc:'Web proxy — OWASP Top 10 testing', link:'https://portswigger.net/burp', group:'offensive', x:2.0, y:-0.6, z:1.0 },
+    // Defensive (cyan)
+    { name:'Wireshark', prof:'Comfortable (75%)', desc:'Packet capture — found plaintext Telnet credentials in OP-004', link:'https://www.wireshark.org', group:'defensive', x:-1.8, y:1.2, z:0.4 },
+    { name:'Splunk', prof:'Learning (50%)', desc:'SIEM — log collection and threat detection', link:'https://www.splunk.com', group:'defensive', x:-2.5, y:0.5, z:-0.5 },
+    // Systems (slate)
+    { name:'Active Directory', prof:'Intermediate (68%)', desc:'Windows domain environments — built from scratch in OP-001', link:'https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/', group:'systems', x:-0.5, y:-1.8, z:-0.8 },
+    { name:'Windows Server', prof:'Intermediate (70%)', desc:'Enterprise OS — domain controller, GPO, user management', link:'https://www.microsoft.com/en-us/windows-server', group:'systems', x:0.8, y:-2.2, z:-0.5 },
+    { name:'Linux Admin', prof:'Comfortable (80%)', desc:'Kali Linux daily driver — permissions, services, networking', link:'https://www.linux.org', group:'systems', x:-1.2, y:-1.5, z:1.0 },
+    { name:'Networking', prof:'Intermediate (70%)', desc:'TCP/IP, VLANs, routing, switching — IT infrastructure core', link:'https://www.cisco.com', group:'systems', x:0.2, y:-2.8, z:0.3 },
+    // Scripting (lime)
+    { name:'Python', prof:'Comfortable (78%)', desc:'Security automation, tool writing, data parsing', link:'https://www.python.org', group:'scripting', x:-1.5, y:2.0, z:0.2 },
+    { name:'Bash', prof:'Comfortable (75%)', desc:'Shell scripting — automation and system administration', link:'https://www.gnu.org/software/bash/', group:'scripting', x:-2.2, y:1.6, z:-0.8 },
+    { name:'Git', prof:'Comfortable (72%)', desc:'Version control — all labs tracked on GitHub', link:'https://git-scm.com', group:'scripting', x:-0.8, y:2.5, z:-0.4 },
+    { name:'PowerShell', prof:'Learning (55%)', desc:'Windows automation and AD management', link:'https://docs.microsoft.com/en-us/powershell/', group:'scripting', x:-1.8, y:2.8, z:0.6 },
+  ];
+
+  const GROUP_COLORS = {
+    offensive: 0xff3b5c,
+    defensive: 0x00d4ff,
+    systems:   0x64748b,
+    scripting: 0xe2ff5d,
+  };
+
+  // Constellation lines
+  const LINE_GROUPS = {
+    offensive: [0,1,2,3],
+    defensive: [4,5],
+    systems:   [6,7,8,9],
+    scripting: [10,11,12,13],
+  };
+
+  const skillMeshes = [];
+
+  SKILLS.forEach((s, i) => {
+    const prof = parseInt(s.prof) / 100;
+    const size = 0.06 + prof * 0.08;
+    const geo  = new THREE.SphereGeometry(size, 12, 12);
+    const mat  = new THREE.MeshBasicMaterial({ color: GROUP_COLORS[s.group] });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(s.x, s.y, s.z);
+    mesh.userData = { ...s, idx: i };
+    scene.add(mesh);
+    skillMeshes.push(mesh);
+
+    // Glow sprite
+    const glowGeo = new THREE.SphereGeometry(size * 2, 8, 8);
+    const glowMat = new THREE.MeshBasicMaterial({ color: GROUP_COLORS[s.group], transparent: true, opacity: 0.08 });
+    const glow = new THREE.Mesh(glowGeo, glowMat);
+    glow.position.copy(mesh.position);
+    scene.add(glow);
+  });
+
+  // Draw constellation lines
+  Object.entries(LINE_GROUPS).forEach(([group, indices]) => {
+    for (let a = 0; a < indices.length; a++) {
+      for (let b = a+1; b < indices.length; b++) {
+        const pa = SKILLS[indices[a]];
+        const pb = SKILLS[indices[b]];
+        const dist = Math.hypot(pa.x-pb.x, pa.y-pb.y, pa.z-pb.z);
+        if (dist < 2.5) {
+          const geo = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(pa.x, pa.y, pa.z),
+            new THREE.Vector3(pb.x, pb.y, pb.z),
+          ]);
+          const mat = new THREE.LineBasicMaterial({ color: GROUP_COLORS[group], transparent: true, opacity: 0.15 });
+          scene.add(new THREE.Line(geo, mat));
+        }
+      }
+    }
+  });
+
+  // Interaction
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2(-99,-99);
+  let isDragging = false, prevMouse = { x:0, y:0 };
+  let autoRotate = true;
+  const group = new THREE.Group();
+  skillMeshes.forEach(m => {
+    group.add(m);
+    // Also add lines — simpler to rotate whole scene
+  });
+
+  // Rotate whole scene group
+  const pivot = new THREE.Object3D();
+  scene.add(pivot);
+  skillMeshes.forEach(m => { scene.remove(m); pivot.add(m); });
+  // re-add lines to pivot (skip for simplicity, lines stay fixed)
+
+  const tooltip  = document.getElementById('const-tooltip');
+  const ctName   = document.getElementById('ct-name');
+  const ctProf   = document.getElementById('ct-prof');
+  const ctDesc   = document.getElementById('ct-desc');
+  const ctLink   = document.getElementById('ct-link');
+  let hoveredIdx = -1;
+
+  wrap.addEventListener('mousedown', e => {
+    isDragging = false;
+    autoRotate = false;
+    prevMouse = { x: e.clientX, y: e.clientY };
+    wrap.addEventListener('mousemove', onDrag);
+    wrap.addEventListener('mouseup', onUp);
+  });
+
+  function onDrag(e) {
+    isDragging = true;
+    const dx = e.clientX - prevMouse.x;
+    const dy = e.clientY - prevMouse.y;
+    pivot.rotation.y += dx * 0.008;
+    pivot.rotation.x += dy * 0.008;
+    prevMouse = { x: e.clientX, y: e.clientY };
+    tooltip.classList.remove('show');
+  }
+  function onUp() {
+    wrap.removeEventListener('mousemove', onDrag);
+    wrap.removeEventListener('mouseup', onUp);
+    setTimeout(() => { autoRotate = true; }, 2000);
+  }
+
+  wrap.addEventListener('mousemove', e => {
+    if (isDragging) return;
+    const rect = wrap.getBoundingClientRect();
+    mouse.x = ((e.clientX - rect.left) / rect.width)  * 2 - 1;
+    mouse.y = -((e.clientY - rect.top)  / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const hits = raycaster.intersectObjects(skillMeshes);
+    if (hits.length) {
+      autoRotate = false;
+      const s = hits[0].object.userData;
+      if (!s || !s.name) return;
+      ctName.textContent = s.name;
+      ctProf.textContent = s.prof;
+      ctDesc.textContent = s.desc;
+      ctLink.href = s.link;
+      // Position tooltip
+      const tx = Math.min(e.clientX - rect.left + 12, rect.width - 240);
+      const ty = Math.max(e.clientY - rect.top  - 80, 8);
+      tooltip.style.left = tx + 'px';
+      tooltip.style.top  = ty + 'px';
+      tooltip.classList.add('show');
+      wrap.style.cursor = 'pointer';
+    } else {
+      tooltip.classList.remove('show');
+      wrap.style.cursor = isDragging ? 'grabbing' : 'grab';
+      if (!isDragging) setTimeout(() => { autoRotate = true; }, 500);
+    }
+  });
+
+  wrap.addEventListener('mouseleave', () => {
+    tooltip.classList.remove('show');
+    autoRotate = true;
+  });
+
+  // Click star — go to link
+  wrap.addEventListener('click', e => {
+    if (isDragging) return;
+    raycaster.setFromCamera(mouse, camera);
+    const hits = raycaster.intersectObjects(skillMeshes);
+    if (hits.length && hits[0].object.userData.link) {
+      window.open(hits[0].object.userData.link, '_blank');
+    }
+  });
+
+  // Scroll zoom
+  wrap.addEventListener('wheel', e => {
+    e.preventDefault();
+    camera.position.z = Math.max(2, Math.min(10, camera.position.z + e.deltaY * 0.01));
+  }, { passive: false });
+
+  // Resize
+  window.addEventListener('resize', () => {
+    const nW = wrap.clientWidth, nH = wrap.clientHeight;
+    renderer.setSize(nW, nH);
+    camera.aspect = nW / nH;
+    camera.updateProjectionMatrix();
+  });
+
+  // Animate
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.008;
+    if (autoRotate) pivot.rotation.y += 0.002;
+    // Pulse stars
+    skillMeshes.forEach((m, i) => {
+      m.scale.setScalar(1 + Math.sin(t + i * 0.5) * 0.05);
+    });
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+/* ── SKILL BARS ── */
+const sbObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('.skill-bar-fill').forEach((bar, i) => {
+      setTimeout(() => { bar.style.width = bar.dataset.pct + '%'; }, i * 100);
+    });
+    sbObs.unobserve(e.target);
+  });
+}, { threshold: 0.2 });
+const sbWrap = document.getElementById('skill-bars-wrap');
+if (sbWrap) sbObs.observe(sbWrap);
+
+/* ── TOOL FILTER ── */
+document.getElementById('filter-row')?.addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  const f = btn.dataset.f;
+  document.querySelectorAll('.tool-chip').forEach(chip => {
+    const show = f === 'all' || chip.dataset.cat === f;
+    chip.style.display = show ? '' : 'none';
+    chip.style.opacity = '0';
+    chip.style.transform = 'translateY(8px)';
+    if (show) requestAnimationFrame(() => {
+      chip.style.transition = 'all 0.3s ease';
+      chip.style.opacity = '1';
+      chip.style.transform = '';
+    });
+  });
+});
+</script>
+<script src="../script.js"></script>
+</body>
+</html>

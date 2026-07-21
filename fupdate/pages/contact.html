@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lime">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Contact — Ivan.K</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="../design-tokens.css"/>
+  <link rel="stylesheet" href="../style.css"/>
+  <style>
+    .contact-link{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--bg-2);border:0.5px solid var(--border-card);border-radius:var(--r-md);text-decoration:none;color:inherit;transition:all var(--t-fast);position:relative;overflow:hidden}
+    .contact-link:hover{border-color:var(--border-hi);transform:translateX(6px)}
+    .contact-link:hover .cl-icon{transform:rotateY(180deg)}
+    .contact-link:hover .cl-arrow{opacity:1;transform:translate(3px,-3px)}
+    .cl-icon{width:42px;height:42px;border-radius:var(--r-sm);background:var(--accent-10);border:0.5px solid var(--border-hi);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent);font-size:1.1rem;transition:transform 0.5s ease,background var(--t-fast)}
+    .contact-link:hover .cl-icon{background:var(--accent-20)}
+    .cl-label{font-size:0.7rem;color:var(--text-2);text-transform:uppercase;letter-spacing:1px;font-family:var(--font-mono);margin-bottom:2px}
+    .cl-val{font-size:0.9rem;color:var(--text-1);font-weight:500}
+    .cl-arrow{margin-left:auto;color:var(--text-2);opacity:0;transition:all var(--t-fast);font-size:1.1rem;flex-shrink:0}
+    .form-label{display:block;font-size:0.72rem;font-weight:500;color:var(--text-2);letter-spacing:1px;text-transform:uppercase;font-family:var(--font-mono);margin-bottom:7px;transition:color var(--t-fast)}
+    .form-group:focus-within .form-label{color:var(--accent)}
+    .form-input,.form-textarea{width:100%;background:var(--bg-3);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:11px 14px;color:var(--text-1);font-family:var(--font-body);font-size:0.92rem;outline:none;transition:border-color var(--t-fast),box-shadow var(--t-fast)}
+    .form-input::placeholder,.form-textarea::placeholder{color:var(--text-2)}
+    .form-input:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-10)}
+    .form-textarea{resize:vertical;min-height:130px}
+    .form-group{margin-bottom:1.25rem}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media(max-width:540px){.form-row{grid-template-columns:1fr}}
+    .form-feedback{margin-top:1rem;font-size:0.86rem;font-weight:500;padding:10px 14px;border-radius:var(--r-sm);text-align:center;opacity:0;transition:opacity var(--t-fast)}
+    .form-feedback.show{opacity:1}
+    .form-feedback.success{background:var(--green-10);border:0.5px solid rgba(0,255,157,0.25);color:var(--green)}
+    .form-feedback.error{background:var(--red-10);border:0.5px solid rgba(255,59,92,0.25);color:var(--red)}
+    .avail-banner{display:flex;align-items:flex-start;gap:12px;background:var(--green-10);border:0.5px solid rgba(0,255,157,0.2);border-radius:var(--r-md);padding:1rem 1.25rem;margin-bottom:1.5rem}
+    .avail-title{font-weight:600;font-size:0.9rem;color:var(--green)}
+    .avail-sub{font-size:0.78rem;color:rgba(0,255,157,0.55);margin-top:2px;font-family:var(--font-mono)}
+    .local-time{font-family:var(--font-mono);font-size:0.78rem;color:var(--text-2);display:flex;align-items:center;gap:6px;margin-top:1rem;padding:8px 12px;background:var(--bg-3);border-radius:var(--r-sm)}
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<canvas id="cursor-canvas"></canvas>
+<div id="cursor-dot"></div><div id="cursor-ring"></div>
+<div id="scroll-progress"></div><div id="theme-ripple"></div>
+<div class="page-transition"></div>
+<div class="breach-overlay" id="breach-overlay"><div class="breach-scanlines"></div><div class="breach-term" id="breach-term"></div></div>
+
+<aside id="sidebar">
+  <a href="../index.html" class="logo-btn sb-logo-btn"><svg viewBox="0 0 36 36" fill="none" width="36" height="36"><polygon class="logo-hex" points="18,3 31,10.5 31,25.5 18,33 5,25.5 5,10.5"/><circle class="logo-dot" cx="18" cy="18" r="2.5" fill="var(--accent)"/><circle class="logo-ring" cx="18" cy="18" r="4" fill="none" stroke="var(--accent)" stroke-width="0.8"/></svg></a>
+  <div class="sb-mid">
+    <a href="../index.html"   class="sb-nav-item"><i class="ti ti-layout-grid"></i><span class="sb-tooltip">Home</span></a>
+    <a href="about.html"      class="sb-nav-item"><i class="ti ti-user"></i><span class="sb-tooltip">About</span></a>
+    <a href="arsenal.html"    class="sb-nav-item"><i class="ti ti-radar"></i><span class="sb-tooltip">Arsenal</span></a>
+    <a href="operations.html" class="sb-nav-item"><i class="ti ti-activity"></i><span class="sb-tooltip">Operations</span></a>
+    <a href="intel.html"      class="sb-nav-item"><i class="ti ti-chart-bar"></i><span class="sb-tooltip">Intel</span></a>
+    <a href="contact.html"    class="sb-nav-item active"><i class="ti ti-mail"></i><span class="sb-tooltip">Contact</span></a>
+    <div class="sb-prog-track"><div class="sb-prog-fill"></div></div>
+  </div>
+  <div class="sb-bottom">
+    <button class="sb-theme-btn"><span class="theme-icon">◐</span></button>
+    <button class="sb-term-btn open-terminal"><i class="ti ti-terminal-2"></i></button>
+  </div>
+</aside>
+
+<div class="mobile-topbar">
+  <div class="mobile-brand"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><polygon points="12,2 21,7 21,17 12,22 3,17 3,7" stroke="var(--accent)" stroke-width="1.2" fill="none"/><circle cx="12" cy="12" r="2" fill="var(--accent)"/></svg><span style="font-family:var(--font-display);font-weight:600;">Ivan.K</span></div>
+  <div class="mobile-actions">
+    <button class="mob-btn mob-theme-btn"><span class="theme-icon">◐</span></button>
+    <button class="mob-btn open-terminal"><i class="ti ti-terminal-2"></i></button>
+    <button class="mob-btn hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <button class="drawer-close" id="drawer-close">✕</button>
+  <a href="../index.html"   class="drawer-link" onclick="closeDrawer()">Home</a>
+  <a href="about.html"      class="drawer-link" onclick="closeDrawer()">About</a>
+  <a href="arsenal.html"    class="drawer-link" onclick="closeDrawer()">Arsenal</a>
+  <a href="operations.html" class="drawer-link" onclick="closeDrawer()">Operations</a>
+  <a href="intel.html"      class="drawer-link" onclick="closeDrawer()">Intel</a>
+  <a href="contact.html"    class="drawer-link" onclick="closeDrawer()">Contact</a>
+</div>
+<div class="pill-nav-wrap">
+  <div class="pill-nav">
+    <a href="../index.html"   class="pn-item"><i class="ti ti-layout-grid"></i></a>
+    <a href="about.html"      class="pn-item"><i class="ti ti-user"></i></a>
+    <a href="arsenal.html"    class="pn-item"><i class="ti ti-radar"></i></a>
+    <a href="operations.html" class="pn-item"><i class="ti ti-activity"></i></a>
+    <a href="contact.html"    class="pn-item active"><i class="ti ti-mail"></i></a>
+    <button class="pn-term open-terminal"><i class="ti ti-terminal-2"></i></button>
+  </div>
+  <div class="home-ind"></div>
+</div>
+
+<div class="term-overlay" id="term-overlay"><div class="term-window" id="term-window"><div class="term-titlebar"><div class="term-dots"><div class="term-dot td-r"></div><div class="term-dot td-y"></div><div class="term-dot td-g"></div></div><div class="term-title">ivan@kali: ~</div></div><div class="drag-handle"></div><div class="term-body" id="term-body"><span class="t-line"><span class="t-dim">┌──(</span><span class="t-red">ivan㉿kali</span><span class="t-dim">)-[~]</span></span><span class="t-line"><span class="t-lime">└─$</span> Type <span class="t-lime">help</span></span></div><div class="term-input-row"><span class="term-prompt"><span class="t-dim">┌──(</span><span class="p-name">ivan㉿kali</span><span class="t-dim">)-[~]<br>└─$</span>&nbsp;</span><input class="term-input" id="term-input" type="text" autocomplete="off" spellcheck="false"/></div></div></div>
+<div class="cmd-overlay" id="cmd-overlay"><div class="cmd-box"><div class="cmd-search"><i class="ti ti-search cmd-search-ico"></i><input class="cmd-input" id="cmd-input" placeholder="Search..."/></div><div class="cmd-results" id="cmd-results"></div><div class="cmd-footer"><span class="cmd-hint"><span class="cmd-key">↵</span> select</span><span class="cmd-hint"><span class="cmd-key">esc</span> close</span></div></div></div>
+<div id="scroll-top"><i class="ti ti-arrow-up"></i></div>
+
+<div class="wrapper">
+<main>
+<div class="section" style="padding-top:5rem;">
+
+  <div class="eyebrow reveal">Secure Channel</div>
+  <h1 class="section-title reveal">Let's <em>Connect</em></h1>
+  <p class="section-sub reveal">Recruiter, IT manager, fellow student, or just curious — I reply personally to every message, usually within 24 hours.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:4rem;align-items:start;">
+
+    <!-- LEFT: links + availability -->
+    <div class="reveal-l">
+      <div class="avail-banner">
+        <span class="pulse-dot avail-dot" style="margin-top:3px;"></span>
+        <div>
+          <div class="avail-title">Open to opportunities worldwide</div>
+          <div class="avail-sub">Internships · Projects · Collaborations</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem;">
+        <a href="mailto:YOUR_EMAIL@proton.me" class="contact-link">
+          <div class="cl-icon"><i class="ti ti-mail"></i></div>
+          <div><div class="cl-label">ProtonMail</div><div class="cl-val">YOUR_EMAIL@proton.me</div></div>
+          <i class="ti ti-arrow-up-right cl-arrow"></i>
+        </a>
+        <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener" class="contact-link">
+          <div class="cl-icon"><i class="ti ti-brand-linkedin"></i></div>
+          <div><div class="cl-label">LinkedIn</div><div class="cl-val">Ivan Kaweesa</div></div>
+          <i class="ti ti-arrow-up-right cl-arrow"></i>
+        </a>
+        <a href="https://github.com/Mossesmuwa" target="_blank" rel="noopener" class="contact-link">
+          <div class="cl-icon"><i class="ti ti-brand-github"></i></div>
+          <div><div class="cl-label">GitHub</div><div class="cl-val">Mossesmuwa</div></div>
+          <i class="ti ti-arrow-up-right cl-arrow"></i>
+        </a>
+        <a href="https://www.instagram.com/mosses.muwa/" target="_blank" rel="noopener" class="contact-link">
+          <div class="cl-icon"><i class="ti ti-brand-instagram"></i></div>
+          <div><div class="cl-label">Instagram</div><div class="cl-val">@mosses.muwa</div></div>
+          <i class="ti ti-arrow-up-right cl-arrow"></i>
+        </a>
+        <a href="https://tryhackme.com/p/MM" target="_blank" rel="noopener" class="contact-link">
+          <div class="cl-icon"><i class="ti ti-target"></i></div>
+          <div><div class="cl-label">TryHackMe</div><div class="cl-val">MM</div></div>
+          <i class="ti ti-arrow-up-right cl-arrow"></i>
+        </a>
+        <a href="https://app.hackthebox.com/profile/mossesmuwa" target="_blank" rel="noopener" class="contact-link">
+          <div class="cl-icon"><i class="ti ti-box"></i></div>
+          <div><div class="cl-label">HackTheBox</div><div class="cl-val">mossesmuwa</div></div>
+          <i class="ti ti-arrow-up-right cl-arrow"></i>
+        </a>
+      </div>
+
+      <div class="local-time">
+        <i class="ti ti-clock" style="color:var(--accent)"></i>
+        Ivan's local time: <strong class="js-local-time" style="color:var(--text-1)"></strong>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-3);font-family:var(--font-mono);margin-top:8px;padding:6px 12px;">
+        <i class="ti ti-check" style="color:var(--green)"></i> Usually responds within 24 hours
+      </div>
+      <div style="margin-top:1rem;padding:10px 12px;border-radius:var(--r-sm);background:var(--bg-3);font-size:0.78rem;color:var(--text-2);">
+        Or try the terminal: type <code style="color:var(--accent);font-family:var(--font-mono);">hire</code> and see what happens
+      </div>
+    </div>
+
+    <!-- RIGHT: form -->
+    <div class="reveal">
+      <div class="card-glass" style="border-radius:var(--r-xl);padding:2.5rem;">
+        <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent);letter-spacing:2px;margin-bottom:1.5rem;"><i class="ti ti-shield-check" style="margin-right:5px"></i>SECURE MESSAGE</div>
+        <form id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="cf-name">Name *</label>
+              <input class="form-input" type="text" id="cf-name" name="name" placeholder="Your name" required autocomplete="name"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cf-email">Email *</label>
+              <input class="form-input" type="email" id="cf-email" name="email" placeholder="you@example.com" required autocomplete="email"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-subject">Subject</label>
+            <input class="form-input" type="text" id="cf-subject" name="subject" placeholder="What's this about?"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-message">Message *</label>
+            <textarea class="form-textarea" id="cf-message" name="message" placeholder="Say hello, describe a project, ask a question..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="submit-btn">
+            <i class="ti ti-send"></i> Transmit message
+          </button>
+          <div class="form-feedback" id="form-feedback"></div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+</main>
+
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><div class="footer-name" id="footer-name">Ivan.</div><p class="footer-tagline">IT Systems & Cybersecurity.<br>Building real skills. Open to the world.</p></div>
+      <div><div class="footer-col-title">Navigate</div><a href="../index.html" class="footer-link">Home</a><a href="about.html" class="footer-link">About</a><a href="arsenal.html" class="footer-link">Arsenal</a><a href="operations.html" class="footer-link">Operations</a></div>
+      <div><div class="footer-col-title">Connect</div><a href="https://github.com/Mossesmuwa" target="_blank" class="footer-link">GitHub</a><a href="YOUR_LINKEDIN_URL" target="_blank" class="footer-link">LinkedIn</a><a href="https://tryhackme.com/p/MM" target="_blank" class="footer-link">TryHackMe</a><a href="https://app.hackthebox.com/profile/mossesmuwa" target="_blank" class="footer-link">HackTheBox</a></div>
+      <div><div class="footer-col-title">Quick</div><button onclick="openTerminal()" class="footer-link" style="background:none;border:none;padding:0;cursor:pointer;display:block;margin-bottom:0.65rem;font-size:0.86rem;font-family:var(--font-body);"><i class="ti ti-terminal-2" style="color:var(--accent)"></i> Terminal</button></div>
+    </div>
+    <div class="footer-morse"><div class="morse-pulse"></div></div>
+    <div class="footer-bottom"><span>&copy; <span class="js-year"></span> Ivan Kaweesa</span><span style="display:flex;align-items:center;gap:6px;"><span class="pulse-dot" style="width:5px;height:5px"></span> All systems operational</span></div>
+  </div>
+</footer>
+</div>
+<script src="../script.js"></script>
+</body>
+</html>

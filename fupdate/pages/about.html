@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lime">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>About — Ivan.K</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="../design-tokens.css"/>
+  <link rel="stylesheet" href="../style.css"/>
+  <style>
+    .about-grid{display:grid;grid-template-columns:320px 1fr;gap:4rem;align-items:start}
+    @media(max-width:900px){.about-grid{grid-template-columns:1fr}}
+    .photo-about{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:var(--r-lg);border:0.5px solid var(--border-card);filter:saturate(0.8);transition:filter var(--t-slow)}
+    .photo-about:hover{filter:saturate(1)}
+    .handle-card{background:var(--bg-2);border:0.5px solid var(--border-card);border-radius:var(--r-md);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-top:1rem;cursor:default;transition:border-color var(--t-fast)}
+    .handle-card:hover{border-color:var(--border-hi)}
+    .handle-card-front,.handle-card-back{transition:all var(--t-base)}
+    .handle-avatar{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--accent);object-fit:cover;flex-shrink:0}
+    .handle-avatar-placeholder{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--accent);background:var(--bg-3);display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0}
+    .philosophy-block{background:var(--bg-2);border-left:2px solid var(--accent);border-radius:0 var(--r-md) var(--r-md) 0;padding:1.25rem 1.5rem;margin-bottom:1rem;transition:border-color var(--t-fast),transform var(--t-fast)}
+    .philosophy-block:hover{border-color:var(--accent);transform:translateX(4px)}
+    .philosophy-quote{font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text-1);margin-bottom:4px}
+    .philosophy-sub{font-size:0.82rem;color:var(--text-2);line-height:1.6}
+    .learning-card{background:var(--bg-2);border:0.5px solid var(--border-card);border-radius:var(--r-md);padding:1.25rem;transition:all var(--t-fast)}
+    .learning-card:hover{border-color:var(--border-hi);transform:translateY(-3px)}
+    .learning-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+    .redacted{background:#1a2540;color:transparent;border-radius:3px;padding:0 4px;cursor:pointer;transition:all 0.4s;display:inline}
+    .redacted:hover{background:transparent;color:var(--text-2)}
+    .fun-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    @media(max-width:600px){.fun-facts{grid-template-columns:1fr}}
+    .fun-fact{background:var(--bg-2);border:0.5px solid var(--border-card);border-radius:var(--r-md);padding:1.25rem;text-align:center;transition:all var(--t-fast)}
+    .fun-fact:hover{border-color:var(--border-hi);transform:translateY(-3px)}
+    .fun-fact-icon{font-size:1.8rem;margin-bottom:0.75rem;color:var(--accent)}
+    .fun-fact-text{font-size:0.85rem;color:var(--text-2);line-height:1.6}
+    .de-progress-bar{background:var(--bg-4);border-radius:100px;height:5px;overflow:hidden;margin:8px 0}
+    .de-progress-fill{height:100%;width:12%;background:linear-gradient(90deg,var(--amber),var(--accent));border-radius:100px;transition:width 1.2s ease}
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<canvas id="cursor-canvas"></canvas>
+<div id="cursor-dot"></div><div id="cursor-ring"></div>
+<div id="scroll-progress"></div><div id="theme-ripple"></div>
+<div class="page-transition"></div>
+<div class="breach-overlay" id="breach-overlay"><div class="breach-scanlines"></div><div class="breach-term" id="breach-term"></div></div>
+
+<aside id="sidebar">
+  <a href="../index.html" class="logo-btn sb-logo-btn">
+    <svg viewBox="0 0 36 36" fill="none" width="36" height="36">
+      <polygon class="logo-hex" points="18,3 31,10.5 31,25.5 18,33 5,25.5 5,10.5"/>
+      <circle class="logo-dot" cx="18" cy="18" r="2.5" fill="var(--accent)"/>
+      <circle class="logo-ring" cx="18" cy="18" r="4" fill="none" stroke="var(--accent)" stroke-width="0.8"/>
+    </svg>
+  </a>
+  <div class="sb-mid">
+    <a href="../index.html" class="sb-nav-item"><i class="ti ti-layout-grid"></i><span class="sb-tooltip">Home</span></a>
+    <a href="about.html"    class="sb-nav-item active"><i class="ti ti-user"></i><span class="sb-tooltip">About</span></a>
+    <a href="arsenal.html"  class="sb-nav-item"><i class="ti ti-radar"></i><span class="sb-tooltip">Arsenal</span></a>
+    <a href="operations.html" class="sb-nav-item"><i class="ti ti-activity"></i><span class="sb-tooltip">Operations</span></a>
+    <a href="intel.html"    class="sb-nav-item"><i class="ti ti-chart-bar"></i><span class="sb-tooltip">Intel</span></a>
+    <a href="contact.html"  class="sb-nav-item"><i class="ti ti-mail"></i><span class="sb-tooltip">Contact</span></a>
+    <div class="sb-prog-track"><div class="sb-prog-fill"></div></div>
+  </div>
+  <div class="sb-bottom">
+    <button class="sb-theme-btn"><span class="theme-icon">◐</span></button>
+    <button class="sb-term-btn open-terminal"><i class="ti ti-terminal-2"></i></button>
+  </div>
+</aside>
+
+<div class="mobile-topbar">
+  <div class="mobile-brand">
+    <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><polygon points="12,2 21,7 21,17 12,22 3,17 3,7" stroke="var(--accent)" stroke-width="1.2" fill="none"/><circle cx="12" cy="12" r="2" fill="var(--accent)"/></svg>
+    <span style="font-family:var(--font-display);font-weight:600;">Ivan.K</span>
+  </div>
+  <div class="mobile-actions">
+    <button class="mob-btn mob-theme-btn"><span class="theme-icon">◐</span></button>
+    <button class="mob-btn open-terminal"><i class="ti ti-terminal-2"></i></button>
+    <button class="mob-btn hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <button class="drawer-close" id="drawer-close">✕</button>
+  <a href="../index.html"   class="drawer-link" onclick="closeDrawer()">Home</a>
+  <a href="about.html"      class="drawer-link" onclick="closeDrawer()">About</a>
+  <a href="arsenal.html"    class="drawer-link" onclick="closeDrawer()">Arsenal</a>
+  <a href="operations.html" class="drawer-link" onclick="closeDrawer()">Operations</a>
+  <a href="intel.html"      class="drawer-link" onclick="closeDrawer()">Intel</a>
+  <a href="contact.html"    class="drawer-link" onclick="closeDrawer()">Contact</a>
+</div>
+<div class="pill-nav-wrap">
+  <div class="pill-nav">
+    <a href="../index.html"   class="pn-item"><i class="ti ti-layout-grid"></i></a>
+    <a href="about.html"      class="pn-item active"><i class="ti ti-user"></i></a>
+    <a href="arsenal.html"    class="pn-item"><i class="ti ti-radar"></i></a>
+    <a href="operations.html" class="pn-item"><i class="ti ti-activity"></i></a>
+    <a href="contact.html"    class="pn-item"><i class="ti ti-mail"></i></a>
+    <button class="pn-term open-terminal"><i class="ti ti-terminal-2"></i></button>
+  </div>
+  <div class="home-ind"></div>
+</div>
+
+<div class="term-overlay" id="term-overlay"><div class="term-window" id="term-window"><div class="term-titlebar"><div class="term-dots"><div class="term-dot td-r"></div><div class="term-dot td-y"></div><div class="term-dot td-g"></div></div><div class="term-title">ivan@kali: ~</div></div><div class="drag-handle"></div><div class="term-body" id="term-body"><span class="t-line"><span class="t-dim">┌──(</span><span class="t-red">ivan㉿kali</span><span class="t-dim">)-[~]</span></span><span class="t-line"><span class="t-lime">└─$</span> Type <span class="t-lime">help</span></span></div><div class="term-input-row"><span class="term-prompt"><span class="t-dim">┌──(</span><span class="p-name">ivan㉿kali</span><span class="t-dim">)-[~]<br>└─$</span>&nbsp;</span><input class="term-input" id="term-input" type="text" autocomplete="off" spellcheck="false"/></div></div></div>
+<div class="cmd-overlay" id="cmd-overlay"><div class="cmd-box"><div class="cmd-search"><i class="ti ti-search cmd-search-ico"></i><input class="cmd-input" id="cmd-input" placeholder="Search..."/></div><div class="cmd-results" id="cmd-results"></div><div class="cmd-footer"><span class="cmd-hint"><span class="cmd-key">↵</span> select</span><span class="cmd-hint"><span class="cmd-key">esc</span> close</span></div></div></div>
+<div id="scroll-top"><i class="ti ti-arrow-up"></i></div>
+
+<div class="wrapper">
+<main>
+  <div class="section" style="padding-top:5rem;">
+
+    <div class="eyebrow reveal">Agent Profile</div>
+    <h1 class="section-title reveal">About <em>Ivan</em></h1>
+
+    <div class="about-grid" style="margin-top:3rem;">
+
+      <!-- Left: photo + handle -->
+      <div class="reveal-l">
+        <div style="position:relative;">
+          <img src="../me.jpg" alt="Ivan Kaweesa" class="photo-about" id="about-photo" onerror="this.style.display='none'"/>
+          <div style="position:absolute;top:-7px;right:-7px;width:22px;height:22px;border-top:2px solid var(--accent);border-right:2px solid var(--accent);border-radius:0 4px 0 0;"></div>
+          <div style="position:absolute;bottom:-7px;left:-7px;width:22px;height:22px;border-bottom:2px solid var(--accent);border-left:2px solid var(--accent);border-radius:0 0 0 4px;"></div>
+        </div>
+
+        <!-- Handle card — small, about page only -->
+        <div class="handle-card" title="Click to learn more">
+          <div class="handle-avatar-placeholder">
+            <img src="../penguin.jpg" alt="Mosses Muwa" class="handle-avatar" onerror="this.style.display='none'"/>
+            <i class="ti ti-penguin" style="font-size:1.2rem;"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-2);letter-spacing:1px;margin-bottom:2px;">online handle</div>
+            <div style="font-size:0.9rem;font-weight:500;color:var(--text-1);">Mosses Muwa</div>
+            <div style="font-size:0.75rem;color:var(--text-2);margin-top:2px;">TryHackMe · HackTheBox · GitHub</div>
+          </div>
+        </div>
+
+        <!-- Quick stats -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1rem;">
+          <div class="card" style="padding:14px;text-align:center;">
+            <div style="font-family:var(--font-mono);font-size:1.5rem;font-weight:500;color:var(--accent);" class="count-up" data-target="4">0</div>
+            <div style="font-size:0.7rem;color:var(--text-2);font-family:var(--font-mono);margin-top:3px;">labs done</div>
+          </div>
+          <div class="card" style="padding:14px;text-align:center;">
+            <div style="font-family:var(--font-mono);font-size:1.5rem;font-weight:500;color:var(--green);">2</div>
+            <div style="font-size:0.7rem;color:var(--text-2);font-family:var(--font-mono);margin-top:3px;">certs active</div>
+          </div>
+          <div class="card" style="padding:14px;text-align:center;grid-column:span 2;">
+            <div style="font-family:var(--font-mono);font-size:1rem;font-weight:500;color:var(--amber);" id="about-de-stat">0 days</div>
+            <div style="font-size:0.7rem;color:var(--text-2);font-family:var(--font-mono);margin-top:3px;">learning German</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: story -->
+      <div class="reveal">
+        <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent);letter-spacing:2px;margin-bottom:1.5rem;">// the story so far</div>
+
+        <p style="font-size:1rem;color:var(--text-2);line-height:1.85;margin-bottom:1.25rem;">
+          I'm <strong style="color:var(--text-1);">Ivan</strong> — an IT professional building a serious career in cybersecurity. I work in IT which means I understand how systems actually work before trying to break them. That's not a small thing — <span class="redacted" title="hover to reveal">most attackers exploit gaps that defenders never thought to look for because they've never had to build the system</span>.
+        </p>
+        <p style="font-size:1rem;color:var(--text-2);line-height:1.85;margin-bottom:1.25rem;">
+          My approach is simple: no theory without practice. Every concept I study, I build a lab for. Every tool I learn, I use on real (intentionally vulnerable) systems until I understand it properly — not just how to run the command, but why it works.
+        </p>
+        <p style="font-size:1rem;color:var(--text-2);line-height:1.85;margin-bottom:2rem;">
+          I'm currently learning <strong style="color:var(--amber);">German (Deutsch)</strong> — targeting B2 for professional opportunities. Languages and security have something in common: both reward precision and punish assumptions.
+        </p>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem;">
+          <span class="chip chip-green"><span class="pulse-dot"></span> Available worldwide</span>
+          <span class="chip chip-red"><i class="ti ti-bug" style="font-size:10px"></i> Red Team</span>
+          <span class="chip chip-slate"><i class="ti ti-shield" style="font-size:10px"></i> Blue Team</span>
+          <span class="chip chip-amber"><i class="ti ti-language" style="font-size:10px"></i> Deutsch A1→B2</span>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="contact.html" class="btn btn-primary"><i class="ti ti-mail"></i> Get in touch</a>
+          <a href="operations.html" class="btn btn-outline"><i class="ti ti-activity"></i> View labs</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHILOSOPHY -->
+    <div style="margin-top:5rem;padding-top:4rem;border-top:0.5px solid var(--border);">
+      <div class="eyebrow reveal">Philosophy</div>
+      <h2 class="section-title reveal">How I <em>think</em></h2>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:2rem;max-width:680px;">
+        <div class="philosophy-block reveal">
+          <div class="philosophy-quote">"Security isn't a product. It's a habit."</div>
+          <div class="philosophy-sub">You can't buy your way to being secure. Every firewall, every certificate, every tool is only as good as the daily discipline behind it.</div>
+        </div>
+        <div class="philosophy-block reveal">
+          <div class="philosophy-quote">"The best way to defend a system is to know how to break it first."</div>
+          <div class="philosophy-sub">Defenders who've never attacked don't know what they're missing. I learn offensive skills so my defensive instincts are grounded in reality.</div>
+        </div>
+        <div class="philosophy-block reveal">
+          <div class="philosophy-quote">"Most breaches aren't clever. They're patient."</div>
+          <div class="philosophy-sub">Attackers don't need to be geniuses. They just need to find one unpatched system, one reused password, one human moment. That's where the real work is.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GERMAN LEARNING -->
+    <div style="margin-top:5rem;padding-top:4rem;border-top:0.5px solid var(--border);">
+      <div class="eyebrow reveal">Sprache</div>
+      <h2 class="section-title reveal">Learning <em>German</em></h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;margin-top:2rem;" class="reveal">
+        <div>
+          <p style="font-size:0.95rem;color:var(--text-2);line-height:1.8;margin-bottom:1.5rem;">Started July 2026. Targeting B2 for professional opportunities. Learning daily — grammar, vocabulary, and real conversation practice.</p>
+          <div style="margin-bottom:1rem;">
+            <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:var(--text-2);margin-bottom:4px;"><span>A1</span><span style="color:var(--amber)">B2 target</span></div>
+            <div class="de-progress-bar"><div class="de-progress-fill" id="de-prog-fill"></div></div>
+            <div style="font-size:0.72rem;font-family:var(--font-mono);color:var(--text-2);margin-top:4px;">Level: A1 · <span class="js-de-days">0</span> days in</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <a href="https://www.duolingo.com/course/de/en/Learn-German" target="_blank" rel="noopener" class="card" style="padding:10px 14px;display:flex;align-items:center;gap:10px;text-decoration:none;transition:all var(--t-fast);">
+              <i class="ti ti-external-link" style="color:var(--accent)"></i>
+              <div><div style="font-size:0.85rem;color:var(--text-1);font-weight:500;">Duolingo</div><div style="font-size:0.72rem;color:var(--text-2);">Daily practice — free and effective</div></div>
+            </a>
+            <a href="https://www.dw.com/en/learn-german/s-2469" target="_blank" rel="noopener" class="card" style="padding:10px 14px;display:flex;align-items:center;gap:10px;text-decoration:none;transition:all var(--t-fast);">
+              <i class="ti ti-external-link" style="color:var(--accent)"></i>
+              <div><div style="font-size:0.85rem;color:var(--text-1);font-weight:500;">Deutsche Welle</div><div style="font-size:0.72rem;color:var(--text-2);">Free German courses by DW — A1 to C</div></div>
+            </a>
+            <a href="https://www.goethe.de/en/spr/kup/prf/prf.html" target="_blank" rel="noopener" class="card" style="padding:10px 14px;display:flex;align-items:center;gap:10px;text-decoration:none;transition:all var(--t-fast);">
+              <i class="ti ti-external-link" style="color:var(--accent)"></i>
+              <div><div style="font-size:0.85rem;color:var(--text-1);font-weight:500;">Goethe-Institut</div><div style="font-size:0.72rem;color:var(--text-2);">Official German certification body</div></div>
+            </a>
+          </div>
+        </div>
+        <!-- Word of day on about -->
+        <div class="daily-card card" style="padding:1.5rem;">
+          <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--accent);letter-spacing:2px;margin-bottom:1rem;"><i class="ti ti-language" style="margin-right:4px"></i>Word of the day</div>
+          <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--text-1);margin-bottom:4px;" class="de-word-de"></div>
+          <div style="font-size:0.85rem;color:var(--text-2);margin-bottom:10px;" class="de-word-en"></div>
+          <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent);font-style:italic;padding:8px 12px;background:var(--accent-10);border-left:2px solid var(--accent);border-radius:0 var(--r-sm) var(--r-sm) 0;" class="de-word-ex"></div>
+          <div style="font-size:0.7rem;color:var(--text-3);font-family:var(--font-mono);margin-top:10px;"><i class="ti ti-refresh" style="font-size:0.8rem"></i> Changes every 24 hours</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CURRENTLY LEARNING -->
+    <div style="margin-top:5rem;padding-top:4rem;border-top:0.5px solid var(--border);">
+      <div class="eyebrow reveal">Active Studies</div>
+      <h2 class="section-title reveal">Currently <em>learning</em></h2>
+      <div class="learning-cards" style="margin-top:2rem;">
+        <div class="learning-card reveal">
+          <div style="font-size:1.4rem;color:var(--accent);margin-bottom:0.75rem;"><i class="ti ti-certificate"></i></div>
+          <div style="font-weight:600;color:var(--text-1);margin-bottom:4px;">CompTIA Security+</div>
+          <div style="font-size:0.82rem;color:var(--text-2);line-height:1.6;margin-bottom:12px;">Industry-standard entry security cert — network security, threats, cryptography, compliance.</div>
+          <span class="chip chip-amber" style="font-size:0.68rem;">In Progress</span>
+          <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener" style="display:block;font-size:0.72rem;color:var(--accent);font-family:var(--font-mono);margin-top:8px;"><i class="ti ti-external-link" style="font-size:0.8rem"></i> Official site</a>
+        </div>
+        <div class="learning-card reveal">
+          <div style="font-size:1.4rem;color:var(--red);margin-bottom:0.75rem;"><i class="ti ti-target"></i></div>
+          <div style="font-weight:600;color:var(--text-1);margin-bottom:4px;">eJPT — Junior Penetration Tester</div>
+          <div style="font-size:0.82rem;color:var(--text-2);line-height:1.6;margin-bottom:12px;">Practical hands-on penetration testing exam by eLearnSecurity. Real hacking, not multiple choice.</div>
+          <span class="chip chip-amber" style="font-size:0.68rem;">In Progress</span>
+          <a href="https://security.ine.com/certifications/ejpt-certification/" target="_blank" rel="noopener" style="display:block;font-size:0.72rem;color:var(--accent);font-family:var(--font-mono);margin-top:8px;"><i class="ti ti-external-link" style="font-size:0.8rem"></i> Official site</a>
+        </div>
+        <div class="learning-card reveal">
+          <div style="font-size:1.4rem;color:var(--amber);margin-bottom:0.75rem;"><i class="ti ti-language"></i></div>
+          <div style="font-weight:600;color:var(--text-1);margin-bottom:4px;">German — Deutsch</div>
+          <div style="font-size:0.82rem;color:var(--text-2);line-height:1.6;margin-bottom:12px;">A1 level, targeting B2. Daily practice through Duolingo, DW, and immersion resources.</div>
+          <span class="chip chip-amber" style="font-size:0.68rem;">Active Daily</span>
+          <a href="https://www.goethe.de" target="_blank" rel="noopener" style="display:block;font-size:0.72rem;color:var(--accent);font-family:var(--font-mono);margin-top:8px;"><i class="ti ti-external-link" style="font-size:0.8rem"></i> Goethe-Institut</a>
+        </div>
+        <div class="learning-card reveal">
+          <div style="font-size:1.4rem;color:var(--cyan);margin-bottom:0.75rem;"><i class="ti ti-network"></i></div>
+          <div style="font-weight:600;color:var(--text-1);margin-bottom:4px;">Network Infrastructure</div>
+          <div style="font-size:0.82rem;color:var(--text-2);line-height:1.6;margin-bottom:12px;">Routing, switching, VLANs, DHCP, DNS — the foundations that make security work in real organisations.</div>
+          <span class="chip chip-lime" style="font-size:0.68rem;">Active</span>
+          <a href="https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/entry/ccna.html" target="_blank" rel="noopener" style="display:block;font-size:0.72rem;color:var(--accent);font-family:var(--font-mono);margin-top:8px;"><i class="ti ti-external-link" style="font-size:0.8rem"></i> Cisco CCNA info</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FUN FACTS -->
+    <div style="margin-top:5rem;padding-top:4rem;border-top:0.5px solid var(--border);">
+      <div class="eyebrow reveal">Beyond the screen</div>
+      <h2 class="section-title reveal">A few other <em>things</em></h2>
+      <div class="fun-facts" style="margin-top:2rem;">
+        <div class="fun-fact reveal">
+          <div class="fun-fact-icon"><i class="ti ti-terminal-2"></i></div>
+          <div class="fun-fact-text">The terminal is my natural habitat. If there's a CLI option, I'll always use it over a GUI.</div>
+        </div>
+        <div class="fun-fact reveal">
+          <div class="fun-fact-icon"><i class="ti ti-globe"></i></div>
+          <div class="fun-fact-text">Learning German is teaching me that precision in communication matters as much as precision in code.</div>
+        </div>
+        <div class="fun-fact reveal">
+          <div class="fun-fact-icon"><i class="ti ti-puzzle"></i></div>
+          <div class="fun-fact-text">I'm genuinely curious about how things break — not to cause damage, but because understanding failure is the only way to build resilience.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><div class="footer-name" id="footer-name">Ivan.</div><p class="footer-tagline">IT Systems & Cybersecurity.<br>Building real skills. Open to the world.</p></div>
+      <div><div class="footer-col-title">Navigate</div><a href="../index.html" class="footer-link">Home</a><a href="arsenal.html" class="footer-link">Arsenal</a><a href="operations.html" class="footer-link">Operations</a><a href="contact.html" class="footer-link">Contact</a></div>
+      <div><div class="footer-col-title">Connect</div><a href="https://github.com/Mossesmuwa" target="_blank" class="footer-link">GitHub</a><a href="YOUR_LINKEDIN_URL" target="_blank" class="footer-link">LinkedIn</a><a href="https://tryhackme.com/p/MM" target="_blank" class="footer-link">TryHackMe</a><a href="https://app.hackthebox.com/profile/mossesmuwa" target="_blank" class="footer-link">HackTheBox</a></div>
+      <div><div class="footer-col-title">Quick</div><button onclick="openTerminal()" class="footer-link" style="background:none;border:none;padding:0;cursor:pointer;display:block;margin-bottom:0.65rem;font-size:0.86rem;font-family:var(--font-body);"><i class="ti ti-terminal-2" style="color:var(--accent)"></i> Terminal</button><a href="contact.html" class="footer-link">Contact Ivan</a></div>
+    </div>
+    <div class="footer-morse"><div class="morse-pulse"></div></div>
+    <div class="footer-bottom"><span>&copy; <span class="js-year"></span> Ivan Kaweesa</span><span style="display:flex;align-items:center;gap:6px;"><span class="pulse-dot" style="width:5px;height:5px"></span> All systems operational</span></div>
+  </div>
+</footer>
+</div>
+
+<script>
+document.getElementById('about-de-stat').textContent =
+  Math.max(0, Math.floor((Date.now() - new Date('2026-07-01').getTime()) / 86400000)) + ' days';
+// Animate progress bar
+const pf = document.getElementById('de-prog-fill');
+setTimeout(() => { if(pf) pf.style.width = '12%'; }, 600);
+</script>
+<script src="../script.js"></script>
+</body>
+</html>

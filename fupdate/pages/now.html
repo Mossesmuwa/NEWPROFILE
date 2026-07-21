@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lime">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Now — Ivan.K</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="../design-tokens.css"/>
+  <link rel="stylesheet" href="../style.css"/>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div id="cursor-dot"></div><div id="cursor-ring"></div>
+<div id="theme-ripple"></div>
+<div class="page-transition"></div>
+
+<aside id="sidebar">
+  <a href="../index.html" class="logo-btn sb-logo-btn"><svg viewBox="0 0 36 36" fill="none" width="36" height="36"><polygon class="logo-hex" points="18,3 31,10.5 31,25.5 18,33 5,25.5 5,10.5"/><circle class="logo-dot" cx="18" cy="18" r="2.5" fill="var(--accent)"/><circle class="logo-ring" cx="18" cy="18" r="4" fill="none" stroke="var(--accent)" stroke-width="0.8"/></svg></a>
+  <div class="sb-mid">
+    <a href="../index.html"   class="sb-nav-item"><i class="ti ti-layout-grid"></i><span class="sb-tooltip">Home</span></a>
+    <a href="about.html"      class="sb-nav-item"><i class="ti ti-user"></i><span class="sb-tooltip">About</span></a>
+    <a href="arsenal.html"    class="sb-nav-item"><i class="ti ti-radar"></i><span class="sb-tooltip">Arsenal</span></a>
+    <a href="operations.html" class="sb-nav-item"><i class="ti ti-activity"></i><span class="sb-tooltip">Operations</span></a>
+    <a href="intel.html"      class="sb-nav-item"><i class="ti ti-chart-bar"></i><span class="sb-tooltip">Intel</span></a>
+    <a href="contact.html"    class="sb-nav-item"><i class="ti ti-mail"></i><span class="sb-tooltip">Contact</span></a>
+  </div>
+  <div class="sb-bottom">
+    <button class="sb-theme-btn"><span class="theme-icon">◐</span></button>
+  </div>
+</aside>
+
+<div class="mobile-topbar">
+  <div class="mobile-brand"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><polygon points="12,2 21,7 21,17 12,22 3,17 3,7" stroke="var(--accent)" stroke-width="1.2" fill="none"/><circle cx="12" cy="12" r="2" fill="var(--accent)"/></svg><span style="font-family:var(--font-display);font-weight:600;">Ivan.K</span></div>
+  <div class="mobile-actions"><button class="mob-btn mob-theme-btn"><span class="theme-icon">◐</span></button></div>
+</div>
+
+<div class="wrapper">
+<main>
+  <div class="section" style="padding-top:5rem;max-width:680px;">
+    <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent);letter-spacing:2px;margin-bottom:1rem;">// you found the hidden page</div>
+    <h1 style="font-family:var(--font-display);font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:var(--text-1);letter-spacing:-1px;margin-bottom:0.5rem;">What I'm doing <em style="font-style:normal;color:var(--accent)">right now</em></h1>
+    <p style="font-size:0.82rem;font-family:var(--font-mono);color:var(--text-2);margin-bottom:3rem;">Last updated: July 2026 · <a href="https://nownownow.com/about" target="_blank" style="color:var(--accent)">what is this?</a></p>
+
+    <div style="display:flex;flex-direction:column;gap:2rem;">
+
+      <div class="card" style="padding:1.5rem;">
+        <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent);letter-spacing:2px;margin-bottom:0.75rem;"><i class="ti ti-shield" style="margin-right:5px"></i>CYBERSECURITY</div>
+        <p style="font-size:0.95rem;color:var(--text-2);line-height:1.8;">Working through the eJPT certification material and building out OP-005 — a network infrastructure lab with VLANs and routing protocols. CompTIA Security+ exam content is ongoing in the background.</p>
+      </div>
+
+      <div class="card" style="padding:1.5rem;">
+        <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--amber);letter-spacing:2px;margin-bottom:0.75rem;"><i class="ti ti-language" style="margin-right:5px"></i>DEUTSCH</div>
+        <p style="font-size:0.95rem;color:var(--text-2);line-height:1.8;">Day <span class="js-de-days">0</span> of learning German. Currently working through A1 grammar — articles, basic verbs, sentence structure. Daily Duolingo streak and DW course material.</p>
+        <p style="font-size:0.85rem;color:var(--text-2);margin-top:0.75rem;">Today's word: <strong style="color:var(--amber)" class="de-word-de"></strong> — <span class="de-word-en"></span></p>
+      </div>
+
+      <div class="card" style="padding:1.5rem;">
+        <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--cyan);letter-spacing:2px;margin-bottom:0.75rem;"><i class="ti ti-book" style="margin-right:5px"></i>READING / STUDYING</div>
+        <p style="font-size:0.95rem;color:var(--text-2);line-height:1.8;">Working through "The Web Application Hacker's Handbook" alongside DVWA practice. Also reading OWASP Top 10 documentation properly — not just the headlines.</p>
+      </div>
+
+      <div class="card" style="padding:1.5rem;">
+        <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--green);letter-spacing:2px;margin-bottom:0.75rem;"><i class="ti ti-target" style="margin-right:5px"></i>FOCUS</div>
+        <p style="font-size:0.95rem;color:var(--text-2);line-height:1.8;">Main goal right now: get the eJPT cert done, keep building labs, and get German to A2 by end of 2026. Internship or project opportunities are very welcome — reach out.</p>
+      </div>
+
+    </div>
+
+    <div style="margin-top:3rem;padding-top:2rem;border-top:0.5px solid var(--border);">
+      <p style="font-size:0.82rem;color:var(--text-3);font-family:var(--font-mono);">You found this page. Not many people do. If you want to talk — <a href="contact.html" style="color:var(--accent)">contact.html</a></p>
+    </div>
+  </div>
+</main>
+</div>
+<script src="../script.js"></script>
+</body>
+</html>

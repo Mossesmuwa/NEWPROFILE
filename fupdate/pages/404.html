@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lime">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>404 — Ivan.K</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="design-tokens.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .term-404{background:rgba(10,14,24,0.95);backdrop-filter:blur(20px);border:0.5px solid rgba(0,212,255,0.15);border-top:0.5px solid rgba(0,212,255,0.25);border-radius:var(--r-lg);overflow:hidden;width:min(640px,92vw)}
+    .t4-bar{height:38px;background:rgba(14,18,28,0.9);display:flex;align-items:center;padding:0 14px;gap:8px;border-bottom:0.5px solid rgba(255,255,255,0.05)}
+    .t4-dots{display:flex;gap:6px}
+    .t4-dot{width:11px;height:11px;border-radius:50%}
+    .t4-body{padding:20px 22px;font-family:var(--font-mono);font-size:0.82rem;line-height:2;color:#c9d1d9}
+    .t4-input-row{display:flex;align-items:center;gap:8px;padding:10px 22px 18px;border-top:0.5px solid rgba(255,255,255,0.05)}
+    .t4-prompt{font-family:var(--font-mono);font-size:0.82rem;color:#c9d1d9;white-space:nowrap}
+    .t4-input{flex:1;background:transparent;border:none;outline:none;font-family:var(--font-mono);font-size:0.82rem;color:#f0f4f8;caret-color:#e2ff5d}
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div id="cursor-dot"></div><div id="cursor-ring"></div>
+<div id="theme-ripple"></div>
+
+<div class="wrapper">
+<main style="min-height:100svh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+  <div style="text-align:center;max-width:680px;width:100%;">
+    <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent);letter-spacing:3px;margin-bottom:1.5rem;">ERROR 404 — NOT FOUND</div>
+    <h1 style="font-family:var(--font-display);font-size:clamp(5rem,15vw,9rem);font-weight:700;color:var(--text-1);line-height:0.9;letter-spacing:-4px;margin-bottom:1.5rem;">404</h1>
+    <p style="font-size:1rem;color:var(--text-2);margin-bottom:2.5rem;">This page doesn't exist. But the terminal does.</p>
+
+    <div class="term-404" style="margin:0 auto 2rem;text-align:left;">
+      <div class="t4-bar">
+        <div class="t4-dots">
+          <div class="t4-dot" style="background:#ff5f57"></div>
+          <div class="t4-dot" style="background:#febc2e"></div>
+          <div class="t4-dot" style="background:#28c840"></div>
+        </div>
+        <div style="flex:1;text-align:center;font-family:var(--font-mono);font-size:0.72rem;color:#4a6080;">ivan@kali: ~</div>
+      </div>
+      <div class="t4-body" id="t4-body">
+        <span style="display:block"><span style="color:#4a6080">┌──(</span><span style="color:#ff6b6b">ivan㉿kali</span><span style="color:#4a6080">)-[~]</span></span>
+        <span style="display:block"><span style="color:#e2ff5d">└─$</span> ls "<span id="t4-path" style="color:#4a6080"></span>"</span>
+        <span style="display:block;color:#ff6b6b">ls: cannot access: No such file or directory</span>
+        <span style="display:block">&nbsp;</span>
+        <span style="display:block"><span style="color:#e2ff5d">└─$</span> ls /</span>
+        <span style="display:block"><span style="color:#00d4ff">home/</span>&nbsp; <span style="color:#00d4ff">about/</span>&nbsp; <span style="color:#00d4ff">arsenal/</span>&nbsp; <span style="color:#00d4ff">ops/</span>&nbsp; <span style="color:#00d4ff">contact/</span></span>
+        <span style="display:block">&nbsp;</span>
+        <span style="display:block"><span style="color:#e2ff5d">└─$</span> Type <span style="color:#e2ff5d">help</span> for commands</span>
+        <span style="display:block">&nbsp;</span>
+      </div>
+      <div class="t4-input-row">
+        <span class="t4-prompt"><span style="color:#4a6080">┌──(</span><span style="color:#ff6b6b">ivan㉿kali</span><span style="color:#4a6080">)-[~]<br>└─$</span>&nbsp;</span>
+        <input class="t4-input" id="t4-input" type="text" autocomplete="off" spellcheck="false" placeholder="type a command..."/>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="index.html" class="btn btn-primary"><i class="ti ti-home"></i> Back home</a>
+      <a href="pages/contact.html" class="btn btn-outline"><i class="ti ti-mail"></i> Contact Ivan</a>
+    </div>
+  </div>
+</main>
+</div>
+
+<script>
+document.getElementById('t4-path').textContent = location.pathname;
+
+// Mini terminal on 404
+const body = document.getElementById('t4-body');
+const inp  = document.getElementById('t4-input');
+const CMDS = {
+  help:   () => ['home — go to homepage','about — about Ivan','whoami — identity briefing','flag — hidden flag','clear — clear terminal'],
+  whoami: () => ['Ivan Kaweesa — IT Systems & Cybersecurity','Role: Student & practitioner','Open to: opportunities worldwide'],
+  home:   () => { setTimeout(() => location.href = 'index.html', 600); return ['Navigating home...']; },
+  about:  () => { setTimeout(() => location.href = 'pages/about.html', 600); return ['Opening About...']; },
+  flag:   () => { if(window.addFlag) addFlag(3); return ['FLAG_03/05 {t3rm1n4l_3xpl0r3r}','2 more hidden on the site.']; },
+  clear:  () => { body.innerHTML = ''; return []; },
+};
+inp?.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const cmd = inp.value.trim().toLowerCase();
+  inp.value = '';
+  const add = (html, cls='') => {
+    const s = document.createElement('span');
+    s.style.display = 'block';
+    s.style.color = cls === 'err' ? '#ff6b6b' : cls === 'ok' ? '#00ff9d' : cls === 'lime' ? '#e2ff5d' : '#c9d1d9';
+    s.innerHTML = html;
+    body.appendChild(s);
+    body.scrollTop = body.scrollHeight;
+  };
+  add(`<span style="color:#e2ff5d">└─$</span> ${cmd}`);
+  const fn = CMDS[cmd];
+  if (fn) { fn().forEach(l => add(l, 'ok')); }
+  else { add(`command not found: ${cmd}`, 'err'); add('Type <span style="color:#e2ff5d">help</span> for commands'); }
+  add('&nbsp;');
+});
+
+// Cursor
+if (window.matchMedia('(pointer:fine)').matches) {
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let rx=0,ry=0;
+  document.addEventListener('mousemove', e => {
+    dot.style.transform = `translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+    rx+=(e.clientX-rx)*0.12; ry+=(e.clientY-ry)*0.12;
+  });
+  (function lerp(){
+    ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(lerp);
+  })();
+}
+// Theme toggle
+const html = document.documentElement;
+const saved = localStorage.getItem('iv-theme') || 'lime';
+html.setAttribute('data-theme', saved);
+document.querySelectorAll('.sb-theme-btn,.mob-theme-btn').forEach(b => b.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'lime' ? 'signal' : 'lime';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('iv-theme', next);
+}));
+</script>
+</body>
+</html>

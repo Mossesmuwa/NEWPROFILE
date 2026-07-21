@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lime">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Intel — Ivan.K</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="../design-tokens.css"/>
+  <link rel="stylesheet" href="../style.css"/>
+  <style>
+    .stat-block{background:var(--bg-2);border:0.5px solid var(--border-card);border-radius:var(--r-lg);padding:2rem 1.5rem;text-align:center;position:relative;overflow:hidden;transition:all var(--t-base);cursor:default}
+    .stat-block::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transform:scaleX(0);transform-origin:left;transition:transform var(--t-base)}
+    .stat-block:hover{border-color:var(--border-hi);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+    .stat-block:hover::after{transform:scaleX(1)}
+    .stat-num{font-family:var(--font-mono);font-size:clamp(2rem,5vw,3.5rem);font-weight:500;color:var(--accent);display:block;line-height:1;margin-bottom:0.6rem}
+    .stat-label{font-size:0.85rem;color:var(--text-2);line-height:1.6}
+    .threat-card{background:var(--bg-2);border:0.5px solid var(--border-card);border-radius:var(--r-md);padding:1.25rem 1.5rem;display:flex;align-items:flex-start;gap:14px;transition:all var(--t-fast)}
+    .threat-card:hover{border-color:var(--border-hi);transform:translateX(5px)}
+    .threat-icon{font-size:1.6rem;color:var(--accent);flex-shrink:0}
+    .threat-title{font-weight:600;color:var(--text-1);font-size:0.95rem;margin-bottom:3px}
+    .threat-desc{font-size:0.84rem;color:var(--text-2);line-height:1.65}
+    .threat-link{font-size:0.72rem;color:var(--accent);font-family:var(--font-mono);display:inline-flex;align-items:center;gap:4px;margin-top:6px}
+    .news-feed-big .news-item{border-bottom:0.5px solid var(--border);padding:16px 0}
+    .news-feed-big .news-item:last-child{border-bottom:none}
+    .news-feed-big .news-link{display:flex;align-items:flex-start;gap:14px;transition:all var(--t-fast)}
+    .news-feed-big .news-link:hover{padding-left:6px}
+    .news-feed-big .news-source{font-family:var(--font-mono);font-size:0.68rem;color:var(--text-2);letter-spacing:1px;margin-bottom:4px}
+    .news-feed-big .news-title{font-size:0.92rem;color:var(--text-1);line-height:1.55;font-weight:500}
+    .news-icon-wrap{width:36px;height:36px;border-radius:var(--r-sm);background:var(--accent-10);border:0.5px solid var(--border-hi);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent);font-size:1rem}
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<canvas id="cursor-canvas"></canvas>
+<div id="cursor-dot"></div><div id="cursor-ring"></div>
+<div id="scroll-progress"></div><div id="theme-ripple"></div>
+<div class="page-transition"></div>
+<div class="breach-overlay" id="breach-overlay"><div class="breach-scanlines"></div><div class="breach-term" id="breach-term"></div></div>
+
+<aside id="sidebar">
+  <a href="../index.html" class="logo-btn sb-logo-btn"><svg viewBox="0 0 36 36" fill="none" width="36" height="36"><polygon class="logo-hex" points="18,3 31,10.5 31,25.5 18,33 5,25.5 5,10.5"/><circle class="logo-dot" cx="18" cy="18" r="2.5" fill="var(--accent)"/><circle class="logo-ring" cx="18" cy="18" r="4" fill="none" stroke="var(--accent)" stroke-width="0.8"/></svg></a>
+  <div class="sb-mid">
+    <a href="../index.html"   class="sb-nav-item"><i class="ti ti-layout-grid"></i><span class="sb-tooltip">Home</span></a>
+    <a href="about.html"      class="sb-nav-item"><i class="ti ti-user"></i><span class="sb-tooltip">About</span></a>
+    <a href="arsenal.html"    class="sb-nav-item"><i class="ti ti-radar"></i><span class="sb-tooltip">Arsenal</span></a>
+    <a href="operations.html" class="sb-nav-item"><i class="ti ti-activity"></i><span class="sb-tooltip">Operations</span></a>
+    <a href="intel.html"      class="sb-nav-item active"><i class="ti ti-chart-bar"></i><span class="sb-tooltip">Intel</span></a>
+    <a href="contact.html"    class="sb-nav-item"><i class="ti ti-mail"></i><span class="sb-tooltip">Contact</span></a>
+    <div class="sb-prog-track"><div class="sb-prog-fill"></div></div>
+  </div>
+  <div class="sb-bottom">
+    <button class="sb-theme-btn"><span class="theme-icon">◐</span></button>
+    <button class="sb-term-btn open-terminal"><i class="ti ti-terminal-2"></i></button>
+  </div>
+</aside>
+
+<div class="mobile-topbar">
+  <div class="mobile-brand"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><polygon points="12,2 21,7 21,17 12,22 3,17 3,7" stroke="var(--accent)" stroke-width="1.2" fill="none"/><circle cx="12" cy="12" r="2" fill="var(--accent)"/></svg><span style="font-family:var(--font-display);font-weight:600;">Ivan.K</span></div>
+  <div class="mobile-actions">
+    <button class="mob-btn mob-theme-btn"><span class="theme-icon">◐</span></button>
+    <button class="mob-btn open-terminal"><i class="ti ti-terminal-2"></i></button>
+    <button class="mob-btn hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <button class="drawer-close" id="drawer-close">✕</button>
+  <a href="../index.html"   class="drawer-link" onclick="closeDrawer()">Home</a>
+  <a href="about.html"      class="drawer-link" onclick="closeDrawer()">About</a>
+  <a href="arsenal.html"    class="drawer-link" onclick="closeDrawer()">Arsenal</a>
+  <a href="operations.html" class="drawer-link" onclick="closeDrawer()">Operations</a>
+  <a href="intel.html"      class="drawer-link" onclick="closeDrawer()">Intel</a>
+  <a href="contact.html"    class="drawer-link" onclick="closeDrawer()">Contact</a>
+</div>
+<div class="pill-nav-wrap">
+  <div class="pill-nav">
+    <a href="../index.html"   class="pn-item"><i class="ti ti-layout-grid"></i></a>
+    <a href="about.html"      class="pn-item"><i class="ti ti-user"></i></a>
+    <a href="arsenal.html"    class="pn-item"><i class="ti ti-radar"></i></a>
+    <a href="operations.html" class="pn-item"><i class="ti ti-activity"></i></a>
+    <a href="contact.html"    class="pn-item"><i class="ti ti-mail"></i></a>
+    <button class="pn-term open-terminal"><i class="ti ti-terminal-2"></i></button>
+  </div>
+  <div class="home-ind"></div>
+</div>
+
+<div class="term-overlay" id="term-overlay"><div class="term-window" id="term-window"><div class="term-titlebar"><div class="term-dots"><div class="term-dot td-r"></div><div class="term-dot td-y"></div><div class="term-dot td-g"></div></div><div class="term-title">ivan@kali: ~</div></div><div class="drag-handle"></div><div class="term-body" id="term-body"><span class="t-line"><span class="t-dim">┌──(</span><span class="t-red">ivan㉿kali</span><span class="t-dim">)-[~]</span></span><span class="t-line"><span class="t-lime">└─$</span> Type <span class="t-lime">help</span></span></div><div class="term-input-row"><span class="term-prompt"><span class="t-dim">┌──(</span><span class="p-name">ivan㉿kali</span><span class="t-dim">)-[~]<br>└─$</span>&nbsp;</span><input class="term-input" id="term-input" type="text" autocomplete="off" spellcheck="false"/></div></div></div>
+<div class="cmd-overlay" id="cmd-overlay"><div class="cmd-box"><div class="cmd-search"><i class="ti ti-search cmd-search-ico"></i><input class="cmd-input" id="cmd-input" placeholder="Search..."/></div><div class="cmd-results" id="cmd-results"></div><div class="cmd-footer"><span class="cmd-hint"><span class="cmd-key">↵</span> select</span><span class="cmd-hint"><span class="cmd-key">esc</span> close</span></div></div></div>
+<div id="scroll-top"><i class="ti ti-arrow-up"></i></div>
+
+<div class="wrapper">
+<main>
+<div class="section" style="padding-top:5rem;">
+
+  <div class="eyebrow reveal">Intelligence Report</div>
+  <h1 class="section-title reveal">Why <em>Cybersecurity</em> Matters</h1>
+  <p class="section-sub reveal">These aren't abstract statistics. They affect every hospital, school, business and device on the planet. This is why the work matters.</p>
+
+  <!-- LIVE CVE -->
+  <div class="card reveal" style="padding:1.5rem;margin-bottom:3rem;border-color:rgba(255,59,92,0.2);">
+    <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:240px;">
+        <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--red);letter-spacing:2px;margin-bottom:8px;"><i class="ti ti-alert-triangle" style="margin-right:4px"></i>CVE OF THE DAY</div>
+        <div style="font-family:var(--font-mono);font-size:1rem;font-weight:500;color:var(--text-1);margin-bottom:4px;" class="cve-id"></div>
+        <div style="font-size:0.85rem;color:var(--text-2);margin-bottom:8px;font-weight:500;" class="cve-product"></div>
+        <div style="font-size:0.84rem;color:var(--text-2);line-height:1.6;margin-bottom:10px;" class="cve-desc"></div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="cve-severity"></span>
+          <a href="https://nvd.nist.gov/vuln/search" target="_blank" rel="noopener" style="font-size:0.72rem;color:var(--accent);font-family:var(--font-mono);display:inline-flex;align-items:center;gap:4px;"><i class="ti ti-external-link" style="font-size:0.8rem"></i> NVD Database</a>
+          <a href="https://www.cvedetails.com" target="_blank" rel="noopener" style="font-size:0.72rem;color:var(--accent);font-family:var(--font-mono);display:inline-flex;align-items:center;gap:4px;"><i class="ti ti-external-link" style="font-size:0.8rem"></i> CVE Details</a>
+        </div>
+      </div>
+      <div style="font-size:0.72rem;font-family:var(--font-mono);color:var(--text-3);white-space:nowrap;margin-top:4px;"><i class="ti ti-refresh" style="font-size:0.8rem"></i> Updates daily</div>
+    </div>
+  </div>
+
+  <!-- BIG STATS -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:5rem;">
+    <div class="stat-block reveal" onmouseenter="tilt3d(this,event)" onmousemove="tilt3d(this,event)" onmouseleave="resetTilt(this)">
+      <span class="stat-num" id="stat1">$0</span>
+      <div class="stat-label">Annual cost of cybercrime worldwide — more than the GDP of most countries</div>
+    </div>
+    <div class="stat-block reveal" onmouseenter="tilt3d(this,event)" onmousemove="tilt3d(this,event)" onmouseleave="resetTilt(this)">
+      <span class="stat-num" id="stat2" style="color:var(--red)">0%</span>
+      <div class="stat-label">Of all breaches are caused by human error — education is our most powerful weapon</div>
+    </div>
+    <div class="stat-block reveal" onmouseenter="tilt3d(this,event)" onmousemove="tilt3d(this,event)" onmouseleave="resetTilt(this)">
+      <span class="stat-num" id="stat3" style="color:var(--green)">0M</span>
+      <div class="stat-label">Unfilled cybersecurity jobs worldwide — the skills gap grows every single year</div>
+    </div>
+    <div class="stat-block reveal" onmouseenter="tilt3d(this,event)" onmousemove="tilt3d(this,event)" onmouseleave="resetTilt(this)">
+      <span class="stat-num" style="font-size:clamp(1.4rem,3vw,2.2rem)">Every 39s</span>
+      <div class="stat-label">A cyberattack happens somewhere — businesses, hospitals, schools, governments</div>
+    </div>
+  </div>
+
+  <!-- LIVE NEWS -->
+  <div style="padding-top:4rem;border-top:0.5px solid var(--border);margin-bottom:4rem;">
+    <div class="eyebrow reveal">Live Feed</div>
+    <h2 class="section-title reveal" style="font-size:1.6rem;">Latest <em>Security News</em></h2>
+    <div class="news-feed-big reveal" id="intel-news">
+      <!-- Skeleton -->
+      <div style="padding:16px 0;border-bottom:0.5px solid var(--border)"><div class="skeleton" style="height:10px;width:140px;border-radius:4px;margin-bottom:10px"></div><div class="skeleton" style="height:16px;width:85%;border-radius:4px"></div></div>
+      <div style="padding:16px 0;border-bottom:0.5px solid var(--border)"><div class="skeleton" style="height:10px;width:110px;border-radius:4px;margin-bottom:10px"></div><div class="skeleton" style="height:16px;width:92%;border-radius:4px"></div></div>
+      <div style="padding:16px 0;border-bottom:0.5px solid var(--border)"><div class="skeleton" style="height:10px;width:130px;border-radius:4px;margin-bottom:10px"></div><div class="skeleton" style="height:16px;width:78%;border-radius:4px"></div></div>
+      <div style="padding:16px 0"><div class="skeleton" style="height:10px;width:120px;border-radius:4px;margin-bottom:10px"></div><div class="skeleton" style="height:16px;width:88%;border-radius:4px"></div></div>
+    </div>
+  </div>
+
+  <!-- THREAT LANDSCAPE -->
+  <div style="padding-top:4rem;border-top:0.5px solid var(--border);margin-bottom:4rem;">
+    <div class="eyebrow reveal">Threat Landscape</div>
+    <h2 class="section-title reveal" style="font-size:1.6rem;">What We're <em>Defending Against</em></h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;margin-top:2rem;">
+      <div class="threat-card reveal">
+        <div class="threat-icon"><i class="ti ti-fish"></i></div>
+        <div>
+          <div class="threat-title">Phishing</div>
+          <div class="threat-desc">Fake emails or messages that trick people into giving up credentials. Responsible for over 90% of data breaches. Technically simple — psychologically sophisticated.</div>
+          <a href="https://www.proofpoint.com/us/threat-reference/phishing" target="_blank" rel="noopener" class="threat-link"><i class="ti ti-external-link" style="font-size:0.8rem"></i> Learn more</a>
+        </div>
+      </div>
+      <div class="threat-card reveal">
+        <div class="threat-icon"><i class="ti ti-lock"></i></div>
+        <div>
+          <div class="threat-title">Ransomware</div>
+          <div class="threat-desc">Attackers encrypt your files and demand payment. Hospitals lose patient records. Schools lose years of data. Businesses pay millions. Recovery is never complete.</div>
+          <a href="https://www.cisa.gov/stopransomware" target="_blank" rel="noopener" class="threat-link"><i class="ti ti-external-link" style="font-size:0.8rem"></i> CISA guidance</a>
+        </div>
+      </div>
+      <div class="threat-card reveal">
+        <div class="threat-icon"><i class="ti ti-user-exclamation"></i></div>
+        <div>
+          <div class="threat-title">Insider Threats</div>
+          <div class="threat-desc">Employees with access who misuse it — intentionally or by accident. Harder to detect than external attacks because the attacker already has legitimate credentials.</div>
+          <a href="https://www.cisa.gov/insider-threat-mitigation" target="_blank" rel="noopener" class="threat-link"><i class="ti ti-external-link" style="font-size:0.8rem"></i> CISA resource</a>
+        </div>
+      </div>
+      <div class="threat-card reveal">
+        <div class="threat-icon"><i class="ti ti-topology-star-ring"></i></div>
+        <div>
+          <div class="threat-title">Supply Chain Attacks</div>
+          <div class="threat-desc">Compromise a trusted vendor to reach hundreds of targets at once. The SolarWinds attack reached 18,000 organisations through a single software update.</div>
+          <a href="https://www.cisa.gov/supply-chain-compromise" target="_blank" rel="noopener" class="threat-link"><i class="ti ti-external-link" style="font-size:0.8rem"></i> CISA advisory</a>
+        </div>
+      </div>
+      <div class="threat-card reveal">
+        <div class="threat-icon"><i class="ti ti-key"></i></div>
+        <div>
+          <div class="threat-title">Credential Theft</div>
+          <div class="threat-desc">Stolen username and password combinations sold on dark web markets. Password reuse makes one breach into many. MFA is no longer optional — it's essential.</div>
+          <a href="https://haveibeenpwned.com" target="_blank" rel="noopener" class="threat-link"><i class="ti ti-external-link" style="font-size:0.8rem"></i> Check your email</a>
+        </div>
+      </div>
+      <div class="threat-card reveal">
+        <div class="threat-icon"><i class="ti ti-signal"></i></div>
+        <div>
+          <div class="threat-title">Network Interception</div>
+          <div class="threat-desc">Attackers capturing unencrypted traffic on shared networks. Exactly what I demonstrated in OP-004 — Telnet credentials visible in plain text to anyone sniffing the wire.</div>
+          <a href="https://owasp.org/www-community/attacks/Manipulator-in-the-middle_attack" target="_blank" rel="noopener" class="threat-link"><i class="ti ti-external-link" style="font-size:0.8rem"></i> OWASP reference</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY IVAN -->
+  <div class="card reveal" style="padding:3rem;text-align:center;border-color:rgba(226,255,93,0.15);">
+    <div class="eyebrow" style="justify-content:center;margin-bottom:1rem;">My role in this</div>
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.4rem,3vw,2rem);font-weight:600;color:var(--text-1);margin-bottom:1rem;">This is why I'm building <em style="font-style:normal;color:var(--accent)">these skills.</em></h2>
+    <p style="font-size:0.95rem;color:var(--text-2);max-width:520px;margin:0 auto 2rem;line-height:1.8;">Every lab completed, every tool learned, every vulnerability found and understood — it all points toward being someone who protects real systems and real people from threats that are very real.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="operations.html" class="btn btn-primary"><i class="ti ti-activity"></i> View my labs</a>
+      <a href="contact.html"    class="btn btn-outline"><i class="ti ti-mail"></i> Work together</a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><div class="footer-name" id="footer-name">Ivan.</div><p class="footer-tagline">IT Systems & Cybersecurity.<br>Building real skills. Open to the world.</p></div>
+      <div><div class="footer-col-title">Navigate</div><a href="../index.html" class="footer-link">Home</a><a href="about.html" class="footer-link">About</a><a href="arsenal.html" class="footer-link">Arsenal</a><a href="contact.html" class="footer-link">Contact</a></div>
+      <div><div class="footer-col-title">Connect</div><a href="https://github.com/Mossesmuwa" target="_blank" class="footer-link">GitHub</a><a href="YOUR_LINKEDIN_URL" target="_blank" class="footer-link">LinkedIn</a><a href="https://tryhackme.com/p/MM" target="_blank" class="footer-link">TryHackMe</a><a href="https://app.hackthebox.com/profile/mossesmuwa" target="_blank" class="footer-link">HackTheBox</a></div>
+      <div><div class="footer-col-title">Quick</div><button onclick="openTerminal()" class="footer-link" style="background:none;border:none;padding:0;cursor:pointer;display:block;margin-bottom:0.65rem;font-size:0.86rem;font-family:var(--font-body);"><i class="ti ti-terminal-2" style="color:var(--accent)"></i> Terminal</button><a href="contact.html" class="footer-link">Contact Ivan</a></div>
+    </div>
+    <div class="footer-morse"><div class="morse-pulse"></div></div>
+    <div class="footer-bottom"><span>&copy; <span class="js-year"></span> Ivan Kaweesa</span><span style="display:flex;align-items:center;gap:6px;"><span class="pulse-dot" style="width:5px;height:5px"></span> All systems operational</span></div>
+  </div>
+</footer>
+</div>
+
+<script>
+// Animated stats with repeat-scroll speed increase
+let scrollCount = 0;
+const statsObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    scrollCount++;
+    const speed = Math.max(400, 1800 - scrollCount * 400);
+    animateStat('stat1','$','T',8,speed);
+    animateStat('stat2','','%',95,speed);
+    animateStat('stat3','','M',3.5,speed);
+  });
+}, { threshold: 0.4 });
+const sg = document.querySelector('.stat-block');
+if (sg) statsObs.observe(sg);
+
+function animateStat(id, pre, suf, target, dur) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const isFloat = target % 1 !== 0;
+  const start = performance.now();
+  (function step(now) {
+    const p = Math.min((now-start)/dur, 1);
+    const ep = 1 - Math.pow(1-p, 3);
+    const v = target * ep;
+    el.textContent = pre + (isFloat ? v.toFixed(1) : Math.floor(v)) + suf;
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = pre + (isFloat ? target.toFixed(1) : target) + suf;
+  })(start);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadSecNews('intel-news');
+});
+</script>
+<script src="../script.js"></script>
+</body>
+</html>

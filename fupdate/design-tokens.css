@@ -1,0 +1,107 @@
+/* ============================================================
+   IVAN — DESIGN TOKENS v2
+   Theme 1: Dark Lime (default)
+   Theme 2: Deep Signal (void purple)
+   ============================================================ */
+
+:root, [data-theme="lime"] {
+  /* Backgrounds */
+  --bg:           #080c14;
+  --bg-2:         #0c1120;
+  --bg-3:         #111827;
+  --bg-4:         #1a2540;
+
+  /* Borders */
+  --border:       rgba(255,255,255,0.06);
+  --border-hi:    rgba(226,255,93,0.3);
+  --border-card:  rgba(255,255,255,0.05);
+
+  /* Accent — electric lime */
+  --accent:       #e2ff5d;
+  --accent-10:    rgba(226,255,93,0.10);
+  --accent-15:    rgba(226,255,93,0.15);
+  --accent-20:    rgba(226,255,93,0.20);
+  --accent-glow:  0 0 24px rgba(226,255,93,0.25);
+  --accent-2:     #00d4ff;
+
+  /* Semantic */
+  --red:          #ff3b5c;
+  --red-10:       rgba(255,59,92,0.10);
+  --green:        #00ff9d;
+  --green-10:     rgba(0,255,157,0.08);
+  --amber:        #ffb800;
+  --cyan:         #00d4ff;
+  --cyan-10:      rgba(0,212,255,0.10);
+
+  /* Text */
+  --text-1:       #f0f4f8;
+  --text-2:       #64748b;
+  --text-3:       #2a3a4a;
+
+  /* Glass */
+  --glass-bg:     rgba(8,12,20,0.72);
+  --glass-border: rgba(255,255,255,0.07);
+  --glass-shine:  rgba(255,255,255,0.04);
+
+  /* Grid */
+  --grid-color:   rgba(255,255,255,0.04);
+  --grid-size:    52px;
+
+  /* Sidebar */
+  --sb-width:     52px;
+
+  /* Fonts */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  /* Radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+
+  /* Transitions */
+  --t-fast:   150ms cubic-bezier(0.4,0,0.2,1);
+  --t-base:   250ms cubic-bezier(0.4,0,0.2,1);
+  --t-slow:   400ms cubic-bezier(0.4,0,0.2,1);
+  --t-spring: 500ms cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── THEME 2: DEEP SIGNAL ── */
+[data-theme="signal"] {
+  --bg:           #0a0014;
+  --bg-2:         #12002a;
+  --bg-3:         #1a003a;
+  --bg-4:         #2d0060;
+
+  --border:       rgba(232,121,249,0.10);
+  --border-hi:    rgba(139,92,246,0.40);
+  --border-card:  rgba(232,121,249,0.08);
+
+  --accent:       #8b5cf6;
+  --accent-10:    rgba(139,92,246,0.10);
+  --accent-15:    rgba(139,92,246,0.15);
+  --accent-20:    rgba(139,92,246,0.20);
+  --accent-glow:  0 0 24px rgba(139,92,246,0.35);
+  --accent-2:     #e879f9;
+
+  --red:          #ff2d55;
+  --red-10:       rgba(255,45,85,0.10);
+  --green:        #30d158;
+  --green-10:     rgba(48,209,88,0.08);
+  --amber:        #ffd60a;
+  --cyan:         #e879f9;
+  --cyan-10:      rgba(232,121,249,0.10);
+
+  --text-1:       #ede9fe;
+  --text-2:       #7c6fa0;
+  --text-3:       #3d2d5a;
+
+  --glass-bg:     rgba(10,0,20,0.75);
+  --glass-border: rgba(139,92,246,0.12);
+  --glass-shine:  rgba(232,121,249,0.05);
+
+  --grid-color:   rgba(139,92,246,0.06);
+  --grid-size:    60px;
+}

@@ -1,0 +1,36 @@
+/* OPERATOR */
+Name:      Ivan Kaweesa
+Handle:    Mosses Muwa
+Role:      IT Systems & Cybersecurity Student
+TryHackMe: MM
+HackTheBox: mossesmuwa
+GitHub:    github.com/Mossesmuwa
+Learning:  German (Deutsch) — A1 targeting B2
+Open to:   Opportunities worldwide
+
+/* MISSION */
+Building real IT and cybersecurity skills
+through hands-on labs and real practice.
+No theory without practice.
+
+/* SYSTEM */
+Built with: HTML · CSS · Vanilla JavaScript
+No frameworks. No npm. No build step.
+Deployed via: GitHub Actions → GitHub Pages
+
+/* FLAGS — 5 hidden on this site */
+You found humans.txt. That's not nothing.
+FLAG_04/05 {hum4ns_txt_0p3r4t0r}
+
+Hunt the other 4:
+→ Open DevTools console
+→ Try the Konami code (↑↑↓↓←→←→BA)
+→ Open the terminal, type: flag
+→ Read the HTML source of index.html
+
+All 5 found? → /#debrief
+
+/* THANKS */
+Kali Linux · TryHackMe · HackTheBox
+Metasploitable 2 · DVWA · OWASP
+Every CVE that taught me something.
