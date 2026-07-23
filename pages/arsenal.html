@@ -357,7 +357,7 @@
     <div class="footer-grid">
       <div><div class="footer-name" id="footer-name">Ivan.</div><p class="footer-tagline">IT Systems & Cybersecurity.<br>Building real skills. Open to the world.</p></div>
       <div><div class="footer-col-title">Navigate</div><a href="../index.html" class="footer-link">Home</a><a href="about.html" class="footer-link">About</a><a href="operations.html" class="footer-link">Operations</a><a href="contact.html" class="footer-link">Contact</a></div>
-      <div><div class="footer-col-title">Connect</div><a href="https://github.com/Mossesmuwa" target="_blank" class="footer-link">GitHub</a><a href="YOUR_LINKEDIN_URL" target="_blank" class="footer-link">LinkedIn</a><a href="https://tryhackme.com/p/MM" target="_blank" class="footer-link">TryHackMe</a><a href="https://app.hackthebox.com/profile/mossesmuwa" target="_blank" class="footer-link">HackTheBox</a></div>
+      <div><div class="footer-col-title">Connect</div><a href="https://github.com/Mossesmuwa" target="_blank" class="footer-link">GitHub</a><a href="https://linkedin.com/in/ivankaweesa" target="_blank" class="footer-link">LinkedIn</a><a href="https://tryhackme.com/p/MM" target="_blank" class="footer-link">TryHackMe</a><a href="https://app.hackthebox.com/profile/mossesmuwa" target="_blank" class="footer-link">HackTheBox</a></div>
       <div><div class="footer-col-title">Quick</div><button onclick="openTerminal()" class="footer-link" style="background:none;border:none;padding:0;cursor:pointer;display:block;margin-bottom:0.65rem;font-size:0.86rem;font-family:var(--font-body);"><i class="ti ti-terminal-2" style="color:var(--accent)"></i> Terminal</button><a href="contact.html" class="footer-link">Contact Ivan</a></div>
     </div>
     <div class="footer-morse"><div class="morse-pulse"></div></div>
@@ -538,7 +538,6 @@
     autoRotate = false;
     velX = velY = 0;
     prevMouse = { x: e.clientX, y: e.clientY };
-    wrap.style.cursor = 'grabbing';
   });
   window.addEventListener('mousemove', e => {
     if (!isDragging) return;
@@ -553,7 +552,6 @@
   window.addEventListener('mouseup', () => {
     if (!isDragging) return;
     isDragging = false;
-    wrap.style.cursor = 'grab';
     resumeAutoRotateSoon();
   });
 
@@ -579,7 +577,6 @@
       tooltip.style.left = tx + 'px';
       tooltip.style.top  = ty + 'px';
       tooltip.classList.add('show');
-      wrap.style.cursor = 'pointer';
       // enlarge hovered star + its glow
       skillMeshes.forEach(m => {
         const target = (m === hits[0].object) ? 1.4 : 1;
@@ -587,8 +584,7 @@
       });
     } else {
       tooltip.classList.remove('show');
-      wrap.style.cursor = 'grab';
-      skillMeshes.forEach(m => { m.userData._targetScale = 1; });
+        skillMeshes.forEach(m => { m.userData._targetScale = 1; });
       resumeAutoRotateSoon();
     }
   });
@@ -621,8 +617,6 @@
     camera.aspect = nW / nH;
     camera.updateProjectionMatrix();
   });
-
-  wrap.style.cursor = 'grab';
 
   // ── Animate ──
   let t = 0;

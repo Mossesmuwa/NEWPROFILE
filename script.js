@@ -8,8 +8,8 @@ const C = {
   name: "Ivan",
   full: "Ivan Kaweesa",
   handle: "Mosses Muwa",
-  email: "YOUR_EMAIL@proton.me",
-  linkedin: "YOUR_LINKEDIN_URL",
+  email: "mossesmuwa@proton.me",
+  linkedin: "https://linkedin.com/in/ivankaweesa",
   github: "https://github.com/Mossesmuwa",
   instagram: "https://www.instagram.com/mosses.muwa/",
   thm: "https://tryhackme.com/p/MM",
@@ -19,13 +19,41 @@ const C = {
   formspree: "https://formspree.io/f/xeepgrdn",
 };
 
+/* ── SAFE STORAGE — never lets storage access crash the script ── */
+/* Some browsers throw when localStorage/sessionStorage is touched on
+   file:// pages (no server) or with storage blocked. Every call in this
+   file goes through here so a blocked/unavailable store degrades
+   gracefully instead of halting all remaining JS. */
+const safeStorage = {
+  get(store, key) {
+    try {
+      return store.getItem(key);
+    } catch {
+      return null;
+    }
+  },
+  set(store, key, val) {
+    try {
+      store.setItem(key, val);
+      return true;
+    } catch {
+      return false;
+    }
+  },
+  remove(store, key) {
+    try {
+      store.removeItem(key);
+    } catch {}
+  },
+};
+
 /* ── YEAR ── */
 document
   .querySelectorAll(".js-year")
   .forEach((el) => (el.textContent = new Date().getFullYear()));
 
 /* ── SESSION LOADER ── */
-const loaderShown = sessionStorage.getItem("iv-loaded");
+const loaderShown = safeStorage.get(sessionStorage, "iv-loaded");
 const loader = document.getElementById("loader");
 if (loader) {
   if (loaderShown) {
@@ -34,7 +62,7 @@ if (loader) {
     window.addEventListener("load", () => {
       setTimeout(() => {
         loader.classList.add("hidden");
-        sessionStorage.setItem("iv-loaded", "1");
+        safeStorage.set(sessionStorage, "iv-loaded", "1");
       }, 1800);
     });
   }
@@ -43,7 +71,7 @@ if (loader) {
 /* ── THEME ── */
 const html = document.documentElement;
 const saved =
-  localStorage.getItem("iv-theme") ||
+  safeStorage.get(localStorage, "iv-theme") ||
   (window.matchMedia("(prefers-color-scheme: dark)").matches ? "lime" : "lime");
 html.setAttribute("data-theme", saved);
 
@@ -63,14 +91,14 @@ function toggleTheme(e) {
     ripple.style.height = r + "px";
     setTimeout(() => {
       html.setAttribute("data-theme", next);
-      localStorage.setItem("iv-theme", next);
+      safeStorage.set(localStorage, "iv-theme", next);
       updateThemeIcon();
       ripple.style.transition = "none";
       ripple.style.cssText = "";
     }, 230);
   } else {
     html.setAttribute("data-theme", next);
-    localStorage.setItem("iv-theme", next);
+    safeStorage.set(localStorage, "iv-theme", next);
     updateThemeIcon();
   }
 }
@@ -153,7 +181,11 @@ if (window.matchMedia("(pointer:fine)").matches) {
     const t = e.target;
     document.body.classList.remove("cur-text", "cur-hover", "cur-term");
     if (t.closest(".term-overlay")) document.body.classList.add("cur-term");
-    else if (t.closest("a,button,.btn,.pn-item,.sb-nav-item,.card[onclick]"))
+    else if (
+      t.closest(
+        "a,button,.btn,.pn-item,.sb-nav-item,.card[onclick],#constellation-wrap,.term-dot,.cmd-result,.tool-chip,.footer-name",
+      )
+    )
       document.body.classList.add("cur-hover");
     else if (t.closest("p,h1,h2,h3,h4,li,span:not(.chip)"))
       document.body.classList.add("cur-text");
@@ -1490,7 +1522,7 @@ window.ivan = {
   help: () =>
     console.log("Available: ivan.unlock(), ivan.flags(), ivan.contact()"),
   flags: () => {
-    const f = JSON.parse(localStorage.getItem("iv-flags") || "[]");
+    const f = JSON.parse(safeStorage.get(localStorage, "iv-flags") || "[]");
     console.log(
       `%cFlags found: ${f.length}/5`,
       "color:#e2ff5d;font-family:monospace",
@@ -1508,7 +1540,9 @@ window.ivan = {
 document.addEventListener("contextmenu", (e) => {
   e.preventDefault();
   document.getElementById("ctx-menu")?.remove();
-  const found = JSON.parse(localStorage.getItem("iv-flags") || "[]").length;
+  const found = JSON.parse(
+    safeStorage.get(localStorage, "iv-flags") || "[]",
+  ).length;
   const m = document.createElement("div");
   m.id = "ctx-menu";
   m.style.cssText = `position:fixed;z-index:9990;
@@ -1649,10 +1683,10 @@ function breach() {
 
 // Flag system
 function addFlag(n) {
-  const stored = JSON.parse(localStorage.getItem("iv-flags") || "[]");
+  const stored = JSON.parse(safeStorage.get(localStorage, "iv-flags") || "[]");
   if (!stored.includes(n)) {
     stored.push(n);
-    localStorage.setItem("iv-flags", JSON.stringify(stored));
+    safeStorage.set(localStorage, "iv-flags", JSON.stringify(stored));
     if (stored.length >= 5) showDebrief();
   }
   document
@@ -1661,7 +1695,7 @@ function addFlag(n) {
 }
 window.addFlag = addFlag;
 // Init flag count display
-const fc = JSON.parse(localStorage.getItem("iv-flags") || "[]").length;
+const fc = JSON.parse(safeStorage.get(localStorage, "iv-flags") || "[]").length;
 document.querySelectorAll(".flag-count").forEach((el) => (el.textContent = fc));
 
 function showDebrief() {
@@ -1768,7 +1802,11 @@ document
       return;
     }
     // Save to localStorage in case of navigation
-    localStorage.setItem("iv-form-draft", JSON.stringify({ name, email, msg }));
+    safeStorage.set(
+      localStorage,
+      "iv-form-draft",
+      JSON.stringify({ name, email, msg }),
+    );
     btn.disabled = true;
     btn.innerHTML =
       '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Transmitting...';
@@ -1787,7 +1825,7 @@ document
         }),
       });
       if (res.ok) {
-        localStorage.removeItem("iv-form-draft");
+        safeStorage.remove(localStorage, "iv-form-draft");
         // Transform form to confirmation
         const form = document.getElementById("contact-form");
         form.style.transition = "all 0.4s ease";
@@ -1811,7 +1849,9 @@ document
   });
 
 // Restore draft
-const draft = JSON.parse(localStorage.getItem("iv-form-draft") || "null");
+const draft = JSON.parse(
+  safeStorage.get(localStorage, "iv-form-draft") || "null",
+);
 if (draft) {
   if (document.getElementById("cf-name"))
     document.getElementById("cf-name").value = draft.name || "";

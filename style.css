@@ -13,11 +13,7 @@ body{
   transition:background 0.45s ease,color 0.45s ease;
 }
 @media(pointer:fine){
-  a, button, input, textarea, select, label,
-  .pn-item, .sb-nav-item, .sb-theme-btn, .sb-term-btn,
-  .btn, .card, [onclick], [role="button"] {
-    cursor: none !important;
-  }
+  * { cursor: none !important; }
 }
 @media(max-width:768px){body{padding-left:0;padding-bottom:110px;cursor:auto}}
 a{text-decoration:none;color:inherit}
@@ -141,31 +137,8 @@ button{cursor:none;font-family:inherit;border:none;background:none}
 .mobile-greeting .mg-dot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;animation:sonar 2.5s ease-out infinite}
 @media(min-width:769px){.mobile-greeting{display:none}}
 
-/* ── CURSOR ── */
-#cursor-dot{
-  position:fixed;z-index:9999;pointer-events:none;
-  width:8px;height:8px;border-radius:50%;
-  background:var(--accent);
-  transform:translate(-50%,-50%);
-  transition:width 120ms,height 120ms,border-radius 120ms,background 120ms;
-  will-change:transform;
-}
-#cursor-ring{
-  position:fixed;z-index:9998;pointer-events:none;
-  width:32px;height:32px;border-radius:50%;
-  border:1px solid var(--accent);opacity:0.35;
-  transform:translate(-50%,-50%);
-  transition:width 200ms,height 200ms,opacity 200ms,border-radius 200ms;
-  will-change:transform;
-}
-body.cur-text #cursor-dot{width:2px;height:20px;border-radius:1px}
-body.cur-text #cursor-ring{width:2px;height:20px;border-radius:1px;opacity:0}
-body.cur-hover #cursor-dot{width:20px;height:20px;opacity:0.8}
-body.cur-hover #cursor-ring{width:48px;height:48px;opacity:0.2}
-body.cur-term #cursor-dot{width:10px;height:14px;border-radius:2px;background:var(--cyan)}
-body.cur-term #cursor-ring{opacity:0}
+/* ── CURSOR — see clean canonical block near end of file ── */
 #cursor-canvas{position:fixed;inset:0;pointer-events:none;z-index:9990}
-@media(pointer:coarse){#cursor-dot,#cursor-ring,#cursor-canvas{display:none}}
 
 /* ── GRID BACKGROUND ── */
 .grid-bg{
@@ -691,37 +664,6 @@ body.cur-term #cursor-ring{opacity:0}
    news feed, animations, alive feeling
    ════════════════════════════════════════ */
 
-/* ── CURSOR FIX — dot + ring, not two dots ── */
-#cursor-dot {
-  position: fixed; z-index: 9999; pointer-events: none;
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--accent);
-  transform: translate(-50%,-50%);
-  will-change: transform;
-  transition: width 120ms ease, height 120ms ease,
-              background 120ms ease, border-radius 120ms ease;
-}
-#cursor-ring {
-  position: fixed; z-index: 9998; pointer-events: none;
-  width: 34px; height: 34px; border-radius: 50%;
-  border: 1.5px solid var(--accent);
-  opacity: 0.45;
-  transform: translate(-50%,-50%);
-  will-change: transform;
-  transition: width 200ms ease, height 200ms ease,
-              opacity 200ms ease, border-color 200ms ease;
-  background: transparent;
-}
-/* cursor states — now clearly different */
-body.cur-hover #cursor-dot  { width: 14px; height: 14px; opacity: 0.7; }
-body.cur-hover #cursor-ring { width: 54px; height: 54px; opacity: 0.2; }
-body.cur-text  #cursor-dot  { width: 2px; height: 20px; border-radius: 1px; }
-body.cur-text  #cursor-ring { opacity: 0; }
-body.cur-term  #cursor-dot  { width: 10px; height: 14px; border-radius: 2px; background: var(--cyan); }
-body.cur-term  #cursor-ring { border-color: var(--cyan); width: 28px; height: 28px; opacity: 0.3; }
-/* click feedback on ring */
-body.cur-click #cursor-ring { width: 60px; height: 60px; opacity: 0; transition: all 0.25s ease; }
-
 /* ── DISPLAY NUMBERS — Space Grotesk, heavy ── */
 .stat-block-num {
   font-family: var(--font-display) !important;
@@ -1057,3 +999,64 @@ body.cur-click #cursor-ring { width: 60px; height: 60px; opacity: 0; transition:
   line-height:1.2;margin-bottom:2rem;
 }
 .cc-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* ════════════════════════════════════════
+   CURSOR — single canonical system
+   One dot (follows mouse instantly) +
+   one hollow ring (trails with lag).
+   No duplicates, no conflicting rules.
+   ════════════════════════════════════════ */
+#cursor-dot{
+  position:fixed;
+  top:0;left:0;
+  z-index:9999;
+  pointer-events:none;
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--accent);
+  transform:translate(-50%,-50%);
+  will-change:transform;
+  transition:width 140ms ease,height 140ms ease,
+             background-color 140ms ease,border-radius 140ms ease;
+}
+#cursor-ring{
+  position:fixed;
+  top:0;left:0;
+  z-index:9998;
+  pointer-events:none;
+  width:32px;height:32px;
+  border-radius:50%;
+  border:1.5px solid var(--accent);
+  background:transparent;
+  opacity:0.45;
+  transform:translate(-50%,-50%);
+  will-change:transform;
+  transition:width 220ms ease,height 220ms ease,
+             opacity 220ms ease,border-color 220ms ease;
+}
+
+/* Hovering links/buttons — dot grows, ring grows and softens */
+body.cur-hover #cursor-dot{ width:13px; height:13px; }
+body.cur-hover #cursor-ring{ width:50px; height:50px; opacity:0.22; }
+
+/* Hovering text — dot becomes a thin caret, ring disappears */
+body.cur-text #cursor-dot{ width:2px; height:18px; border-radius:1px; }
+body.cur-text #cursor-ring{ opacity:0; }
+
+/* Hovering the terminal — cyan block cursor */
+body.cur-term #cursor-dot{ width:9px; height:13px; border-radius:2px; background:var(--cyan); }
+body.cur-term #cursor-ring{ border-color:var(--cyan); width:26px; height:26px; opacity:0.3; }
+
+/* Click feedback — ring pulses out and fades */
+body.cur-click #cursor-ring{
+  width:58px; height:58px; opacity:0;
+  transition:width 260ms ease,height 260ms ease,opacity 260ms ease;
+}
+
+/* Cursor trail canvas sits below the dot/ring but above content */
+#cursor-canvas{ position:fixed; inset:0; pointer-events:none; z-index:9990; }
+
+/* Hide the custom cursor entirely on touch devices — use native */
+@media(pointer:coarse){
+  #cursor-dot,#cursor-ring,#cursor-canvas{ display:none !important; }
+}

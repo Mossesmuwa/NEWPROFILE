@@ -1,185 +1,278 @@
 <div align="center">
 
-<!-- Animated typing header -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:080c14,100:1a2540&height=200&section=header&text=Ivan.K&fontSize=70&fontColor=E2FF5D&fontAlignY=38&desc=IT%20Systems%20%26%20Cybersecurity&descAlignY=58&descSize=18&descAlign=50&animation=fadeIn" width="100%"/>
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Share+Tech+Mono&size=28&duration=3000&pause=1000&color=00FF88&center=true&vCenter=true&width=700&lines=Hey%2C+I'm+Ivan.K;Known+as+Mosses+Muwa;Cybersecurity+Student;Ethical+Hacker+in+Training;Penetration+Tester;Blue+Team+Defender;Lerning+Deutsch+%F0%9F%87%A9%F0%9F%87%AA)](https://git.io/typing-svg)
+<!-- Typing SVG -->
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=22&duration=3000&pause=1000&color=E2FF5D&center=true&vCenter=true&width=650&lines=Hey%2C+I'm+Ivan;Known+online+as+Mosses+Muwa;IT+Systems+%26+Cybersecurity;Red+Team+%7C+Blue+Team;Building+real+skills%2C+not+just+theory;Learning+Deutsch+%F0%9F%87%A9%F0%9F%87%AA+A1+%E2%86%92+B2;Open+to+opportunities+worldwide)](https://git.io/typing-svg)
 
-<!-- Profile views counter -->
+<!-- Profile views + badges -->
+![Profile Views](https://komarev.com/ghpvc/?username=Mossesmuwa&color=e2ff5d&style=for-the-badge&label=PROFILE+VIEWS)
 
-![Profile Views](https://komarev.com/ghpvc/?username=Mossesmuwa&color=00ff88&style=flat-square&label=Profile+Views)
-
-<!-- Social badges -->
-
-[![GitHub](https://img.shields.io/badge/GitHub-Mossesmuwa-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Mossesmuwa)
-[![Portfolio](https://img.shields.io/badge/Portfolio-Live-00ff88?style=for-the-badge&logo=googlechrome&logoColor=black)](https://mossesmuwa.github.io/)
-[![Instagram](https://img.shields.io/badge/Instagram-mosses.muwa-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/mosses.muwa/)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-your--name-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/your-name)
-[![Email](https://img.shields.io/badge/ProtonMail-your--name100%40proton.me-6D4AFF?style=for-the-badge&logo=protonmail&logoColor=white)](mailto:your-name100@proton.me)
+[![Portfolio](https://img.shields.io/badge/PORTFOLIO-LIVE-e2ff5d?style=for-the-badge&logo=googlechrome&logoColor=080c14)](https://mossesmuwa.github.io/)
+[![GitHub](https://img.shields.io/badge/GITHUB-Mossesmuwa-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Mossesmuwa)
+[![TryHackMe](https://img.shields.io/badge/TRYHACKME-MM-212C42?style=for-the-badge&logo=tryhackme&logoColor=e2ff5d)](https://tryhackme.com/p/MM)
+[![HackTheBox](https://img.shields.io/badge/HACKTHEBOX-mossesmuwa-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black)](https://app.hackthebox.com/profile/mossesmuwa)
+[![LinkedIn](https://img.shields.io/badge/LINKEDIN-Ivan_Kaweesa-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/ivankaweesa)
+[![Instagram](https://img.shields.io/badge/INSTAGRAM-mosses.muwa-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/mosses.muwa/)
+[![ProtonMail](https://img.shields.io/badge/PROTONMAIL-Contact-6D4AFF?style=for-the-badge&logo=protonmail&logoColor=white)](mailto:mossesmuwa@proton.me)
 
 </div>
 
----
+<br>
 
-## 🛡️ About Me
+## `whoami`
 
-```bash
-┌──(mosses㉿kali)-[~]
-└─$ cat about.txt
+```
+┌──(ivan㉿kali)-[~]
+└─$ cat identity.txt
 ```
 
-> My name is **your-name**, known online as **Mosses Muwa**.
-> I'm a **cybersecurity student** passionate about keeping people and businesses safe online.
-> I learn by building real virtual labs — like flight simulators for security professionals —
-> where I practise attacking and defending systems safely without risking real damage.
+> I'm **Ivan Kaweesa** — online handle **Mosses Muwa**.
+> IT Systems professional building a serious cybersecurity career through hands-on labs, not just theory.
+> Every vulnerability I study, every system I configure, every script I write gets me closer to professional.
 
-- 🔴 **Red Team** — Penetration testing, exploitation, Active Directory attacks
-- 🔵 **Blue Team** — Incident response, SIEM monitoring, threat detection
-- 🐍 **Python** — Scripting and automating security tasks
-- 🇩🇪 **Deutsch** — Currently learning German language
-- 🤝 **Open to** — New projects, collaborations and learning opportunities
-- 🎯 **Goal** — Become a trusted cybersecurity professional
+**A few things I believe:**
+- Security isn't a product. It's a habit.
+- The best way to defend a system is to know how to break it first.
+- Most breaches aren't clever. They're patient.
 
----
+| | |
+|---|---|
+| 🔴 **Red Team** | Penetration testing, exploitation, Active Directory attacks |
+| 🔵 **Blue Team** | Incident response, SIEM monitoring, threat detection |
+| 🐍 **Scripting** | Python & Bash for security automation |
+| 🇩🇪 **Deutsch** | Currently A1 → targeting B2, learning daily |
+| 🤝 **Open to** | Internships, projects, collaborations — worldwide |
+| 🎯 **Goal** | Trusted IT & cybersecurity professional |
 
-## 🔧 Tools & Technologies
+<br>
 
-<!-- Offensive -->
+## `ls skills/` — proficiency
 
-**Offensive Security**
-
-![Kali Linux](https://img.shields.io/badge/Kali_Linux-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)
-![Metasploit](https://img.shields.io/badge/Metasploit-2596CD?style=for-the-badge&logo=metasploit&logoColor=white)
-![Nmap](https://img.shields.io/badge/Nmap-214478?style=for-the-badge&logo=nmap&logoColor=white)
-![Burp Suite](https://img.shields.io/badge/Burp_Suite-FF6633?style=for-the-badge&logo=burpsuite&logoColor=white)
-![Wireshark](https://img.shields.io/badge/Wireshark-1679A7?style=for-the-badge&logo=wireshark&logoColor=white)
-
-**Defensive Security**
-
-![Splunk](https://img.shields.io/badge/Splunk-000000?style=for-the-badge&logo=splunk&logoColor=white)
-![Windows Server](https://img.shields.io/badge/Windows_Server-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-![Active Directory](https://img.shields.io/badge/Active_Directory-0078D6?style=for-the-badge&logo=microsoft&logoColor=white)
-
-**Languages & Scripting**
-
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white)
-![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
-
-**Platforms & Practice**
-
-![TryHackMe](https://img.shields.io/badge/TryHackMe-212C42?style=for-the-badge&logo=tryhackme&logoColor=white)
-![VirtualBox](https://img.shields.io/badge/VirtualBox-183A61?style=for-the-badge&logo=virtualbox&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-
----
-
-## 🧪 Practice Labs
-
-```bash
-┌──(mosses㉿kali)-[~]
-└─$ ls -la labs/
+```
+Penetration Testing    ████████████████░░░░░░  72%   Nmap · Metasploit · manual exploitation
+Active Directory       ███████████████░░░░░░░  68%   Domain builds, GPO, AS-REP roasting
+Network Administration ████████████████░░░░░░  70%   Routing, VLANs, DHCP/DNS
+Python Scripting       █████████████████░░░░░  78%   Automation, tooling, data parsing
+Web App Security       ███████████████░░░░░░░  65%   OWASP Top 10, DVWA, Burp Suite
+Linux Administration   ██████████████████░░░░  80%   Kali Linux daily driver
 ```
 
-| Lab                         | What I Did                                                                              | Tools Used                            | Status      |
-| --------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------- | ----------- |
-| 🏢 **Windows Server Lab**   | Built a fake company network, created user accounts, practised AD attacks and hardening | Windows Server, Active Directory, GPO | ✅ Complete |
-| 🐉 **Kali Linux Lab**       | Recon, exploitation and password cracking on controlled VMs                             | Kali, Nmap, Metasploit, Hydra         | ✅ Complete |
-| 🌐 **Web App Security Lab** | Found and fixed OWASP Top 10 vulnerabilities including XSS and SQL injection            | DVWA, Burp Suite, OWASP ZAP           | ✅ Complete |
-| 🔵 **Blue Team Lab**        | Set up SIEM monitoring and responded to simulated attacks in real time                  | Splunk, Wireshark, Event Logs         | ✅ Complete |
+<sub>Full 3D skill constellation → <a href="https://mossesmuwa.github.io/pages/arsenal.html">Arsenal page</a></sub>
 
----
+<br>
 
-## 📜 Certifications
+## `ls tools/`
 
-```bash
-┌──(mosses㉿kali)-[~]
-└─$ cat certs.txt
+**Offensive**
+
+![Kali Linux](https://img.shields.io/badge/Kali_Linux-557C94?style=flat-square&logo=kalilinux&logoColor=white)
+![Nmap](https://img.shields.io/badge/Nmap-214478?style=flat-square&logo=nmap&logoColor=white)
+![Metasploit](https://img.shields.io/badge/Metasploit-2596CD?style=flat-square&logo=metasploit&logoColor=white)
+![Burp Suite](https://img.shields.io/badge/Burp_Suite-FF6633?style=flat-square&logo=burpsuite&logoColor=white)
+![Hydra](https://img.shields.io/badge/Hydra-black?style=flat-square)
+
+**Defensive**
+
+![Wireshark](https://img.shields.io/badge/Wireshark-1679A7?style=flat-square&logo=wireshark&logoColor=white)
+![Splunk](https://img.shields.io/badge/Splunk-000000?style=flat-square&logo=splunk&logoColor=white)
+
+**IT Systems**
+
+![Windows Server](https://img.shields.io/badge/Windows_Server-0078D6?style=flat-square&logo=windows&logoColor=white)
+![Active Directory](https://img.shields.io/badge/Active_Directory-0078D6?style=flat-square&logo=microsoft&logoColor=white)
+![VirtualBox](https://img.shields.io/badge/VirtualBox-183A61?style=flat-square&logo=virtualbox&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
+
+**Scripting & Tools**
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![Bash](https://img.shields.io/badge/Bash-4EAA25?style=flat-square&logo=gnubash&logoColor=white)
+![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=flat-square&logo=powershell&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+
+<br>
+
+## `ls labs/` — operations log
+
+> Learning exercises using tutorial guidance and intentionally vulnerable VMs (Metasploitable 2, DVWA) — not professional engagements. Full writeups with findings & remediation on the <a href="https://mossesmuwa.github.io/pages/operations.html">Operations page</a>.
+
+<details>
+<summary><b>OP-004 · Telnet Exploitation Lab</b> — captured plaintext credentials via Wireshark ✅</summary>
+<br>
+
+Connected to Metasploitable 2 via Telnet from Kali Linux, then used Wireshark to capture and analyse the TCP stream. Password recovery was straightforward — the exercise was about understanding *why* unencrypted protocols are dangerous.
+
+**Tools:** Telnet · Wireshark · Kali Linux · Metasploitable 2
+</details>
+
+<details>
+<summary><b>OP-003 · Kali Linux Penetration Test</b> — Nmap recon → vsftpd backdoor → root shell ✅</summary>
+<br>
+
+Full pentest workflow on Metasploitable 2 — Nmap mapped 13 open ports, then exploited the vsftpd 2.3.4 backdoor (CVE-2011-2523) via Netcat to gain root.
+
+**Tools:** Nmap · CVE-2011-2523 · Netcat · Kali Linux
+</details>
+
+<details>
+<summary><b>OP-002 · Web Application Security Lab</b> — OWASP Top 10 on DVWA ✅</summary>
+<br>
+
+Tested DVWA against OWASP Top 10 — SQL injection, stored XSS, and CSRF were the highest-impact findings, studied from both the attack and defence sides.
+
+**Tools:** DVWA · Burp Suite · SQLMap
+</details>
+
+<details>
+<summary><b>OP-001 · Windows Server & Active Directory Lab</b> — built and attacked my own domain ✅</summary>
+<br>
+
+Set up Windows Server 2019 as a domain controller with OUs, GPO hardening, then tested it — AS-REP Roasting, BloodHound enumeration, privilege escalation attempts.
+
+**Tools:** Windows Server 2019 · Active Directory · GPO · BloodHound · Impacket
+</details>
+
+<details>
+<summary><b>OP-005 · Network Infrastructure Lab</b> — in progress 🟡</summary>
+<br>
+
+VLANs, routing protocols, switch configuration, DHCP/DNS — core IT systems integration.
+</details>
+
+<br>
+
+## `cat certs.txt`
+
+| Certificate | Issuer | Status |
+|---|---|---|
+| CompTIA Security+ | CompTIA | 🟡 In Progress |
+| eJPT — Junior Penetration Tester | eLearnSecurity | 🟡 In Progress |
+| TryHackMe | TryHackMe | 🟢 Active |
+| HackTheBox | HackTheBox | 🟢 Active |
+| Kali Linux Fundamentals | Self-taught | ✅ Complete |
+| Windows Server & Active Directory | Self-taught | ✅ Complete |
+
+<br>
+
+## `cat now.txt` — currently
+
+```
+Studying    → eJPT material + OP-005 Network Infrastructure Lab
+Learning    → Deutsch, day 1+ · A1 grammar, daily Duolingo + DW course
+Reading     → The Web Application Hacker's Handbook + OWASP docs
+Focus       → eJPT certification, German → A2, open to opportunities
 ```
 
-| Certificate                                                                                                                  | Issuer             | Status         |
-| ---------------------------------------------------------------------------------------------------------------------------- | ------------------ | -------------- |
-| ![Security+](https://img.shields.io/badge/CompTIA-Security%2B-FF0000?style=flat-square&logo=comptia&logoColor=white)         | CompTIA            | 🟡 In Progress |
-| ![eJPT](https://img.shields.io/badge/eLearnSecurity-eJPT-blue?style=flat-square)                                             | eLearnSecurity     | 🟡 In Progress |
-| ![TryHackMe](https://img.shields.io/badge/TryHackMe-Active_User-212C42?style=flat-square&logo=tryhackme&logoColor=white)     | TryHackMe          | ✅ Active      |
-| ![Kali](https://img.shields.io/badge/Kali_Linux-Fundamentals-557C94?style=flat-square&logo=kalilinux&logoColor=white)        | Offensive Security | 🟡 In Progress |
-| ![Windows](https://img.shields.io/badge/Windows_Server-Administration-0078D6?style=flat-square&logo=windows&logoColor=white) | Microsoft          | ✅ Active      |
+<sub>Live version always current on the <a href="https://mossesmuwa.github.io/pages/now.html">Now page</a></sub>
 
----
+<br>
 
-## 📊 GitHub Stats
+## GitHub Stats
 
 <div align="center">
 
-<!-- Stats card -->
+![Ivan's GitHub Stats](https://github-readme-stats.vercel.app/api?username=Mossesmuwa&show_icons=true&hide_border=true&bg_color=080c14&title_color=e2ff5d&icon_color=e2ff5d&text_color=b8ccd8&rank_icon=github)
 
-![Mosses's GitHub Stats](https://github-readme-stats.vercel.app/api?username=Mossesmuwa&show_icons=true&theme=radical&hide_border=true&bg_color=06090d&title_color=00ff88&icon_color=00e5ff&text_color=b8ccd8&rank_icon=github)
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Mossesmuwa&layout=compact&hide_border=true&bg_color=080c14&title_color=e2ff5d&text_color=b8ccd8)
 
-<!-- Most used languages -->
+[![GitHub Streak](https://streak-stats.demolab.com?user=Mossesmuwa&hide_border=true&background=080c14&ring=e2ff5d&fire=e2ff5d&currStreakLabel=e2ff5d&sideLabels=b8ccd8&currStreakNum=f0f4f8&sideNums=f0f4f8&dates=64748b)](https://git.io/streak-stats)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Mossesmuwa&layout=compact&theme=radical&hide_border=true&bg_color=06090d&title_color=00ff88&text_color=b8ccd8)
-
-<!-- Streak stats -->
-
-[![GitHub Streak](https://streak-stats.demolab.com?user=Mossesmuwa&theme=radical&hide_border=true&background=06090d&ring=00ff88&fire=00e5ff&currStreakLabel=00ff88)](https://git.io/streak-stats)
-
-<!-- Trophies -->
-
-[![Trophy](https://github-profile-trophy.vercel.app/?username=Mossesmuwa&theme=radical&no-frame=true&no-bg=true&column=6)](https://github.com/ryo-ma/github-profile-trophy)
+[![Trophy](https://github-profile-trophy.vercel.app/?username=Mossesmuwa&theme=dracula&no-frame=true&no-bg=true&column=6&margin-w=8)](https://github.com/ryo-ma/github-profile-trophy)
 
 </div>
 
----
+<br>
 
-## 🌍 Beyond Cybersecurity
+## `git log --graph`
 
-```bash
-┌──(mosses㉿kali)-[~]
-└─$ cat interests.txt
-```
+<div align="center">
 
-| Interest | Status | Note |
-|----------|--------|------|
-| 🇩🇪 German Language | 🟡 Learning | Actively studying Deutsch — *Ich lerne Deutsch!* |
-| 🤝 Open Source Projects | 🟢 Open | Looking to contribute and collaborate |
-| 🔐 CTF Competitions | 🟡 Practising | Capture The Flag security challenges |
-| 📚 Security Research | 🟢 Active | Reading CVEs, write-ups, threat reports |
+![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=Mossesmuwa&theme=react-dark&bg_color=080c14&color=e2ff5d&line=e2ff5d&point=f0f4f8&area=true&hide_border=true)
 
-> **Working with me:** I'm open to cybersecurity projects, open source contributions,
-> study groups, and anything where I can learn while adding value.
-> Reach out — I respond to every message personally.
+</div>
 
----
+<br>
 
-## 🌐 Why Cybersecurity Matters
+## `./contribution_snake.sh`
+
+<div align="center">
+
+<!-- Generated nightly by a GitHub Action — see: https://github.com/Platane/snk -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Mossesmuwa/Mossesmuwa/output/github-snake-dark.svg"/>
+  <img alt="contribution snake" src="https://raw.githubusercontent.com/Mossesmuwa/Mossesmuwa/output/github-contribution-grid-snake.svg"/>
+</picture>
+
+<sub>Snake eats the contribution graph — auto-updates daily via GitHub Actions</sub>
+
+</div>
+
+<br>
+
+## `fortune | cowsay -f tux`
+
+<div align="center">
+
+![Random Dev Quote](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
+
+</div>
+
+<br>
+
+## `python3 why_it_matters.py`
 
 ```python
-# The numbers speak for themselves
 stats = {
-    "annual_cybercrime_cost":  "$8 Trillion",
+    "annual_cybercrime_cost":    "$8 Trillion",
     "breaches_from_human_error": "95%",
-    "unfilled_security_jobs":  "3.5 Million",
-    "attacks_per_day":         "Every 39 seconds"
+    "unfilled_security_jobs":    "3.5 Million",
+    "attack_frequency":          "Every 39 seconds",
 }
 
-print("That's why I'm building these skills.")
+for key, value in stats.items():
+    print(f"{key}: {value}")
+
+# That's why I'm building these skills.
 ```
 
----
+<br>
 
-## 🤝 Let's Connect
+## `cat flags.txt` 🚩
+
+There are 5 hidden flags scattered across my <a href="https://mossesmuwa.github.io/">portfolio site</a> — DevTools console, source code, `/humans.txt`, the terminal, and one classic sequence everyone knows. Find all 5 and the site tells you.
+
+<br>
 
 <div align="center">
 
-**Open to internships, collaborations, new projects and entry-level roles**
+## `./contact.sh`
 
-[![Portfolio](https://img.shields.io/badge/🌐_Visit_Portfolio-00ff88?style=for-the-badge&logoColor=black)](https://mossesmuwa.github.io/)
-[![Email](https://img.shields.io/badge/📧_Email_Me-6D4AFF?style=for-the-badge&logo=protonmail&logoColor=white)](mailto:your-name100@proton.me)
-[![LinkedIn](https://img.shields.io/badge/💼_LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/your-name)
-[![Instagram](https://img.shields.io/badge/📸_Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/mosses.muwa/)
+**Open to internships, collaborations, entry-level roles — anywhere in the world**
 
----
+[![Portfolio](https://img.shields.io/badge/VISIT_PORTFOLIO-e2ff5d?style=for-the-badge&logoColor=080c14)](https://mossesmuwa.github.io/)
+[![Email](https://img.shields.io/badge/EMAIL_ME-6D4AFF?style=for-the-badge&logo=protonmail&logoColor=white)](mailto:mossesmuwa@proton.me)
+[![LinkedIn](https://img.shields.io/badge/LINKEDIN-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/ivankaweesa)
+[![TryHackMe](https://img.shields.io/badge/TRYHACKME-212C42?style=for-the-badge&logo=tryhackme&logoColor=e2ff5d)](https://tryhackme.com/p/MM)
 
-_Protecting the digital world, one lab at a time._ 🛡️
+<sub>Usually responds within 24 hours</sub>
+
+<br><br>
+
+<i>No theory without practice.</i>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:1a2540,100:080c14&height=100&section=footer" width="100%"/>
 
 </div>
+
+<details>
+<summary><sub>Setup note (not part of the profile — for Ivan)</sub></summary>
+
+The contribution snake needs a one-time GitHub Action in this repo:
+create `.github/workflows/snake.yml` using
+[Platane/snk](https://github.com/Platane/snk#-github-action) — it generates
+the SVG on a schedule and commits it to an `output` branch, which is what
+the `<picture>` tag above points to. Until that workflow runs once, those
+two images will show broken.
+
+</details>

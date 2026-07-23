@@ -85,6 +85,23 @@
   </div>
   <div class="loader-bar"><div class="loader-bar-fill"></div></div>
 </div>
+<script>
+  /* Fail-safe: guarantees the loader can NEVER get stuck, no matter
+     what happens elsewhere on the page (blocked storage, a slow or
+     failed script, an ad-blocker, anything). Runs completely on its
+     own, independent of script.js. */
+  (function() {
+    var hidden = false;
+    function hideLoader() {
+      if (hidden) return;
+      hidden = true;
+      var l = document.getElementById('loader');
+      if (l) l.classList.add('hidden');
+    }
+    setTimeout(hideLoader, 4000);
+    window.addEventListener('load', function() { setTimeout(hideLoader, 1800); });
+  })();
+</script>
 
 <!-- BREACH -->
 <div class="breach-overlay" id="breach-overlay">
@@ -415,7 +432,7 @@
       <div>
         <div class="footer-col-title">Connect</div>
         <a href="https://github.com/Mossesmuwa"   target="_blank" class="footer-link">GitHub</a>
-        <a href="YOUR_LINKEDIN_URL"               target="_blank" class="footer-link">LinkedIn</a>
+        <a href="https://linkedin.com/in/ivankaweesa"               target="_blank" class="footer-link">LinkedIn</a>
         <a href="https://www.instagram.com/mosses.muwa/" target="_blank" class="footer-link">Instagram</a>
         <a href="https://tryhackme.com/p/MM"      target="_blank" class="footer-link">TryHackMe</a>
         <a href="https://app.hackthebox.com/profile/mossesmuwa" target="_blank" class="footer-link">HackTheBox</a>
