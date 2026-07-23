@@ -2,7 +2,7 @@
 
 <!-- Animated typing header -->
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Share+Tech+Mono&size=28&duration=3000&pause=1000&color=00FF88&center=true&vCenter=true&width=700&lines=Hey%2C+I'm+your-name;Known+as+Mosses+Muwa;Cybersecurity+Student;Ethical+Hacker+in+Training;Penetration+Tester;Blue+Team+Defender;Lerning+Deutsch+%F0%9F%87%A9%F0%9F%87%AA)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Share+Tech+Mono&size=28&duration=3000&pause=1000&color=00FF88&center=true&vCenter=true&width=700&lines=Hey%2C+I'm+Ivan.K;Known+as+Mosses+Muwa;Cybersecurity+Student;Ethical+Hacker+in+Training;Penetration+Tester;Blue+Team+Defender;Lerning+Deutsch+%F0%9F%87%A9%F0%9F%87%AA)](https://git.io/typing-svg)
 
 <!-- Profile views counter -->
 
