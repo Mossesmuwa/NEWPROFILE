@@ -367,7 +367,7 @@
 </div>
 
 <script>
-/* ── 3D SKILL CONSTELLATION (Three.js) ── */
+/* ── 3D SKILL CONSTELLATION (Three.js) — rebuilt ── */
 (function() {
   const wrap   = document.getElementById('constellation-wrap');
   const canvas = document.getElementById('constellation-canvas');
@@ -379,141 +379,183 @@
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
   const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, W/H, 0.1, 1000);
-  camera.position.z = 5;
+  scene.fog = new THREE.FogExp2(0x0c1120, 0.045);
+  const camera = new THREE.PerspectiveCamera(55, W/H, 0.1, 1000);
+  camera.position.z = 6;
 
-  // Stars (background)
+  // ── Background starfield (independent slow layer, adds depth/parallax) ──
+  const bgGroup = new THREE.Group();
+  scene.add(bgGroup);
   const starGeo = new THREE.BufferGeometry();
   const starVerts = [];
-  for (let i = 0; i < 600; i++) {
-    starVerts.push((Math.random()-0.5)*40, (Math.random()-0.5)*40, (Math.random()-0.5)*40);
+  for (let i = 0; i < 500; i++) {
+    starVerts.push((Math.random()-0.5)*50, (Math.random()-0.5)*50, (Math.random()-0.5)*50 - 10);
   }
   starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starVerts, 3));
-  const starMat = new THREE.PointsMaterial({ color: 0x334466, size: 0.04, transparent: true, opacity: 0.6 });
-  scene.add(new THREE.Points(starGeo, starMat));
+  const starMat = new THREE.PointsMaterial({ color: 0x334466, size: 0.035, transparent: true, opacity: 0.5 });
+  bgGroup.add(new THREE.Points(starGeo, starMat));
 
   const SKILLS = [
-    // Offensive (red)
     { name:'Penetration Testing', prof:'Intermediate (72%)', desc:'Legally attacking systems — Nmap, Metasploit, manual exploitation', link:'https://www.offensive-security.com', group:'offensive', x:2.2, y:1.0, z:0.5 },
     { name:'Nmap', prof:'Comfortable (80%)', desc:'Network scanner — open ports, services, OS detection', link:'https://nmap.org', group:'offensive', x:1.5, y:1.8, z:-0.3 },
     { name:'Metasploit', prof:'Learning (60%)', desc:'Exploitation framework — CVE testing in lab environments', link:'https://www.metasploit.com', group:'offensive', x:2.8, y:0.2, z:0.8 },
     { name:'Burp Suite', prof:'Learning (58%)', desc:'Web proxy — OWASP Top 10 testing', link:'https://portswigger.net/burp', group:'offensive', x:2.0, y:-0.6, z:1.0 },
-    // Defensive (cyan)
     { name:'Wireshark', prof:'Comfortable (75%)', desc:'Packet capture — found plaintext Telnet credentials in OP-004', link:'https://www.wireshark.org', group:'defensive', x:-1.8, y:1.2, z:0.4 },
     { name:'Splunk', prof:'Learning (50%)', desc:'SIEM — log collection and threat detection', link:'https://www.splunk.com', group:'defensive', x:-2.5, y:0.5, z:-0.5 },
-    // Systems (slate)
     { name:'Active Directory', prof:'Intermediate (68%)', desc:'Windows domain environments — built from scratch in OP-001', link:'https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/', group:'systems', x:-0.5, y:-1.8, z:-0.8 },
     { name:'Windows Server', prof:'Intermediate (70%)', desc:'Enterprise OS — domain controller, GPO, user management', link:'https://www.microsoft.com/en-us/windows-server', group:'systems', x:0.8, y:-2.2, z:-0.5 },
     { name:'Linux Admin', prof:'Comfortable (80%)', desc:'Kali Linux daily driver — permissions, services, networking', link:'https://www.linux.org', group:'systems', x:-1.2, y:-1.5, z:1.0 },
     { name:'Networking', prof:'Intermediate (70%)', desc:'TCP/IP, VLANs, routing, switching — IT infrastructure core', link:'https://www.cisco.com', group:'systems', x:0.2, y:-2.8, z:0.3 },
-    // Scripting (lime)
     { name:'Python', prof:'Comfortable (78%)', desc:'Security automation, tool writing, data parsing', link:'https://www.python.org', group:'scripting', x:-1.5, y:2.0, z:0.2 },
     { name:'Bash', prof:'Comfortable (75%)', desc:'Shell scripting — automation and system administration', link:'https://www.gnu.org/software/bash/', group:'scripting', x:-2.2, y:1.6, z:-0.8 },
     { name:'Git', prof:'Comfortable (72%)', desc:'Version control — all labs tracked on GitHub', link:'https://git-scm.com', group:'scripting', x:-0.8, y:2.5, z:-0.4 },
     { name:'PowerShell', prof:'Learning (55%)', desc:'Windows automation and AD management', link:'https://docs.microsoft.com/en-us/powershell/', group:'scripting', x:-1.8, y:2.8, z:0.6 },
   ];
 
-  const GROUP_COLORS = {
-    offensive: 0xff3b5c,
-    defensive: 0x00d4ff,
-    systems:   0x64748b,
-    scripting: 0xe2ff5d,
+  const GROUP_COLORS = { offensive: 0xff3b5c, defensive: 0x00d4ff, systems: 0x64748b, scripting: 0xe2ff5d };
+  const GROUP_LABELS = { offensive: 'OFFENSIVE', defensive: 'DEFENSIVE', systems: 'IT SYSTEMS', scripting: 'SCRIPTING' };
+  const LINE_GROUPS = {
+    offensive: [0,1,2,3], defensive: [4,5], systems: [6,7,8,9], scripting: [10,11,12,13],
   };
 
-  // Constellation lines
-  const LINE_GROUPS = {
-    offensive: [0,1,2,3],
-    defensive: [4,5],
-    systems:   [6,7,8,9],
-    scripting: [10,11,12,13],
-  };
+  // Everything that should rotate together lives in this pivot
+  const pivot = new THREE.Object3D();
+  scene.add(pivot);
+
+  // ── Soft glow texture (canvas radial gradient) — used for sprite glows ──
+  function makeGlowTexture(hex) {
+    const c = document.createElement('canvas');
+    c.width = c.height = 128;
+    const ctx = c.getContext('2d');
+    const color = '#' + hex.toString(16).padStart(6,'0');
+    const grad = ctx.createRadialGradient(64,64,0,64,64,64);
+    grad.addColorStop(0, color + 'ff');
+    grad.addColorStop(0.4, color + '66');
+    grad.addColorStop(1, color + '00');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,128,128);
+    return new THREE.CanvasTexture(c);
+  }
+  const glowTextures = {};
+  Object.entries(GROUP_COLORS).forEach(([k,v]) => glowTextures[k] = makeGlowTexture(v));
+
+  // ── Text label sprite ──
+  function makeLabelSprite(text, hex) {
+    const c = document.createElement('canvas');
+    c.width = 256; c.height = 64;
+    const ctx = c.getContext('2d');
+    ctx.font = '600 28px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#' + hex.toString(16).padStart(6,'0');
+    ctx.globalAlpha = 0.85;
+    ctx.fillText(text, 128, 32);
+    const tex = new THREE.CanvasTexture(c);
+    const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false });
+    const sprite = new THREE.Sprite(mat);
+    sprite.scale.set(1.6, 0.4, 1);
+    return sprite;
+  }
 
   const skillMeshes = [];
 
-  SKILLS.forEach((s, i) => {
+  SKILLS.forEach((s) => {
     const prof = parseInt(s.prof) / 100;
-    const size = 0.06 + prof * 0.08;
-    const geo  = new THREE.SphereGeometry(size, 12, 12);
+    const size = 0.055 + prof * 0.075;
+    const geo  = new THREE.SphereGeometry(size, 14, 14);
     const mat  = new THREE.MeshBasicMaterial({ color: GROUP_COLORS[s.group] });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(s.x, s.y, s.z);
-    mesh.userData = { ...s, idx: i };
-    scene.add(mesh);
+    mesh.userData = { ...s };
+    pivot.add(mesh);
     skillMeshes.push(mesh);
 
-    // Glow sprite
-    const glowGeo = new THREE.SphereGeometry(size * 2, 8, 8);
-    const glowMat = new THREE.MeshBasicMaterial({ color: GROUP_COLORS[s.group], transparent: true, opacity: 0.08 });
-    const glow = new THREE.Mesh(glowGeo, glowMat);
+    // Soft sprite-based glow behind each star (billboard, always faces camera)
+    const glowMat = new THREE.SpriteMaterial({
+      map: glowTextures[s.group], transparent: true, opacity: 0.55,
+      depthWrite: false, blending: THREE.AdditiveBlending,
+    });
+    const glow = new THREE.Sprite(glowMat);
+    const glowScale = size * 9;
+    glow.scale.set(glowScale, glowScale, 1);
     glow.position.copy(mesh.position);
-    scene.add(glow);
+    pivot.add(glow);
+    mesh.userData._glow = glow;
   });
 
-  // Draw constellation lines
+  // ── Constellation lines — now correctly parented to pivot ──
   Object.entries(LINE_GROUPS).forEach(([group, indices]) => {
-    for (let a = 0; a < indices.length; a++) {
-      for (let b = a+1; b < indices.length; b++) {
-        const pa = SKILLS[indices[a]];
-        const pb = SKILLS[indices[b]];
-        const dist = Math.hypot(pa.x-pb.x, pa.y-pb.y, pa.z-pb.z);
-        if (dist < 2.5) {
-          const geo = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(pa.x, pa.y, pa.z),
-            new THREE.Vector3(pb.x, pb.y, pb.z),
-          ]);
-          const mat = new THREE.LineBasicMaterial({ color: GROUP_COLORS[group], transparent: true, opacity: 0.15 });
-          scene.add(new THREE.Line(geo, mat));
-        }
-      }
-    }
+    const groupColor = GROUP_COLORS[group];
+    // Hub point = centroid of this group's stars
+    let cx=0,cy=0,cz=0;
+    indices.forEach(i => { cx+=SKILLS[i].x; cy+=SKILLS[i].y; cz+=SKILLS[i].z; });
+    cx/=indices.length; cy/=indices.length; cz/=indices.length;
+
+    // Spokes from centroid hub to each star (constellation look)
+    indices.forEach(i => {
+      const p = SKILLS[i];
+      const geo = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(cx,cy,cz), new THREE.Vector3(p.x,p.y,p.z),
+      ]);
+      const mat = new THREE.LineBasicMaterial({ color: groupColor, transparent: true, opacity: 0.22 });
+      pivot.add(new THREE.Line(geo, mat));
+    });
+
+    // Small hub marker
+    const hubGeo = new THREE.SphereGeometry(0.025, 8, 8);
+    const hubMat = new THREE.MeshBasicMaterial({ color: groupColor, transparent: true, opacity: 0.5 });
+    const hub = new THREE.Mesh(hubGeo, hubMat);
+    hub.position.set(cx,cy,cz);
+    pivot.add(hub);
+
+    // Floating group label near hub
+    const label = makeLabelSprite(GROUP_LABELS[group], groupColor);
+    label.position.set(cx * 1.35, cy * 1.35 + 0.3, cz * 1.35);
+    pivot.add(label);
   });
 
-  // Interaction
+  // ── Interaction state ──
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2(-99,-99);
   let isDragging = false, prevMouse = { x:0, y:0 };
   let autoRotate = true;
-  const group = new THREE.Group();
-  skillMeshes.forEach(m => {
-    group.add(m);
-    // Also add lines — simpler to rotate whole scene
-  });
+  let velX = 0, velY = 0; // momentum
+  let idleTimer;
 
-  // Rotate whole scene group
-  const pivot = new THREE.Object3D();
-  scene.add(pivot);
-  skillMeshes.forEach(m => { scene.remove(m); pivot.add(m); });
-  // re-add lines to pivot (skip for simplicity, lines stay fixed)
+  const tooltip = document.getElementById('const-tooltip');
+  const ctName  = document.getElementById('ct-name');
+  const ctProf  = document.getElementById('ct-prof');
+  const ctDesc  = document.getElementById('ct-desc');
+  const ctLink  = document.getElementById('ct-link');
 
-  const tooltip  = document.getElementById('const-tooltip');
-  const ctName   = document.getElementById('ct-name');
-  const ctProf   = document.getElementById('ct-prof');
-  const ctDesc   = document.getElementById('ct-desc');
-  const ctLink   = document.getElementById('ct-link');
-  let hoveredIdx = -1;
+  function resumeAutoRotateSoon() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => { autoRotate = true; }, 1800);
+  }
 
   wrap.addEventListener('mousedown', e => {
-    isDragging = false;
-    autoRotate = false;
-    prevMouse = { x: e.clientX, y: e.clientY };
-    wrap.addEventListener('mousemove', onDrag);
-    wrap.addEventListener('mouseup', onUp);
-  });
-
-  function onDrag(e) {
     isDragging = true;
+    autoRotate = false;
+    velX = velY = 0;
+    prevMouse = { x: e.clientX, y: e.clientY };
+    wrap.style.cursor = 'grabbing';
+  });
+  window.addEventListener('mousemove', e => {
+    if (!isDragging) return;
     const dx = e.clientX - prevMouse.x;
     const dy = e.clientY - prevMouse.y;
-    pivot.rotation.y += dx * 0.008;
-    pivot.rotation.x += dy * 0.008;
+    velX = dx * 0.006; velY = dy * 0.006;
+    pivot.rotation.y += velX;
+    pivot.rotation.x += velY;
     prevMouse = { x: e.clientX, y: e.clientY };
     tooltip.classList.remove('show');
-  }
-  function onUp() {
-    wrap.removeEventListener('mousemove', onDrag);
-    wrap.removeEventListener('mouseup', onUp);
-    setTimeout(() => { autoRotate = true; }, 2000);
-  }
+  });
+  window.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    wrap.style.cursor = 'grab';
+    resumeAutoRotateSoon();
+  });
 
   wrap.addEventListener('mousemove', e => {
     if (isDragging) return;
@@ -525,33 +567,39 @@
     const hits = raycaster.intersectObjects(skillMeshes);
     if (hits.length) {
       autoRotate = false;
+      clearTimeout(idleTimer);
       const s = hits[0].object.userData;
       if (!s || !s.name) return;
       ctName.textContent = s.name;
       ctProf.textContent = s.prof;
       ctDesc.textContent = s.desc;
       ctLink.href = s.link;
-      // Position tooltip
-      const tx = Math.min(e.clientX - rect.left + 12, rect.width - 240);
-      const ty = Math.max(e.clientY - rect.top  - 80, 8);
+      const tx = Math.min(e.clientX - rect.left + 14, rect.width - 240);
+      const ty = Math.max(e.clientY - rect.top  - 90, 8);
       tooltip.style.left = tx + 'px';
       tooltip.style.top  = ty + 'px';
       tooltip.classList.add('show');
       wrap.style.cursor = 'pointer';
+      // enlarge hovered star + its glow
+      skillMeshes.forEach(m => {
+        const target = (m === hits[0].object) ? 1.4 : 1;
+        m.userData._targetScale = target;
+      });
     } else {
       tooltip.classList.remove('show');
-      wrap.style.cursor = isDragging ? 'grabbing' : 'grab';
-      if (!isDragging) setTimeout(() => { autoRotate = true; }, 500);
+      wrap.style.cursor = 'grab';
+      skillMeshes.forEach(m => { m.userData._targetScale = 1; });
+      resumeAutoRotateSoon();
     }
   });
 
   wrap.addEventListener('mouseleave', () => {
     tooltip.classList.remove('show');
-    autoRotate = true;
+    skillMeshes.forEach(m => { m.userData._targetScale = 1; });
+    resumeAutoRotateSoon();
   });
 
-  // Click star — go to link
-  wrap.addEventListener('click', e => {
+  wrap.addEventListener('click', () => {
     if (isDragging) return;
     raycaster.setFromCamera(mouse, camera);
     const hits = raycaster.intersectObjects(skillMeshes);
@@ -560,13 +608,13 @@
     }
   });
 
-  // Scroll zoom
+  // Smooth zoom
+  let targetZ = 6;
   wrap.addEventListener('wheel', e => {
     e.preventDefault();
-    camera.position.z = Math.max(2, Math.min(10, camera.position.z + e.deltaY * 0.01));
+    targetZ = Math.max(2.5, Math.min(10, targetZ + e.deltaY * 0.008));
   }, { passive: false });
 
-  // Resize
   window.addEventListener('resize', () => {
     const nW = wrap.clientWidth, nH = wrap.clientHeight;
     renderer.setSize(nW, nH);
@@ -574,16 +622,42 @@
     camera.updateProjectionMatrix();
   });
 
-  // Animate
+  wrap.style.cursor = 'grab';
+
+  // ── Animate ──
   let t = 0;
   function animate() {
     requestAnimationFrame(animate);
     t += 0.008;
-    if (autoRotate) pivot.rotation.y += 0.002;
-    // Pulse stars
+
+    // Auto-rotate or apply momentum decay
+    if (autoRotate && !isDragging) {
+      pivot.rotation.y += 0.0018;
+    } else if (!isDragging) {
+      pivot.rotation.y += velX;
+      pivot.rotation.x += velY;
+      velX *= 0.94; velY *= 0.94;
+    }
+    // Background drifts slower for parallax depth
+    bgGroup.rotation.y += 0.0004;
+
+    // Smooth zoom easing
+    camera.position.z += (targetZ - camera.position.z) * 0.08;
+
+    // Pulse stars gently + smooth hover scale
     skillMeshes.forEach((m, i) => {
-      m.scale.setScalar(1 + Math.sin(t + i * 0.5) * 0.05);
+      const base = 1 + Math.sin(t + i * 0.5) * 0.06;
+      const target = (m.userData._targetScale || 1);
+      m.userData._curScale = m.userData._curScale || 1;
+      m.userData._curScale += (target - m.userData._curScale) * 0.15;
+      const finalScale = base * m.userData._curScale;
+      m.scale.setScalar(finalScale);
+      if (m.userData._glow) {
+        const glowSize = finalScale * 9 * (parseInt(m.userData.prof)/100 * 0.5 + 0.7);
+        m.userData._glow.scale.set(glowSize, glowSize, 1);
+      }
     });
+
     renderer.render(scene, camera);
   }
   animate();
